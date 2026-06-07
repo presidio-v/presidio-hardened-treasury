@@ -28,14 +28,20 @@
 
 pub mod book;
 pub mod config;
+pub mod corpus;
 pub mod decision;
 pub mod designate;
 pub mod leg;
 pub mod matcher;
 pub mod queue;
+pub mod synthetic;
 
 pub use book::{draft_auto_net, draft_resolution, BookError};
 pub use config::MatcherConfig;
+pub use corpus::{
+    evaluate, slo_check, CaseResult, Corpus, CorpusReport, ExpectedNet, LabeledCase, Ratio,
+    SloTargets, SloViolation,
+};
 pub use decision::{Disposition, MatchProposal, Tier};
 pub use designate::{
     draft_designation, DesignateError, DesignationProposal, DesignationQueue, DesignationState,
@@ -44,3 +50,4 @@ pub use designate::{
 pub use leg::{Direction, LegId, TransferLeg};
 pub use matcher::{match_legs, CloseBlockers, MatchError, MatchOutcome};
 pub use queue::{ConfirmationQueue, QueueError, QueueState};
+pub use synthetic::synthetic_baseline;
