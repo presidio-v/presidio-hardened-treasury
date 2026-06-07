@@ -77,11 +77,7 @@ impl<P> DualControlQueue<P> {
     /// [`DualControlError::UnknownItem`] for unknown ids;
     /// [`DualControlError::InvalidTransition`] unless `Asserted`;
     /// [`DualControlError::DualControlViolation`] when approver == preparer.
-    pub fn confirm(
-        &mut self,
-        id: &ContentHash,
-        approver: ActorId,
-    ) -> Result<(), DualControlError> {
+    pub fn confirm(&mut self, id: &ContentHash, approver: ActorId) -> Result<(), DualControlError> {
         let (_, state) = self
             .items
             .get_mut(id)
