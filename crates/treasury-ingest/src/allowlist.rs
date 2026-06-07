@@ -239,10 +239,7 @@ mod tests {
     fn hash_commits_to_entries() {
         let a = EgressAllowlist::seal(vec![get_entry("/v1/a")], approvers());
         let b = EgressAllowlist::seal(vec![get_entry("/v1/b")], approvers());
-        let hashes = (
-            a.map(|l| l.allowlist_hash()),
-            b.map(|l| l.allowlist_hash()),
-        );
+        let hashes = (a.map(|l| l.allowlist_hash()), b.map(|l| l.allowlist_hash()));
         assert_ne!(hashes.0, hashes.1);
     }
 

@@ -94,7 +94,10 @@ mod tests {
             unreachable!("trade scope must reject");
         };
         assert_eq!(violations.len(), 1);
-        assert_eq!(violations.first().map(|v| &v.claim), Some(&ScopeClaim::Trade));
+        assert_eq!(
+            violations.first().map(|v| &v.claim),
+            Some(&ScopeClaim::Trade)
+        );
     }
 
     #[test]
