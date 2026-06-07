@@ -1,0 +1,20 @@
+[package]
+name = "treasury-gaap"
+description = "GAAP policy module (L4): structurally balanced journal entries with statement-line targets; ASU 2023-08 fair-value remeasurement routed to net income; fee-treatment election applied"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+
+[dependencies]
+treasury-core = { workspace = true }
+treasury-evidence = { workspace = true }
+treasury-ledger = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+
+[lints]
+workspace = true

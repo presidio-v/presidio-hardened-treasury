@@ -32,6 +32,18 @@ within 72 hours.
   external anchoring so tamper-evidence does not depend on trusting the
   operator (spec v2 §3.3).
 - `cargo-deny` in CI: license allowlist, advisory database, registry pinning.
-- Threat model is a Phase 0 deliverable (spec v2 §3.8); read-only ingestion
-  is enforced at the network layer (egress allowlist), not by venue scope
-  flags (spec v2 §3.4).
+- Threat model maintained at [`docs/threat-model.md`](docs/threat-model.md)
+  (STRIDE per trust boundary, operator in scope, standing review triggers);
+  read-only ingestion is enforced at the network layer (`treasury-ingest`
+  egress allowlists, deny by default, fail-closed key-scope validation),
+  not by venue scope flags (spec v2 §3.4).
+- External anchoring (`treasury-anchor`): RFC 6962 tree heads committed
+  outside the operator's trust boundary; coverage-monotonic receipts detect
+  post-anchor history rewrites.
+- Dual control as a structural primitive (`treasury-core::dual_control`):
+  match confirmations, leg designations, and scope assessments all require
+  a preparer and a distinct approver; self-confirmation is a typed error.
+- Fail-closed defaults throughout: unassessed assets block valuation,
+  missing prices block valuation, missing materiality thresholds queue
+  everything, empty venue scope reports reject, unbalanced journal entries
+  are unconstructible, overdrawn lots are typed errors that mutate nothing.
