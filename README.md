@@ -22,6 +22,7 @@ that produced v2 are in [`docs/`](docs/)).
 | `treasury-reconcile` | Internal-transfer reconciliation: deterministic tiered matcher (no numeric confidence — discrete corroboration classes), materiality-gated auto-netting, dual-control confirmation queue, close blockers |
 | `treasury-scope` | ASU 2023-08 scope gate: six-criteria assessment under dual control; unassessed or out-of-scope assets hard-block before valuation |
 | `treasury-lots` | Lot/cost-basis engine: integer-only lots, fees decomposed from basis, relief order as a recorded policy election, basis-preserving internal transfers |
+| `treasury-fairvalue` | Fair-value engine: integer-exact valuation as a pure function of `(lots, price-snapshot, policy)`; fail-closed missing prices; content-addressed valuation reports |
 
 ## Structural guarantees (Phase 0)
 
