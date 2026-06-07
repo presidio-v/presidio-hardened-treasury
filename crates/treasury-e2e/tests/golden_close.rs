@@ -176,10 +176,7 @@ fn run_close() -> CloseArtifacts {
     let Some(proposal) = outcome.proposals.first() else {
         unreachable!("asserted above");
     };
-    let auto_net = ok!(ledger.append(
-        ok!(draft_auto_net(proposal, tenant(), ts(30))),
-        next_kt(),
-    ));
+    let auto_net = ok!(ledger.append(ok!(draft_auto_net(proposal, tenant(), ts(30))), next_kt(),));
 
     // The staking leg blocks close until designated (false-negative bias).
     assert_eq!(outcome.blockers.unmatched_legs, vec![staking]);
@@ -197,7 +194,12 @@ fn run_close() -> CloseArtifacts {
         unreachable!("item exists");
     };
     let designation_event = ok!(ledger.append(
-        ok!(draft_designation(&staking_proposal, state, tenant(), ts(40))),
+        ok!(draft_designation(
+            &staking_proposal,
+            state,
+            tenant(),
+            ts(40)
+        )),
         next_kt(),
     ));
     // Every unmatched leg is now designated: reconciliation clears.
@@ -241,9 +243,25 @@ fn run_close() -> CloseArtifacts {
     // ── Lots (REQ-23): acquire, transfer along the netted movement,
     //    book the staking reward at receipt fair value.
     let mut book = LotBook::new(tenant());
-    ok!(book.acquire(btc(), exchange.clone(), 7, usd(70), usd(1), ts(10), purchase));
+    ok!(book.acquire(
+        btc(),
+        exchange.clone(),
+        7,
+        usd(70),
+        usd(1),
+        ts(10),
+        purchase
+    ));
     ok!(book.transfer(&btc(), &exchange, &cold, 7, auto_net));
-    ok!(book.acquire(btc(), cold.clone(), 1, usd(5), usd(0), ts(40), designation_event));
+    ok!(book.acquire(
+        btc(),
+        cold.clone(),
+        1,
+        usd(5),
+        usd(0),
+        ts(40),
+        designation_event
+    ));
 
     // ── Valuation (REQ-24): 8 atoms at 100/8 → fair value 100.
     let mut prices = BTreeMap::new();
@@ -268,8 +286,18 @@ fn run_close() -> CloseArtifacts {
     let valuation_hash = ok!(valuation.valuation_hash());
 
     // ── GAAP (REQ-25): entries booked L4 — all four claim layers live.
-    let e_buy = ok!(acquisition_entry(&usd(70), &usd(1), FeeTreatment::Expense, active_pm));
-    let e_reward = ok!(acquisition_entry(&usd(5), &usd(0), FeeTreatment::Expense, active_pm));
+    let e_buy = ok!(acquisition_entry(
+        &usd(70),
+        &usd(1),
+        FeeTreatment::Expense,
+        active_pm
+    ));
+    let e_reward = ok!(acquisition_entry(
+        &usd(5),
+        &usd(0),
+        FeeTreatment::Expense,
+        active_pm
+    ));
     let Some(e_mark) = ok!(remeasurement_entry(&usd(75), &usd(100), active_pm)) else {
         unreachable!("non-zero mark");
     };
@@ -277,7 +305,12 @@ fn run_close() -> CloseArtifacts {
         let draft = ok!(draft_policy_output(entry, tenant(), ts(50), vec![input]));
         ok!(ledger.append(draft, next_kt()));
     }
-    let mark_draft = ok!(draft_policy_output(&e_mark, tenant(), ts(50), vec![purchase]));
+    let mark_draft = ok!(draft_policy_output(
+        &e_mark,
+        tenant(),
+        ts(50),
+        vec![purchase]
+    ));
     ok!(ledger.append(mark_draft, next_kt()));
 
     // ── Posting protocol (R9): released, posted, read-back verified.
@@ -360,7 +393,10 @@ fn run_close() -> CloseArtifacts {
     assert_eq!(pack.tie_to_valuation(&valuation), Vec::new());
     let manifest = pack.manifest();
     for required in [checkpoint, valuation_hash, active_pm, receipt_hash] {
-        assert!(manifest.contains(&required), "manifest must close over refs");
+        assert!(
+            manifest.contains(&required),
+            "manifest must close over refs"
+        );
     }
 
     // Phase 0 guarantee, full-system: the chain still verifies.
