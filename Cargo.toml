@@ -10,10 +10,11 @@ members = [
     "crates/treasury-ingest",
     "crates/treasury-reconcile",
     "crates/treasury-scope",
+    "crates/treasury-lots",
 ]
 
 [workspace.package]
-version = "0.8.0"
+version = "0.9.0"
 edition = "2021"
 rust-version = "1.85"
 license = "MIT"
@@ -21,9 +22,9 @@ repository = "https://github.com/presidio-v/presidio-hardened-treasury"
 authors = ["PRESIDIO Group <vladimir@presidio-group.eu>"]
 
 [workspace.dependencies]
-treasury-core = { path = "crates/treasury-core", version = "0.8.0" }
-treasury-evidence = { path = "crates/treasury-evidence", version = "0.8.0" }
-treasury-ledger = { path = "crates/treasury-ledger", version = "0.8.0" }
+treasury-core = { path = "crates/treasury-core", version = "0.9.0" }
+treasury-evidence = { path = "crates/treasury-evidence", version = "0.9.0" }
+treasury-ledger = { path = "crates/treasury-ledger", version = "0.9.0" }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 sha2 = "0.11"

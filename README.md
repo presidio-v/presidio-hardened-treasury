@@ -21,6 +21,7 @@ that produced v2 are in [`docs/`](docs/)).
 | `treasury-ingest` | Read-only ingestion boundary: content-addressed egress allowlists (deny by default, no regex), fail-closed venue key-scope validation |
 | `treasury-reconcile` | Internal-transfer reconciliation: deterministic tiered matcher (no numeric confidence — discrete corroboration classes), materiality-gated auto-netting, dual-control confirmation queue, close blockers |
 | `treasury-scope` | ASU 2023-08 scope gate: six-criteria assessment under dual control; unassessed or out-of-scope assets hard-block before valuation |
+| `treasury-lots` | Lot/cost-basis engine: integer-only lots, fees decomposed from basis, relief order as a recorded policy election, basis-preserving internal transfers |
 
 ## Structural guarantees (Phase 0)
 
