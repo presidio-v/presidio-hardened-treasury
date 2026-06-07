@@ -67,7 +67,9 @@ impl ConfirmationQueue {
     /// unreachable).
     pub fn enqueue(&mut self, proposal: MatchProposal) -> Result<ContentHash, QueueError> {
         let id = proposal.decision_hash()?;
-        self.items.entry(id).or_insert((proposal, QueueState::Pending));
+        self.items
+            .entry(id)
+            .or_insert((proposal, QueueState::Pending));
         Ok(id)
     }
 

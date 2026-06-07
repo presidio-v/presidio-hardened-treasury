@@ -4,8 +4,8 @@
 use std::collections::BTreeMap;
 use treasury_core::{ActorId, AssetAmount, AssetId, ContentHash, TenantId, TimestampNs, VenueId};
 use treasury_reconcile::{
-    match_legs, ConfirmationQueue, Direction, Disposition, MatchError, MatcherConfig,
-    QueueError, QueueState, Tier, TransferLeg,
+    match_legs, ConfirmationQueue, Direction, Disposition, MatchError, MatcherConfig, QueueError,
+    QueueState, Tier, TransferLeg,
 };
 
 fn btc(atoms: i128) -> AssetAmount {
@@ -16,7 +16,11 @@ fn leg(id: u8, dir: Direction, atoms: i128, time: i64) -> TransferLeg {
     TransferLeg {
         leg_id: ContentHash([id; 32]),
         tenant: TenantId::new("acme"),
-        venue: VenueId::new(if dir == Direction::Outflow { "self-custody" } else { "exchange" }),
+        venue: VenueId::new(if dir == Direction::Outflow {
+            "self-custody"
+        } else {
+            "exchange"
+        }),
         direction: dir,
         amount: btc(atoms),
         fee: None,
@@ -178,7 +182,10 @@ fn mixed_tenants_rejected() {
     let out = leg(1, Direction::Outflow, 500, 10);
     let mut inn = leg(2, Direction::Inflow, 500, 20);
     inn.tenant = TenantId::new("other");
-    assert_eq!(match_legs(&[out, inn], &config()), Err(MatchError::MixedTenants));
+    assert_eq!(
+        match_legs(&[out, inn], &config()),
+        Err(MatchError::MixedTenants)
+    );
 }
 
 #[test]
