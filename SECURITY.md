@@ -51,6 +51,11 @@ within 72 hours.
   an evidence-reproduction manifest: the sorted hash closure of everything
   a number depends on. Citing a pack hash cites the entire close; auditing
   it is fetch-recompute-compare, with no trusted intermediary.
+- Durable logs do not trust their files: on open, the ledger replays every
+  record through full validation (the replayed event id must equal the
+  recorded one) and the evidence store re-verifies every blob against its
+  recorded hash. Tampered or truncated logs refuse to load; torn tails
+  (crash mid-write) recover only through an explicit call.
 - Whole-close determinism is tested end to end (`treasury-e2e`): the
   complete pipeline — ingestion through disclosure pack — runs twice and
   must produce identical artifact hashes.

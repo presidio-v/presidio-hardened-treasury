@@ -12,10 +12,12 @@
 #![forbid(unsafe_code)]
 
 pub mod canon;
+pub mod file;
 pub mod merkle;
 pub mod store;
 
 pub use canon::{canonical_bytes, CanonError};
+pub use file::{FileEvidenceStore, FileStoreError};
 pub use merkle::merkle_root;
 pub use store::{EvidenceStore, InMemoryEvidenceStore, StoreError};
 

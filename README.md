@@ -13,8 +13,8 @@ that produced v2 are in [`docs/`](docs/)).
 | Crate | Purpose |
 |-------|---------|
 | `treasury-core` | Domain primitives: identifier newtypes, integer money (no floats anywhere in the accounting path), bitemporal timestamps, SHA-256 content hashes |
-| `treasury-evidence` | Content-addressed evidence store: float-rejecting canonical JSON, SHA-256 addressing, RFC 6962 Merkle tree heads for external anchoring |
-| `treasury-ledger` | The core: claim-layered (observations → derived facts → judgments → policy outputs), bitemporal, append-only, hash-chained event ledger |
+| `treasury-evidence` | Content-addressed evidence store: float-rejecting canonical JSON, SHA-256 addressing, RFC 6962 Merkle tree heads for external anchoring; durable append-only file backend, hash-verified on open |
+| `treasury-ledger` | The core: claim-layered (observations → derived facts → judgments → policy outputs), bitemporal, append-only, hash-chained event ledger; durable file backend, replay-verified on open |
 | `treasury-policy` | Policy-as-code: content-addressed, approval-signed policy artifacts; per-tenant activation timelines; the `(lots, price-snapshot, policy)` valuation key |
 | `treasury-close` | Checkpoint lineage: closed periods as immutable DAG nodes; supersession requires a reason code + materiality memo; as-filed vs as-corrected as pointers |
 | `treasury-anchor` | External anchoring: content-addressed anchor receipts in a coverage-monotonic log; prefix verification detects post-anchor tampering without trusting the operator |

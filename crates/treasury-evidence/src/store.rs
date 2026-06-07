@@ -116,6 +116,10 @@ pub enum StoreError {
     /// Stored bytes no longer match their content hash.
     #[error("integrity violation for {0}")]
     IntegrityViolation(ContentHash),
+    /// Durable-backend failure (message preserved; `io::Error` is not
+    /// `Eq`). The write did not commit.
+    #[error("backend failure: {0}")]
+    Backend(String),
 }
 
 #[cfg(test)]

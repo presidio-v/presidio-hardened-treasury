@@ -220,4 +220,8 @@ pub enum LedgerError {
     /// Payload failed canonicalization (floats, depth).
     #[error(transparent)]
     Canon(#[from] CanonError),
+    /// Durable-backend failure (message preserved; `io::Error` is not
+    /// `Eq`). The append did not commit.
+    #[error("backend failure: {0}")]
+    Backend(String),
 }
