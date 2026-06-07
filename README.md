@@ -19,6 +19,7 @@ that produced v2 are in [`docs/`](docs/)).
 | `treasury-close` | Checkpoint lineage: closed periods as immutable DAG nodes; supersession requires a reason code + materiality memo; as-filed vs as-corrected as pointers |
 | `treasury-anchor` | External anchoring: content-addressed anchor receipts in a coverage-monotonic log; prefix verification detects post-anchor tampering without trusting the operator |
 | `treasury-ingest` | Read-only ingestion boundary: content-addressed egress allowlists (deny by default, no regex), fail-closed venue key-scope validation |
+| `treasury-reconcile` | Internal-transfer reconciliation: deterministic tiered matcher (no numeric confidence — discrete corroboration classes), materiality-gated auto-netting, dual-control confirmation queue, close blockers |
 
 ## Structural guarantees (Phase 0)
 

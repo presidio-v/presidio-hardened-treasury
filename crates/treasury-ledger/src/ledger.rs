@@ -56,11 +56,6 @@ impl InMemoryLedger {
     pub fn new() -> Self {
         Self::default()
     }
-
-    fn find(&self, id: &EventId) -> Option<&SealedEvent> {
-        let (tenant, idx) = self.by_id.get(id)?;
-        self.streams.get(tenant)?.get(*idx)
-    }
 }
 
 impl Ledger for InMemoryLedger {
