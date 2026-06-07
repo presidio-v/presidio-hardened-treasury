@@ -51,6 +51,9 @@ within 72 hours.
   an evidence-reproduction manifest: the sorted hash closure of everything
   a number depends on. Citing a pack hash cites the entire close; auditing
   it is fetch-recompute-compare, with no trusted intermediary.
+- Whole-close determinism is tested end to end (`treasury-e2e`): the
+  complete pipeline — ingestion through disclosure pack — runs twice and
+  must produce identical artifact hashes.
 - Fail-closed defaults throughout: unassessed assets block valuation,
   missing prices block valuation, missing materiality thresholds queue
   everything, empty venue scope reports reject, unbalanced journal entries
