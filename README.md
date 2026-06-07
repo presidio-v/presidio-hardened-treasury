@@ -44,6 +44,27 @@ Toolchain is pinned in `rust-toolchain.toml`. All first-party crates are
 `#![forbid(unsafe_code)]`; `cargo-deny` gates licenses, advisories, and
 registry sources in CI.
 
+## Requirements & SDLC
+
+- **Requirements baseline:** [`PRESIDIO-REQ.md`](PRESIDIO-REQ.md) — the
+  requirements view of the active spec, with delivery status per phase.
+- **Active spec (source of truth):** [`docs/treasury-suite-spec-v2.md`](docs/treasury-suite-spec-v2.md).
+- Developed under the **presidio-hardened SDLC** (security posture is a design
+  constraint, not a backlog). Family SDLC documentation:
+  <https://github.com/presidio-v/presidio-hardened-docs>.
+- See also [`SECURITY.md`](SECURITY.md) for the hardening baseline and
+  vulnerability reporting.
+
+## Versioning
+
+[Semantic Versioning](https://semver.org/). The authoritative version is the
+workspace `[workspace.package].version` in `Cargo.toml` (currently **0.1.0**).
+Pre-1.0 (`0.x`): minor versions may carry breaking changes while the ledger and
+evidence formats stabilize through Phase 0–1; releases are gated by audit reality,
+not feature count (roadmap: spec v2 §7). Event-identity hashing and canonical-JSON
+rules are a compatibility surface — any change to them is breaking and ships with
+new golden vectors.
+
 ## License
 
 MIT — see [LICENSE](LICENSE).

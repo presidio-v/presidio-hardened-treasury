@@ -3,11 +3,23 @@
 This project is part of the presidio-hardened family: security posture is a
 design constraint, not a feature backlog.
 
+## Supported versions
+
+Pre-1.0: only the latest `0.x` release line receives security fixes. The project
+is in Phase 0 (foundations); ledger and evidence formats are not yet stable.
+
+| Version | Supported |
+|---------|-----------|
+| 0.1.x   | ✓ (current) |
+| < 0.1   | ✗ |
+
 ## Reporting a vulnerability
 
-Email **vladimir@presidio-group.eu** with reproduction details. Please do not
-open public issues for suspected vulnerabilities. You will receive an
-acknowledgment within 72 hours.
+Preferred: open a private **GitHub Security Advisory** in this repository
+(**Security** tab → **Report a vulnerability**). Alternatively, email
+**vladimir@presidio-group.eu** with reproduction details. Please do not open
+public issues for suspected vulnerabilities. You will receive an acknowledgment
+within 72 hours.
 
 ## Hardening baseline
 
