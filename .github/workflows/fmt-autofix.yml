@@ -1,0 +1,48 @@
+name: fmt-autofix
+
+# Runs `cargo fmt --all` on feature branches and commits the diff back,
+# converting rustfmt round-trips into a bot commit.
+#
+# Note: commits pushed with the default GITHUB_TOKEN do not trigger new
+# workflow runs (GitHub recursion guard), so the autofix commit will not
+# get a CI run by itself — re-run CI from the Actions tab, or add a
+# repo secret `FMT_PUSH_TOKEN` (fine-grained PAT, Contents: read/write)
+# and pushes will trigger CI like any human push. The same guard makes
+# self-triggering loops impossible.
+
+on:
+  workflow_dispatch:
+  push:
+    branches-ignore: [main]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fmt-autofix-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  fmt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        with:
+          token: ${{ secrets.FMT_PUSH_TOKEN || github.token }}
+      - uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
+        with:
+          toolchain: 1.85.0
+          components: rustfmt
+      - name: cargo fmt
+        run: cargo fmt --all
+      - name: commit and push if dirty
+        run: |
+          if git diff --quiet; then
+            echo "already formatted"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "style: cargo fmt (autofix)"
+          git push
