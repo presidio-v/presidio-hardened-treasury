@@ -87,7 +87,10 @@ fn tightened_targets_report_violations() {
         violations.first(),
         Some(SloViolation::FoundRecall { .. })
     ));
-    assert!(matches!(violations.get(1), Some(SloViolation::Missed { .. })));
+    assert!(matches!(
+        violations.get(1),
+        Some(SloViolation::Missed { .. })
+    ));
 }
 
 #[test]

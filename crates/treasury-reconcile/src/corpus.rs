@@ -223,9 +223,7 @@ pub fn slo_check(report: &CorpusReport, targets: &SloTargets) -> Vec<SloViolatio
     }
     let recall = report.found_recall();
     if !recall.at_least(&targets.min_found_recall) {
-        violations.push(SloViolation::FoundRecall {
-            measured: recall,
-        });
+        violations.push(SloViolation::FoundRecall { measured: recall });
     }
     if report.missed > targets.max_missed {
         violations.push(SloViolation::Missed {
@@ -294,7 +292,9 @@ pub fn evaluate(corpus: &Corpus, config: &MatcherConfig) -> Result<CorpusReport,
 
         totals.auto_tp = totals.auto_tp.saturating_add(result.auto_tp);
         totals.auto_fp = totals.auto_fp.saturating_add(result.auto_fp);
-        totals.queued_expected = totals.queued_expected.saturating_add(result.queued_expected);
+        totals.queued_expected = totals
+            .queued_expected
+            .saturating_add(result.queued_expected);
         totals.queued_unexpected = totals
             .queued_unexpected
             .saturating_add(result.queued_unexpected);
