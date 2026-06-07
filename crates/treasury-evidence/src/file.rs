@@ -8,8 +8,8 @@
 //! explicit, separate call that truncates the tail — never a silent
 //! default.
 
-use crate::store::{EvidenceStore, InMemoryEvidenceStore, StoreError};
 use crate::sha256;
+use crate::store::{EvidenceStore, InMemoryEvidenceStore, StoreError};
 use std::fs::{File, OpenOptions};
 use std::io::{BufReader, Read, Seek, SeekFrom, Write};
 use std::path::Path;
@@ -55,7 +55,9 @@ impl FileEvidenceStore {
 
         let mut raw = String::new();
         let mut reader = BufReader::new(&file);
-        reader.read_to_string(&mut raw).map_err(FileStoreError::io)?;
+        reader
+            .read_to_string(&mut raw)
+            .map_err(FileStoreError::io)?;
 
         let complete_len = match raw.rfind('\n') {
             Some(last_newline) => last_newline.saturating_add(1),

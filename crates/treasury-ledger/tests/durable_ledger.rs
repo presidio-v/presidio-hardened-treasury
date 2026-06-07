@@ -5,9 +5,7 @@ use serde_json::json;
 use std::fs;
 use std::path::PathBuf;
 use treasury_core::{ContentHash, SourceId, TenantId, TimestampNs};
-use treasury_ledger::{
-    ClaimLayer, EventDraft, FileLedger, FileLedgerError, Ledger, Provenance,
-};
+use treasury_ledger::{ClaimLayer, EventDraft, FileLedger, FileLedgerError, Ledger, Provenance};
 
 fn tenant() -> TenantId {
     TenantId::new("acme")

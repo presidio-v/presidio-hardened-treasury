@@ -57,7 +57,9 @@ impl FileLedger {
 
         let mut raw = String::new();
         let mut reader = BufReader::new(&file);
-        reader.read_to_string(&mut raw).map_err(FileLedgerError::io)?;
+        reader
+            .read_to_string(&mut raw)
+            .map_err(FileLedgerError::io)?;
 
         let complete_len = match raw.rfind('\n') {
             Some(last_newline) => last_newline.saturating_add(1),
