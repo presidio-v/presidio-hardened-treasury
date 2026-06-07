@@ -6,7 +6,7 @@ architecture** is [`docs/treasury-suite-spec-v2.md`](docs/treasury-suite-spec-v2
 (active spec); this file is the requirements view of that spec, with delivery
 status per phase. Requirement IDs cite spec sections (`§n`).
 
-- **Active version:** 0.1.0 (workspace `[workspace.package].version`)
+- **Active version:** 0.2.0 (workspace `[workspace.package].version`)
 - **Phase:** 0 — Foundations (no UI)
 - **Accounting surface:** GAAP + IFRS architecturally day one; IFRS *delivery* Phase 3
 - **Audit posture:** Phase 1 = management's evidence-preparation tool (AS 1105);
@@ -26,9 +26,10 @@ status per phase. Requirement IDs cite spec sections (`§n`).
 | REQ-6 | **No floats in the accounting path** — integer base-unit money with checked arithmetic; floats reject at the canonicalization boundary | §3.8 | **Implemented** (`treasury-core`, `treasury-evidence`) |
 | REQ-7 | **Cross-implementation hash verification** — event identity hashes cross-verified against an independent implementation (golden vectors in the test suite) | §3.3 | **Implemented** (`treasury-ledger/tests`) |
 | REQ-8 | **External anchoring** — evidence-store Merkle root periodically committed to a public chain and/or RFC 3161 TSA; tamper-evidence does not require trusting the operator | §3.3 | Phase 0 remaining (heads emitted; anchoring pipeline pending) |
-| REQ-9 | **Policy-as-code, content-addressed, approval-signed** — principal-market, fee-treatment, finality, FX policies as versioned artifacts; valuation key is `(lots, price-snapshot-hash, policy-hash)` | §3.5 | Phase 0 remaining |
+| REQ-9 | **Policy-as-code, content-addressed, approval-signed** — principal-market, fee-treatment, finality, FX policies as versioned artifacts; valuation key is `(lots, price-snapshot-hash, policy-hash)` | §3.5 | **Implemented** (`treasury-policy`: artifact hashing requires ≥1 approver, per-tenant activation timelines answer the bitemporal "which policy governed at T"; the actual principal-market policy *bodies* are a Phase 0 exit deliverable with the design partner's auditor, §7) |
 | REQ-10 | **Read-only ingestion by construction** — all venue traffic via an egress proxy allowlisting read-only endpoint+method pairs; versioned allowlist is an audit artifact; onboarding rejects keys with trade/withdraw scope | §3.4 | Phase 0 remaining |
 | REQ-11 | **xpub secrecy** — derivation in an enclave with per-session remote attestation; persist only derived addresses, never the master key | §3.4 | Phase 1 (enclave vendor open, §9) |
+| REQ-12 | **Checkpoint lineage** — closed periods are immutable DAG nodes; supersession structurally requires a reason code + materiality memo evidence hash; "as filed" and "as corrected" are pointers; state root reproduces byte-for-byte from `as_of` | §3.6 | **Implemented** (`treasury-close`) |
 
 ## Close-pipeline requirements (§2) — seven ordered stages
 
