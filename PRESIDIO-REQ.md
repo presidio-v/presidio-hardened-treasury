@@ -6,7 +6,7 @@ architecture** is [`docs/treasury-suite-spec-v2.md`](docs/treasury-suite-spec-v2
 (active spec); this file is the requirements view of that spec, with delivery
 status per phase. Requirement IDs cite spec sections (`§n`).
 
-- **Active version:** 0.5.0 (workspace `[workspace.package].version`)
+- **Active version:** 0.6.0 (workspace `[workspace.package].version`)
 - **Phase:** 0 — Foundations (no UI)
 - **Accounting surface:** GAAP + IFRS architecturally day one; IFRS *delivery* Phase 3
 - **Audit posture:** Phase 1 = management's evidence-preparation tool (AS 1105);
@@ -36,7 +36,7 @@ status per phase. Requirement IDs cite spec sections (`§n`).
 | ID | Stage | Spec | Phase |
 |----|-------|------|-------|
 | REQ-20 | Read-only ingestion (on-chain xpubs/view keys + exchange/custodian APIs; full history) | §2, §3.4 | 1 |
-| REQ-21 | Reconciliation — tiered internal-transfer matcher; non-purchase acquisitions as first-class L3 judgments; **unclassified legs block close**; dual-control client confirmation; replayable versioned matcher; precision/recall SLOs on a labeled corpus | §5 | 1 (critical path) — **matcher core implemented** (`treasury-reconcile` v0.4.0: tiers 0/1/2, content-addressed matcher config, materiality fail-closed, ambiguity demotion, dual-control queue, close blockers). Remaining: non-purchase-acquisition designation flow, labeled corpus + SLO measurement. **Ledger integration implemented** (v0.5.0 booking loop: auto-nets book as L2 derived facts keyed by config hash; human resolutions book as L3 judgments with dual-control approvers and the decision hash as evidence) |
+| REQ-21 | Reconciliation — tiered internal-transfer matcher; non-purchase acquisitions as first-class L3 judgments; **unclassified legs block close**; dual-control client confirmation; replayable versioned matcher; precision/recall SLOs on a labeled corpus | §5 | 1 (critical path) — **matcher core implemented** (`treasury-reconcile` v0.4.0: tiers 0/1/2, content-addressed matcher config, materiality fail-closed, ambiguity demotion, dual-control queue, close blockers). Remaining: labeled corpus + SLO measurement. **Designation flow implemented** (v0.6.0: dual-control leg classification — disposal / acquisition / non-purchase acquisition incl. staking, airdrop, fork — booking as L3 judgments against the tenant's designation policy artifact; rejected proposals book nothing and the leg stays a close blocker). **Ledger integration implemented** (v0.5.0 booking loop: auto-nets book as L2 derived facts keyed by config hash; human resolutions book as L3 judgments with dual-control approvers and the decision hash as evidence) |
 | REQ-22 | Asset accounting designation — ASU 2023-08 six-criteria **scope gate** (in-scope proceeds; out-of-scope hard-blocks, never silently mis-valued) | §2.3 | 1 |
 | REQ-23 | Lot / cost-basis engine — per-lot tracking; fees decomposed from basis; capitalize-vs-expense as per-tenant policy election | §2.4 | 1 |
 | REQ-24 | Fair-value engine — pure function of `(lots, price-snapshot-hash, policy-hash)` under the tenant's content-addressed principal-market policy | §2.5, §3.5 | 1 |

@@ -29,12 +29,17 @@
 pub mod book;
 pub mod config;
 pub mod decision;
+pub mod designate;
 pub mod leg;
 pub mod matcher;
 pub mod queue;
 
 pub use book::{draft_auto_net, draft_resolution, BookError};
 pub use config::MatcherConfig;
+pub use designate::{
+    draft_designation, DesignateError, DesignationProposal, DesignationQueue, DesignationState,
+    LegClassification, NonPurchaseKind,
+};
 pub use decision::{Disposition, MatchProposal, Tier};
 pub use leg::{Direction, LegId, TransferLeg};
 pub use matcher::{match_legs, CloseBlockers, MatchError, MatchOutcome};
