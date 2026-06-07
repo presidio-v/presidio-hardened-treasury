@@ -51,7 +51,10 @@ impl AssetAmount {
             .atoms
             .checked_add(other.atoms)
             .ok_or(AmountError::Overflow)?;
-        Ok(Self { asset: self.asset.clone(), atoms })
+        Ok(Self {
+            asset: self.asset.clone(),
+            atoms,
+        })
     }
 
     /// Checked subtraction. Fails on overflow or asset mismatch.
@@ -70,7 +73,10 @@ impl AssetAmount {
             .atoms
             .checked_sub(other.atoms)
             .ok_or(AmountError::Overflow)?;
-        Ok(Self { asset: self.asset.clone(), atoms })
+        Ok(Self {
+            asset: self.asset.clone(),
+            atoms,
+        })
     }
 
     /// Checked negation (fails only on `i128::MIN`).
@@ -79,7 +85,10 @@ impl AssetAmount {
     /// [`AmountError::Overflow`] when atoms is `i128::MIN`.
     pub fn checked_neg(&self) -> Result<Self, AmountError> {
         let atoms = self.atoms.checked_neg().ok_or(AmountError::Overflow)?;
-        Ok(Self { asset: self.asset.clone(), atoms })
+        Ok(Self {
+            asset: self.asset.clone(),
+            atoms,
+        })
     }
 }
 
@@ -107,8 +116,11 @@ struct AmountWire {
 
 impl Serialize for AssetAmount {
     fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
-        AmountWire { asset: self.asset.clone(), atoms: self.atoms.to_string() }
-            .serialize(serializer)
+        AmountWire {
+            asset: self.asset.clone(),
+            atoms: self.atoms.to_string(),
+        }
+        .serialize(serializer)
     }
 }
 
@@ -119,7 +131,10 @@ impl<'de> Deserialize<'de> for AssetAmount {
             .atoms
             .parse::<i128>()
             .map_err(|_| D::Error::custom("atoms must be a decimal string"))?;
-        Ok(Self { asset: wire.asset, atoms })
+        Ok(Self {
+            asset: wire.asset,
+            atoms,
+        })
     }
 }
 

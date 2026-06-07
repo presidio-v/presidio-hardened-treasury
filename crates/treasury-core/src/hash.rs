@@ -82,7 +82,10 @@ mod tests {
 
     #[test]
     fn rejects_wrong_length() {
-        assert_eq!(ContentHash::from_hex("abcd"), Err(HashParseError::WrongLength));
+        assert_eq!(
+            ContentHash::from_hex("abcd"),
+            Err(HashParseError::WrongLength)
+        );
         assert_eq!(ContentHash::from_hex("zz"), Err(HashParseError::InvalidHex));
     }
 }

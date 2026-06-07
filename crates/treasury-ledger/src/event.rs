@@ -187,8 +187,7 @@ mod tests {
     #[test]
     fn float_payload_rejected() {
         let d = draft(json!({"price": 0.5}));
-        let result =
-            SealedEvent::compute_id(&ContentHash([0; 32]), TimestampNs::from_nanos(1), &d);
+        let result = SealedEvent::compute_id(&ContentHash([0; 32]), TimestampNs::from_nanos(1), &d);
         assert!(matches!(result, Err(CanonError::FloatRejected(_))));
     }
 

@@ -85,8 +85,7 @@ fn write_value(value: &Value, out: &mut Vec<u8>, depth: usize) -> Result<(), Can
 }
 
 fn write_string(s: &str, out: &mut Vec<u8>) -> Result<(), CanonError> {
-    let encoded =
-        serde_json::to_string(s).map_err(|e| CanonError::Encode(e.to_string()))?;
+    let encoded = serde_json::to_string(s).map_err(|e| CanonError::Encode(e.to_string()))?;
     out.extend_from_slice(encoded.as_bytes());
     Ok(())
 }

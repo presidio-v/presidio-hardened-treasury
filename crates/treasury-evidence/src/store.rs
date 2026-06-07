@@ -65,8 +65,8 @@ impl InMemoryEvidenceStore {
 impl EvidenceStore for InMemoryEvidenceStore {
     fn put(&mut self, bytes: &[u8]) -> Result<ContentHash, StoreError> {
         let hash = sha256(bytes);
-        if !self.blobs.contains_key(&hash) {
-            self.blobs.insert(hash, bytes.to_vec());
+        if let std::collections::hash_map::Entry::Vacant(e) = self.blobs.entry(hash) {
+            e.insert(bytes.to_vec());
             self.order.push(hash);
         }
         Ok(hash)
@@ -128,7 +128,11 @@ mod tests {
         let h2 = store.put(b"x").unwrap_or(ContentHash([1; 32]));
         assert_eq!(h1, h2);
         assert_eq!(store.len(), 1);
-        assert_eq!(store.tree_head(), head, "idempotent put must not move the tree head");
+        assert_eq!(
+            store.tree_head(),
+            head,
+            "idempotent put must not move the tree head"
+        );
     }
 
     #[test]

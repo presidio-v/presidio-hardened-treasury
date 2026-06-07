@@ -124,7 +124,12 @@ impl Ledger for InMemoryLedger {
 
         let supersedes = draft.supersedes;
         let tenant = draft.tenant.clone();
-        let sealed = SealedEvent { event_id, prev, knowledge_time, draft };
+        let sealed = SealedEvent {
+            event_id,
+            prev,
+            knowledge_time,
+            draft,
+        };
 
         let stream = self.streams.entry(tenant.clone()).or_default();
         let idx = stream.len();

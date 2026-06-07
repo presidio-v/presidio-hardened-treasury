@@ -65,7 +65,9 @@ mod tests {
     /// Leaves are `sha256([i])` for `i in 0..5`; expected heads computed by an
     /// independent Python implementation of RFC 6962 §2.1 (see repo history).
     fn leaves(n: usize) -> Vec<ContentHash> {
-        (0..n).map(|i| sha256(&[u8::try_from(i).unwrap_or(0)])).collect()
+        (0..n)
+            .map(|i| sha256(&[u8::try_from(i).unwrap_or(0)]))
+            .collect()
     }
 
     #[test]

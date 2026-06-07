@@ -4,9 +4,7 @@
 
 use serde_json::json;
 use treasury_core::{ActorId, ContentHash, SourceId, TenantId, TimestampNs};
-use treasury_ledger::{
-    ClaimLayer, EventDraft, InMemoryLedger, Ledger, LedgerError, Provenance,
-};
+use treasury_ledger::{ClaimLayer, EventDraft, InMemoryLedger, Ledger, LedgerError, Provenance};
 
 fn tenant() -> TenantId {
     TenantId::new("acme")
@@ -62,7 +60,9 @@ fn event_ids_match_independent_implementation() {
 
     let mut correction = observation(json!({"k": "v2"}));
     correction.supersedes = Some(id1);
-    let id2 = ledger.append(correction, ts(20)).unwrap_or(ContentHash([0; 32]));
+    let id2 = ledger
+        .append(correction, ts(20))
+        .unwrap_or(ContentHash([0; 32]));
     assert_eq!(
         id2.to_hex(),
         "ed4a35dcf746d2df178a76de954502ec9e7621f165e86721cff1dde7ecd60c3d"
@@ -80,7 +80,9 @@ fn bitemporal_as_of_resolves_supersession() {
 
     let mut correction = observation(json!({"qty": "9"}));
     correction.supersedes = Some(id1);
-    let id2 = ledger.append(correction, ts(20)).unwrap_or(ContentHash([0; 32]));
+    let id2 = ledger
+        .append(correction, ts(20))
+        .unwrap_or(ContentHash([0; 32]));
 
     // As of knowledge time 15 (e.g. the 10-Q filing) the original governs.
     let at_filing = ledger.as_of(&tenant(), ts(15));
