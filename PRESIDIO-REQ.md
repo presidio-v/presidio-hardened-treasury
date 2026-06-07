@@ -6,7 +6,7 @@ architecture** is [`docs/treasury-suite-spec-v2.md`](docs/treasury-suite-spec-v2
 (active spec); this file is the requirements view of that spec, with delivery
 status per phase. Requirement IDs cite spec sections (`§n`).
 
-- **Active version:** 0.12.0 (workspace `[workspace.package].version`)
+- **Active version:** 0.13.0 (workspace `[workspace.package].version`)
 - **Phase:** 0 — Foundations (no UI)
 - **Accounting surface:** GAAP + IFRS architecturally day one; IFRS *delivery* Phase 3
 - **Audit posture:** Phase 1 = management's evidence-preparation tool (AS 1105);
@@ -41,7 +41,7 @@ status per phase. Requirement IDs cite spec sections (`§n`).
 | REQ-23 | Lot / cost-basis engine — per-lot tracking; fees decomposed from basis; capitalize-vs-expense as per-tenant policy election | §2.4 | **Implemented** (`treasury-lots` v0.9.0: integer-only checked arithmetic, exact basis conservation under floor-division partial relief, FIFO/specific-ID as recorded elections with policy hash, fail-closed overdraw, basis- and holding-period-preserving transfers with lineage, `lots_hash()` feeding the valuation key) |
 | REQ-24 | Fair-value engine — pure function of `(lots, price-snapshot-hash, policy-hash)` under the tenant's content-addressed principal-market policy | §2.5, §3.5 | **Implemented** (`treasury-fairvalue` v0.10.0: integer-exact prices and floor-division valuation, fail-closed missing prices, currency-strict unrealized marks, content-addressed valuation reports keyed by the R3 triple) |
 | REQ-25 | GL output — GAAP/IFRS journal entries via the posting protocol (idempotency keys + read-back verification; GL reconciliation is itself L1 evidence) | §2.6, §3.7 | 1 (GAAP); 3 (IFRS) — **entry generation implemented** (`treasury-gaap` v0.11.0: structurally balanced content-addressed journal entries; ASU 2023-08 remeasurement routed to net income via typed statement-line targets per R11; fee election applied from G-3 decomposition; entries book as L4 policy outputs). **Posting protocol implemented** (`treasury-posting` v0.12.0: batch content hash IS the idempotency key; dual-control release; lost-ack lands in Unknown with only evidence-driven exits — read-back finds it or proves absence for a same-key retry; verification is two-way content equality naming missing/unexpected entries; GL responses and read-backs referenced as L1 evidence). GL vendor adapters (NetSuite/QBO/SAP I/O shims) remaining, driven by design-partner stack (§9) |
-| REQ-26 | Disclosure pack + audit trail — quarterly roll-forward, fair-value disclosures, reproducible evidence per number; auditor-facing evidence-reproduction UX | §2.7 | 1 |
+| REQ-26 | Disclosure pack + audit trail — quarterly roll-forward, fair-value disclosures, reproducible evidence per number; auditor-facing evidence-reproduction UX | §2.7 | **Core implemented** (`treasury-disclosure` v0.13.0: roll-forward rows that structurally cannot fail to roll; two-way valuation tie-out naming every break; content-addressed pack committing to checkpoint, valuation, policies, anchor receipt; evidence-reproduction manifest = sorted hash closure). Auditor-facing UX (presentation layer) remains Phase 1 delivery |
 
 ## Security baseline (§3.8) — presidio-hardened
 

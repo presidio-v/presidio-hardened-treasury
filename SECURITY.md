@@ -47,6 +47,10 @@ within 72 hours.
   is a state machine with no guessing transitions — a lost acknowledgment
   resolves exclusively through read-back evidence, and retries reuse the
   same content-derived idempotency key.
+- Disclosure packs (`treasury-disclosure`) are content-addressed and carry
+  an evidence-reproduction manifest: the sorted hash closure of everything
+  a number depends on. Citing a pack hash cites the entire close; auditing
+  it is fetch-recompute-compare, with no trusted intermediary.
 - Fail-closed defaults throughout: unassessed assets block valuation,
   missing prices block valuation, missing materiality thresholds queue
   everything, empty venue scope reports reject, unbalanced journal entries

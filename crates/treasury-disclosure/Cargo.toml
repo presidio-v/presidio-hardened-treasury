@@ -1,0 +1,23 @@
+[package]
+name = "treasury-disclosure"
+description = "The disclosure pack: structurally balanced roll-forward, valuation tie-out, content-addressed pack, and the evidence-reproduction manifest — the product"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+
+[dependencies]
+treasury-core = { workspace = true }
+treasury-evidence = { workspace = true }
+treasury-fairvalue = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+treasury-lots = { workspace = true }
+
+[lints]
+workspace = true
