@@ -361,9 +361,9 @@ fn run_close() -> CloseArtifacts {
         anchored_at: ts(1_100),
     };
     let receipt_hash = ok!(receipt.receipt_hash());
-    let mut log = AnchorLog::new();
-    ok!(log.append(receipt));
-    ok!(log.verify_against(&store));
+    let mut anchor_log = AnchorLog::new();
+    ok!(anchor_log.append(receipt));
+    ok!(anchor_log.verify_against(&store));
 
     // ── Disclosure pack (REQ-26): roll-forward, tie-out, manifest.
     let row_evidence = vec![

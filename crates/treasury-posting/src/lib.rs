@@ -1,7 +1,7 @@
 //! GL posting protocol (spec v2 §3.7, REQ-25; remediation R9).
 //!
 //! "Not an adapter — a protocol." This crate is the state machine every
-//! GL adapter (NetSuite, QuickBooks, SAP) is driven by; the adapters
+//! GL adapter (`NetSuite`, `QuickBooks`, SAP) is driven by; the adapters
 //! themselves are I/O shims that report outcomes back into it.
 //!
 //! The crux is retry safety. The adversarial scenario (review F-12 /
