@@ -1,0 +1,18 @@
+[package]
+name = "treasury-evidence"
+description = "Content-addressed evidence store: canonical JSON (float-free), SHA-256 addressing, RFC 6962 Merkle roots for external anchoring"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+
+[dependencies]
+treasury-core = { workspace = true }
+serde_json = { workspace = true }
+sha2 = { workspace = true }
+thiserror = { workspace = true }
+
+[lints]
+workspace = true
