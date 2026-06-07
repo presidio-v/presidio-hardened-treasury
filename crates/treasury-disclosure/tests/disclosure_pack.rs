@@ -98,15 +98,8 @@ fn pack_ties_to_valuation() {
 fn closing_mismatch_is_named() {
     let (valuation, _) = close();
     // A row that rolls internally but to the wrong closing balance.
-    let Ok(bad_row) = RollForwardRow::new(
-        btc(),
-        usd(0),
-        usd(70),
-        usd(0),
-        usd(29),
-        usd(99),
-        vec![],
-    ) else {
+    let Ok(bad_row) = RollForwardRow::new(btc(), usd(0), usd(70), usd(0), usd(29), usd(99), vec![])
+    else {
         unreachable!("row rolls: 0 + 70 - 0 + 29 == 99");
     };
     let pack = pack(&valuation, vec![bad_row]);

@@ -28,4 +28,4 @@ pub mod pack;
 pub mod rollforward;
 
 pub use pack::{DisclosurePack, PackError, TieBreak};
-pub use rollforward::{RollForwardRow, RollError};
+pub use rollforward::{RollError, RollForwardRow};
