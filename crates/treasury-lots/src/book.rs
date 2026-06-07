@@ -233,8 +233,7 @@ impl LotBook {
 
         let mut new_ids = Vec::new();
         for relief in &reliefs {
-            let Some((_, acquired_at)) = origins.iter().find(|(id, _)| *id == relief.lot_id)
-            else {
+            let Some((_, acquired_at)) = origins.iter().find(|(id, _)| *id == relief.lot_id) else {
                 return Err(LotError::UnknownLot(relief.lot_id));
             };
             let id = lot_id(
