@@ -23,6 +23,7 @@ that produced v2 are in [`docs/`](docs/)).
 | `treasury-scope` | ASU 2023-08 scope gate: six-criteria assessment under dual control; unassessed or out-of-scope assets hard-block before valuation |
 | `treasury-lots` | Lot/cost-basis engine: integer-only lots, fees decomposed from basis, relief order as a recorded policy election, basis-preserving internal transfers |
 | `treasury-fairvalue` | Fair-value engine: integer-exact valuation as a pure function of `(lots, price-snapshot, policy)`; fail-closed missing prices; content-addressed valuation reports |
+| `treasury-gaap` | GAAP policy module (L4): structurally balanced journal entries with typed statement-line routing (ASU 2023-08 marks → net income); fee election applied; entries book as policy outputs |
 
 ## Structural guarantees (Phase 0)
 
