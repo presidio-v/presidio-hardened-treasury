@@ -1,0 +1,31 @@
+[package]
+name = "treasury-e2e"
+description = "The golden close: full-system integration of every pipeline stage, asserting whole-close determinism"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+publish = false
+
+[dependencies]
+
+[dev-dependencies]
+treasury-core = { workspace = true }
+treasury-evidence = { workspace = true }
+treasury-ledger = { workspace = true }
+treasury-policy = { workspace = true }
+treasury-close = { workspace = true }
+treasury-anchor = { workspace = true }
+treasury-reconcile = { workspace = true }
+treasury-scope = { workspace = true }
+treasury-lots = { workspace = true }
+treasury-fairvalue = { workspace = true }
+treasury-gaap = { workspace = true }
+treasury-posting = { workspace = true }
+treasury-disclosure = { workspace = true }
+serde_json = { workspace = true }
+
+[lints]
+workspace = true
