@@ -68,6 +68,9 @@ pub enum MatchError {
 /// # Errors
 /// [`MatchError::MixedTenants`] when legs span tenants;
 /// [`MatchError::Canon`] on envelope failure (structurally unreachable).
+// Deliberately one function: it reads top-to-bottom as the spec §5 tier
+// sequence, which is the property an auditor walkthrough needs most.
+#[allow(clippy::too_many_lines)]
 pub fn match_legs(
     legs: &[TransferLeg],
     config: &MatcherConfig,
@@ -146,7 +149,7 @@ pub fn match_legs(
 
         if let [single] = corroborated.as_slice() {
             // Exactly one address-corroborated candidate: tier 1.
-            let inflow: &TransferLeg = *single;
+            let inflow: &TransferLeg = single;
             let below = out.amount.atoms() < config.threshold_for(out.amount.asset());
             let disposition = if below {
                 Disposition::AutoNet
