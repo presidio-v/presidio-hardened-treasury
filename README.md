@@ -25,6 +25,7 @@ that produced v2 are in [`docs/`](docs/)).
 | `treasury-fairvalue` | Fair-value engine: integer-exact valuation as a pure function of `(lots, price-snapshot, policy)`; fail-closed missing prices; content-addressed valuation reports |
 | `treasury-gaap` | GAAP policy module (L4): structurally balanced journal entries with typed statement-line routing (ASU 2023-08 marks → net income); fee election applied; entries book as policy outputs |
 | `treasury-posting` | GL posting protocol: content-addressed batches as idempotency keys, dual-control release, unknown-outcome retry semantics, two-way read-back verification |
+| `treasury-disclosure` | The disclosure pack: roll-forwards that structurally cannot fail to roll, two-way valuation tie-out, content-addressed packs, evidence-reproduction manifest — the product |
 
 ## Structural guarantees (Phase 0)
 
