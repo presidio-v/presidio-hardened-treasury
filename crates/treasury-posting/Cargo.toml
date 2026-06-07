@@ -1,0 +1,20 @@
+[package]
+name = "treasury-posting"
+description = "GL posting protocol: content-addressed batches as idempotency keys, dual-control release, unknown-outcome retry semantics, read-back verification"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+
+[dependencies]
+treasury-core = { workspace = true }
+treasury-evidence = { workspace = true }
+treasury-gaap = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+
+[lints]
+workspace = true

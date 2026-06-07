@@ -43,6 +43,10 @@ within 72 hours.
 - Dual control as a structural primitive (`treasury-core::dual_control`):
   match confirmations, leg designations, and scope assessments all require
   a preparer and a distinct approver; self-confirmation is a typed error.
+- GL posting protocol (`treasury-posting`): the only outbound write path
+  is a state machine with no guessing transitions — a lost acknowledgment
+  resolves exclusively through read-back evidence, and retries reuse the
+  same content-derived idempotency key.
 - Fail-closed defaults throughout: unassessed assets block valuation,
   missing prices block valuation, missing materiality thresholds queue
   everything, empty venue scope reports reject, unbalanced journal entries
