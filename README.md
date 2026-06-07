@@ -20,6 +20,7 @@ that produced v2 are in [`docs/`](docs/)).
 | `treasury-anchor` | External anchoring: content-addressed anchor receipts in a coverage-monotonic log; prefix verification detects post-anchor tampering without trusting the operator |
 | `treasury-ingest` | Read-only ingestion boundary: content-addressed egress allowlists (deny by default, no regex), fail-closed venue key-scope validation |
 | `treasury-reconcile` | Internal-transfer reconciliation: deterministic tiered matcher (no numeric confidence — discrete corroboration classes), materiality-gated auto-netting, dual-control confirmation queue, close blockers |
+| `treasury-scope` | ASU 2023-08 scope gate: six-criteria assessment under dual control; unassessed or out-of-scope assets hard-block before valuation |
 
 ## Structural guarantees (Phase 0)
 
@@ -63,7 +64,8 @@ registry sources in CI.
 ## Versioning
 
 [Semantic Versioning](https://semver.org/). The authoritative version is the
-workspace `[workspace.package].version` in `Cargo.toml` (currently **0.1.0**).
+workspace `[workspace.package].version` in `Cargo.toml` — single source of
+truth, deliberately not repeated here.
 Pre-1.0 (`0.x`): minor versions may carry breaking changes while the ledger and
 evidence formats stabilize through Phase 0–1; releases are gated by audit reality,
 not feature count (roadmap: spec v2 §7). Event-identity hashing and canonical-JSON

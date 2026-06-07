@@ -9,11 +9,13 @@
 #![forbid(unsafe_code)]
 
 pub mod amount;
+pub mod dual_control;
 pub mod hash;
 pub mod ids;
 pub mod time;
 
 pub use amount::{AmountError, AssetAmount};
+pub use dual_control::{DualControlError, DualControlQueue, DualControlState};
 pub use hash::ContentHash;
 pub use ids::{ActorId, AssetId, SourceId, TenantId, VenueId};
 pub use time::TimestampNs;
