@@ -2,9 +2,7 @@
 
 use crate::batch::PostingBatch;
 use std::collections::{BTreeSet, HashMap};
-use treasury_core::{
-    ActorId, ContentHash, DualControlError, DualControlQueue, DualControlState,
-};
+use treasury_core::{ActorId, ContentHash, DualControlError, DualControlQueue, DualControlState};
 use treasury_evidence::CanonError;
 
 /// Where a batch is in its life. Transitions are evidence-driven; there
@@ -71,7 +69,9 @@ impl PostingProtocol {
     ) -> Result<ContentHash, PostingError> {
         let id = batch.batch_id()?;
         self.approvals.propose(id, batch, preparer);
-        self.states.entry(id).or_insert(PostingState::AwaitingApproval);
+        self.states
+            .entry(id)
+            .or_insert(PostingState::AwaitingApproval);
         Ok(id)
     }
 

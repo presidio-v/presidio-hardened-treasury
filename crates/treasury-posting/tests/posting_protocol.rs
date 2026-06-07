@@ -133,7 +133,10 @@ fn lost_ack_resolves_only_through_readback() {
     let _ = protocol.report_unknown(&id);
     let found = Some(("JE-1002".to_owned(), ContentHash([7; 32])));
     assert_eq!(protocol.resolve_unknown(&id, found), Ok(()));
-    assert!(matches!(protocol.state(&id), Some(PostingState::Posted { .. })));
+    assert!(matches!(
+        protocol.state(&id),
+        Some(PostingState::Posted { .. })
+    ));
 }
 
 #[test]
@@ -152,7 +155,10 @@ fn verification_names_missing_and_unexpected() {
     };
     let stranger = ContentHash([0xAA; 32]);
     let readback = vec![*first, stranger];
-    assert_eq!(protocol.verify(&id, &readback, ContentHash([6; 32])), Ok(()));
+    assert_eq!(
+        protocol.verify(&id, &readback, ContentHash([6; 32])),
+        Ok(())
+    );
 
     let Some(PostingState::VerificationFailed {
         missing,
