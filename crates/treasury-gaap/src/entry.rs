@@ -218,7 +218,10 @@ mod tests {
             StatementLine::UnrealizedCryptoGainLoss.statement(),
             Statement::IncomeStatement
         );
-        assert_eq!(StatementLine::CryptoAssets.statement(), Statement::BalanceSheet);
+        assert_eq!(
+            StatementLine::CryptoAssets.statement(),
+            Statement::BalanceSheet
+        );
     }
 
     /// Golden vector — independently recomputed in Python.

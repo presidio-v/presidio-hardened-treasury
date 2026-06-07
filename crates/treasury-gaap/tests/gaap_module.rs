@@ -54,7 +54,10 @@ fn loss_remeasurement_flips_sides() {
 
 #[test]
 fn zero_mark_books_nothing() {
-    assert_eq!(remeasurement_entry(&usd(100), &usd(100), policy()), Ok(None));
+    assert_eq!(
+        remeasurement_entry(&usd(100), &usd(100), policy()),
+        Ok(None)
+    );
 }
 
 #[test]
