@@ -1,0 +1,20 @@
+[package]
+name = "treasury-close"
+description = "Checkpoint lineage: closed periods as immutable DAG nodes with reason-coded, materiality-backed supersession; as-filed vs as-corrected as pointers"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+
+[dependencies]
+treasury-core = { workspace = true }
+treasury-evidence = { workspace = true }
+treasury-ledger = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+
+[lints]
+workspace = true
