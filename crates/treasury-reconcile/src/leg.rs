@@ -16,8 +16,9 @@ pub enum Direction {
     Inflow,
 }
 
-/// One observed movement, normalized for matching.
-#[derive(Debug, Clone, PartialEq, Eq)]
+/// One observed movement, normalized for matching. Serializable so that
+/// labeled corpora (SLO harness) are content-addressable audit artifacts.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct TransferLeg {
     /// Ledger event this leg derives from.
     pub leg_id: LegId,
