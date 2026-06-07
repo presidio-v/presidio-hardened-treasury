@@ -6,7 +6,7 @@ architecture** is [`docs/treasury-suite-spec-v2.md`](docs/treasury-suite-spec-v2
 (active spec); this file is the requirements view of that spec, with delivery
 status per phase. Requirement IDs cite spec sections (`§n`).
 
-- **Active version:** 0.14.0 (workspace `[workspace.package].version`)
+- **Active version:** 0.15.0 (workspace `[workspace.package].version`)
 - **Phase:** 0 — Foundations (no UI)
 - **Accounting surface:** GAAP + IFRS architecturally day one; IFRS *delivery* Phase 3
 - **Audit posture:** Phase 1 = management's evidence-preparation tool (AS 1105);
@@ -19,9 +19,9 @@ status per phase. Requirement IDs cite spec sections (`§n`).
 | ID | Requirement | Spec | Status (v0.1.0 / Phase 0) |
 |----|-------------|------|---------------------------|
 | REQ-1 | **Claim-layered ledger** — L1 observations → L2 derived facts (code-version hash) → L3 judgments (policy hash + approver) → L4 policy outputs (pure fn of L1–L3) | §3.1 | **Implemented** (`treasury-ledger`) |
-| REQ-2 | **Bitemporal, event-sourced, append-only** — event time + knowledge time; corrections supersede, never mutate; `as_of` is a query | §3.2 | **Implemented** (`treasury-ledger`) |
+| REQ-2 | **Bitemporal, event-sourced, append-only** — event time + knowledge time; corrections supersede, never mutate; `as_of` is a query | §3.2 | **Implemented** (`treasury-ledger`; v0.15.0 adds `FileLedger`, a durable append-only backend that is **replay-verified on open**: every record re-runs full validation and must reproduce its recorded event id, torn tails recover only explicitly) |
 | REQ-3 | **Per-tenant hash chaining** — `verify_chain` detects any post-hoc mutation, insertion, or deletion; supersession cannot race, cross tenants, or cross claim layers | §3.2, §3.8 | **Implemented** (`treasury-ledger`) |
-| REQ-4 | **Content-addressed evidence store** — float-rejecting canonical JSON, SHA-256 addressing, RFC 6962 Merkle tree heads for external anchoring | §3.3 | **Implemented** (`treasury-evidence`) |
+| REQ-4 | **Content-addressed evidence store** — float-rejecting canonical JSON, SHA-256 addressing, RFC 6962 Merkle tree heads for external anchoring | §3.3 | **Implemented** (`treasury-evidence`; v0.15.0 adds `FileEvidenceStore`, a durable append-only backend re-verifying every blob against its recorded hash on open — anchored tree heads survive restart) |
 | REQ-5 | **Layer-specific mandatory provenance** — a judgment (L3) without approver + content-addressed policy hash cannot enter the ledger | §3.1, §3.5 | **Implemented** (`treasury-ledger`) |
 | REQ-6 | **No floats in the accounting path** — integer base-unit money with checked arithmetic; floats reject at the canonicalization boundary | §3.8 | **Implemented** (`treasury-core`, `treasury-evidence`) |
 | REQ-7 | **Cross-implementation hash verification** — event identity hashes cross-verified against an independent implementation (golden vectors in the test suite) | §3.3 | **Implemented** (`treasury-ledger/tests`; every subsequent hash envelope carries its own golden vector, and `treasury-e2e` v0.14.0 asserts **whole-close determinism**: the complete pipeline runs twice and produces the identical disclosure-pack hash) |

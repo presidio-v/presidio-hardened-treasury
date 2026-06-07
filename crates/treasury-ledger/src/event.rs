@@ -79,7 +79,7 @@ impl Provenance {
 }
 
 /// An event proposed for appending — everything except chain position.
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct EventDraft {
     /// Tenant whose stream this event joins.
     pub tenant: TenantId,
@@ -96,7 +96,7 @@ pub struct EventDraft {
 }
 
 /// An event sealed into the chain: draft + knowledge time + chain commitment.
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct SealedEvent {
     /// Content-derived identity (includes `prev` — chain commitment).
     pub event_id: EventId,

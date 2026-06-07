@@ -20,7 +20,9 @@
 #![forbid(unsafe_code)]
 
 pub mod event;
+pub mod file;
 pub mod ledger;
 
 pub use event::{ClaimLayer, EventDraft, EventId, Provenance, SealedEvent};
+pub use file::{FileLedger, FileLedgerError};
 pub use ledger::{InMemoryLedger, Ledger, LedgerError};
