@@ -97,8 +97,7 @@ fn identical_rejected_proposal_cannot_be_reproposed() {
 
     // A different classification is a different proposal — new item.
     let mut different = staking_proposal();
-    different.classification =
-        LegClassification::NonPurchaseAcquisition(NonPurchaseKind::Airdrop);
+    different.classification = LegClassification::NonPurchaseAcquisition(NonPurchaseKind::Airdrop);
     let Ok(id3) = queue.propose(different, ActorId::new("carol")) else {
         unreachable!("propose must succeed");
     };

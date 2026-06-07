@@ -36,11 +36,11 @@ pub mod queue;
 
 pub use book::{draft_auto_net, draft_resolution, BookError};
 pub use config::MatcherConfig;
+pub use decision::{Disposition, MatchProposal, Tier};
 pub use designate::{
     draft_designation, DesignateError, DesignationProposal, DesignationQueue, DesignationState,
     LegClassification, NonPurchaseKind,
 };
-pub use decision::{Disposition, MatchProposal, Tier};
 pub use leg::{Direction, LegId, TransferLeg};
 pub use matcher::{match_legs, CloseBlockers, MatchError, MatchOutcome};
 pub use queue::{ConfirmationQueue, QueueError, QueueState};
