@@ -115,8 +115,7 @@ fn basis_currency_must_match_snapshot_currency() {
     let mut book = LotBook::new(TenantId::new("acme"));
     let eur = AssetAmount::new(AssetId::new("EUR"), 100);
     let eur_fee = AssetAmount::new(AssetId::new("EUR"), 0);
-    let Ok(_) = book.acquire(btc(), VenueId::new("cold"), 10, eur, eur_fee, ts(10), ev(1))
-    else {
+    let Ok(_) = book.acquire(btc(), VenueId::new("cold"), 10, eur, eur_fee, ts(10), ev(1)) else {
         unreachable!("acquire must succeed");
     };
     let snapshot = snapshot_with(&[("BTC", 100, 10)]);
@@ -129,8 +128,15 @@ fn basis_currency_must_match_snapshot_currency() {
 #[test]
 fn floor_rounding_is_deterministic() {
     let mut book = LotBook::new(TenantId::new("acme"));
-    let Ok(_) = book.acquire(btc(), VenueId::new("cold"), 1, usd(0), usd(0), ts(10), ev(1))
-    else {
+    let Ok(_) = book.acquire(
+        btc(),
+        VenueId::new("cold"),
+        1,
+        usd(0),
+        usd(0),
+        ts(10),
+        ev(1),
+    ) else {
         unreachable!("acquire must succeed");
     };
     // 1 atom at 1 minor unit per 3 atoms: floor(1/3) = 0.
@@ -144,8 +150,15 @@ fn floor_rounding_is_deterministic() {
 #[test]
 fn valuation_is_pure_and_key_commits_to_policy() {
     let mut book = LotBook::new(TenantId::new("acme"));
-    let Ok(_) = book.acquire(btc(), VenueId::new("cold"), 7, usd(70), usd(1), ts(10), ev(1))
-    else {
+    let Ok(_) = book.acquire(
+        btc(),
+        VenueId::new("cold"),
+        7,
+        usd(70),
+        usd(1),
+        ts(10),
+        ev(1),
+    ) else {
         unreachable!("acquire must succeed");
     };
     let snapshot = snapshot_with(&[("BTC", 100, 7)]);
@@ -174,8 +187,7 @@ fn valuation_is_pure_and_key_commits_to_policy() {
 #[test]
 fn golden_valuation_hash_matches_independent_implementation() {
     let mut book = LotBook::new(TenantId::new("g-t"));
-    let Ok(_) = book.acquire(btc(), VenueId::new("v"), 7, usd(70), usd(1), ts(10), ev(1))
-    else {
+    let Ok(_) = book.acquire(btc(), VenueId::new("v"), 7, usd(70), usd(1), ts(10), ev(1)) else {
         unreachable!("acquire must succeed");
     };
     let snapshot = snapshot_with(&[("BTC", 100, 7)]);
