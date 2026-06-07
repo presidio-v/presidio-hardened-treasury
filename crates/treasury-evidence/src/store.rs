@@ -37,6 +37,11 @@ pub trait EvidenceStore {
     /// the value to anchor externally.
     fn tree_head(&self) -> ContentHash;
 
+    /// RFC 6962 tree head over the first `entry_count` entries in
+    /// insertion order, or `None` when `entry_count` exceeds the store.
+    /// Anchor verification recomputes anchored prefixes through this.
+    fn tree_head_at(&self, entry_count: usize) -> Option<ContentHash>;
+
     /// Number of entries.
     fn len(&self) -> usize;
 
@@ -90,6 +95,11 @@ impl EvidenceStore for InMemoryEvidenceStore {
 
     fn tree_head(&self) -> ContentHash {
         merkle_root(&self.order)
+    }
+
+    fn tree_head_at(&self, entry_count: usize) -> Option<ContentHash> {
+        let prefix = self.order.get(..entry_count)?;
+        Some(merkle_root(prefix))
     }
 
     fn len(&self) -> usize {
