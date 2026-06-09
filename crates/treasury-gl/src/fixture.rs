@@ -95,9 +95,7 @@ impl GlAdapter for FixtureGl {
     ) -> Result<SubmitOutcome, GlError> {
         let fault = self.next_fault.take();
         match fault {
-            Some(FixtureFault::Transport) => {
-                Err(GlError::Transport("injected".to_owned()))
-            }
+            Some(FixtureFault::Transport) => Err(GlError::Transport("injected".to_owned())),
             Some(FixtureFault::AckLostNotPosted) => {
                 // Nothing stored; read-back will show absent.
                 Ok(SubmitOutcome::AckLost)
