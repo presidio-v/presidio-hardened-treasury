@@ -24,11 +24,13 @@
 
 #![forbid(unsafe_code)]
 
+pub mod book;
 pub mod finality;
 pub mod history;
 pub mod reconcile;
 pub mod source;
 
+pub use book::{draft_history_observation, BookError};
 pub use finality::{FinalityPolicy, FinalityRule};
 pub use history::{AddressHistory, Chain, ChainMovement, Direction, HistoryError};
 pub use reconcile::{reconcile, reproducibility_gate, ReconcileError, Reconciliation, ReproError};
