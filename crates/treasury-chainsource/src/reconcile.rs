@@ -96,7 +96,8 @@ pub fn reproducibility_gate<S: ChainSource>(
         return Err(ReproError::Source(SourceError::ChainMismatch));
     }
     let settled_to_height = policy.settled_height(observed_height);
-    let first = settled_view(source, address, observed_height, settled_to_height)?.history_hash()?;
+    let first =
+        settled_view(source, address, observed_height, settled_to_height)?.history_hash()?;
     let second =
         settled_view(source, address, observed_height, settled_to_height)?.history_hash()?;
     if first == second {

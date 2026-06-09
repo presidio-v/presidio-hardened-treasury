@@ -83,8 +83,7 @@ fn a_divergence_blocks_close_and_names_both_sources() {
         !outcome.agreed(),
         "a settled-history divergence must block close"
     );
-    let treasury_chainsource::Reconciliation::Diverged { a, b, .. } = outcome
-    else {
+    let treasury_chainsource::Reconciliation::Diverged { a, b, .. } = outcome else {
         unreachable!("must be a divergence");
     };
     assert_eq!(a.0, "core+electrs");
@@ -102,13 +101,15 @@ fn unsettled_movements_do_not_cause_false_divergence() {
     let a = FixtureSource::new(Chain::Bitcoin, "a").with_history(history(addr, settled.clone()));
     let mut with_unconfirmed = settled.clone();
     with_unconfirmed.push(movement("t-pending", Direction::Inflow, 1, 95));
-    let b =
-        FixtureSource::new(Chain::Bitcoin, "b").with_history(history(addr, with_unconfirmed));
+    let b = FixtureSource::new(Chain::Bitcoin, "b").with_history(history(addr, with_unconfirmed));
 
     let Ok(outcome) = reconcile(&a, &b, &btc_depth_6(), addr, 100) else {
         unreachable!("reconcile must succeed");
     };
-    assert!(outcome.agreed(), "unsettled-only differences must not diverge");
+    assert!(
+        outcome.agreed(),
+        "unsettled-only differences must not diverge"
+    );
 }
 
 #[test]
