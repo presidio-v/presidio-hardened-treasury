@@ -8,6 +8,12 @@ on:
 permissions:
   contents: read
 
+# Cancel superseded runs for the same ref so a new push doesn't leave an
+# older run queued behind it (a queued run looks "stuck" on the PR).
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   CARGO_TERM_COLOR: always
 
@@ -15,6 +21,9 @@ jobs:
   check:
     name: fmt + clippy + test
     runs-on: ubuntu-latest
+    # A hung step (cache backend, network) must fail fast, not sit at the
+    # 6-hour GitHub default that is indistinguishable from "stuck".
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
       - uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
@@ -34,6 +43,7 @@ jobs:
   deny:
     name: cargo-deny (licenses, advisories, sources)
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
       - uses: EmbarkStudios/cargo-deny-action@bb137d7af7e4fb67e5f82a49c4fce4fad40782fe # v2
