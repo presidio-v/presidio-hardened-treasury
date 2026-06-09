@@ -26,7 +26,7 @@ that produced v2 are in [`docs/`](docs/)).
 | `treasury-gaap` | GAAP policy module (L4): structurally balanced journal entries with typed statement-line routing (ASU 2023-08 marks → net income); fee election applied; entries book as policy outputs |
 | `treasury-posting` | GL posting protocol: content-addressed batches as idempotency keys, dual-control release, unknown-outcome retry semantics, two-way read-back verification |
 | `treasury-gl` | Vendor-agnostic GL adapter contract (read-back mandatory by type — a post-only adapter cannot exist) and the lifecycle orchestration driving the posting protocol against any adapter; fixture GL for end-to-end tests (ADR-0003) |
-| `treasury-chainsource` | Per-chain node+indexer abstraction (ADR-0004): chain-agnostic content-addressed address history; finality-gated two-source reconciliation (the §3.3 completeness control, divergence blocks close); reproducibility gate; fixture source for tests |
+| `treasury-chainsource` | Per-chain node+indexer abstraction (ADR-0004): chain-agnostic content-addressed address history; finality-gated two-source reconciliation (the §3.3 completeness control, divergence blocks close); reproducibility gate; **agreed-reconciliation → L1-observation mapping** (golden-vectored, ADR-0004 action item 5); fixture source for tests |
 | `treasury-disclosure` | The disclosure pack: roll-forwards that structurally cannot fail to roll, two-way valuation tie-out, content-addressed packs, evidence-reproduction manifest — the product |
 | `treasury-e2e` | The golden close: every stage of the pipeline in one quarter, asserting whole-close determinism (identical pack hash on rerun) |
 
