@@ -1,6 +1,6 @@
 # ADR-0001: Chain indexing — build vs buy
 
-**Status:** Proposed
+**Status:** Accepted
 **Date:** 2026-06-07
 **Deciders:** CTO, security lead, first design-partner's audit firm (consulted)
 **Resolves:** spec v2 §9 open decision ("Build-vs-buy on raw chain indexing (ingestion) vs third-party data providers") · informs REQ-20 (read-only ingestion)
