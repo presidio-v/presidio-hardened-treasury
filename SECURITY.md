@@ -40,6 +40,11 @@ within 72 hours.
 - External anchoring (`treasury-anchor`): RFC 6962 tree heads committed
   outside the operator's trust boundary; coverage-monotonic receipts detect
   post-anchor history rewrites.
+  The anchoring pipeline (ADR-0002) commits a Merkle-aggregated root in a
+  single Bitcoin transaction (per-head inclusion proofs preserve individual
+  verifiability), gates "anchored" on a required confirmation depth, and
+  flags any submitted-but-unconfirmed anchor as overdue so it cannot become
+  a silent coverage gap. Only hashes are published — never treasury data.
 - Dual control as a structural primitive (`treasury-core::dual_control`):
   match confirmations, leg designations, and scope assessments all require
   a preparer and a distinct approver; self-confirmation is a typed error.
