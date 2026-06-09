@@ -70,7 +70,9 @@ pub enum ContractViolation {
     },
     /// Advancing the observed tip rewrote already-settled history: the
     /// hash of the prefix settled at the lower height changed.
-    #[error("settled history at height {settled_height} changed as the tip advanced: {low} != {high}")]
+    #[error(
+        "settled history at height {settled_height} changed as the tip advanced: {low} != {high}"
+    )]
     SettledHistoryRewritten {
         /// The settled height whose prefix must be stable.
         settled_height: u64,

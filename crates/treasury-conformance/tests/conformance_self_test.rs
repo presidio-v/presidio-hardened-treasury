@@ -91,14 +91,9 @@ fn ethereum_reth_and_erigon_satisfy_the_chain_source_contract() {
         chain_source::verify_identity(&reth, Chain::Ethereum),
         Ok(())
     );
-    assert!(chain_source::verify_sources_agree(
-        &reth,
-        &erigon,
-        &policy,
-        "0xacme",
-        21_000_001,
-    )
-    .is_ok());
+    assert!(
+        chain_source::verify_sources_agree(&reth, &erigon, &policy, "0xacme", 21_000_001,).is_ok()
+    );
 }
 
 #[test]

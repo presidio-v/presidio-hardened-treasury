@@ -127,8 +127,9 @@ impl ChainAnchorSubmitter for FixtureChainSubmitter {
         if self.never_confirms {
             self.included_height.set(None);
         } else {
-            self.included_height
-                .set(Some(submitted_height.saturating_add(self.blocks_to_inclusion)));
+            self.included_height.set(Some(
+                submitted_height.saturating_add(self.blocks_to_inclusion),
+            ));
         }
         Ok(Broadcast {
             tx_ref: format!("fixture-tx-{n}"),
@@ -153,7 +154,10 @@ impl ChainAnchorSubmitter for FixtureChainSubmitter {
     }
 
     fn calendar_proof(&self, tx_ref: &str) -> Result<ContentHash, SubmitterError> {
-        let included = self.included_height.get().ok_or(SubmitterError::NotConfirmed)?;
+        let included = self
+            .included_height
+            .get()
+            .ok_or(SubmitterError::NotConfirmed)?;
         if self.tip.get() < included {
             return Err(SubmitterError::NotConfirmed);
         }
@@ -185,7 +189,8 @@ mod tests {
             unreachable!("broadcast succeeds");
         };
         assert!(!broadcast.tx_ref.is_empty());
-        let Ok(()) = pipeline.submitted(broadcast.tx_ref.clone(), broadcast.submitted_height) else {
+        let Ok(()) = pipeline.submitted(broadcast.tx_ref.clone(), broadcast.submitted_height)
+        else {
             unreachable!("Pending → Submitted is legal");
         };
 
@@ -230,7 +235,8 @@ mod tests {
         let Ok(broadcast) = submitter.broadcast(pipeline.root()) else {
             unreachable!("broadcast succeeds");
         };
-        let Ok(()) = pipeline.submitted(broadcast.tx_ref.clone(), broadcast.submitted_height) else {
+        let Ok(()) = pipeline.submitted(broadcast.tx_ref.clone(), broadcast.submitted_height)
+        else {
             unreachable!("Pending → Submitted is legal");
         };
 
