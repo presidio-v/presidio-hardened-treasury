@@ -149,7 +149,9 @@ mod tests {
     use super::*;
 
     fn heads(n: usize) -> Vec<ContentHash> {
-        (0..n).map(|i| sha256(&[u8::try_from(i).unwrap_or(0)])).collect()
+        (0..n)
+            .map(|i| sha256(&[u8::try_from(i).unwrap_or(0)]))
+            .collect()
     }
 
     #[test]
@@ -158,7 +160,11 @@ mod tests {
         let Some(agg) = aggregate(&h) else {
             unreachable!("non-empty");
         };
-        assert_eq!(agg.root, merkle_root(&h), "aggregation must not drift from merkle_root");
+        assert_eq!(
+            agg.root,
+            merkle_root(&h),
+            "aggregation must not drift from merkle_root"
+        );
         // Golden (shared with treasury-evidence merkle tests).
         assert_eq!(
             agg.root.to_hex(),
@@ -176,7 +182,10 @@ mod tests {
             let Some(proof) = agg.proofs.get(index) else {
                 unreachable!("one proof per head");
             };
-            assert!(verify_inclusion(head, proof, &agg.root), "head {index} must verify");
+            assert!(
+                verify_inclusion(head, proof, &agg.root),
+                "head {index} must verify"
+            );
         }
     }
 
