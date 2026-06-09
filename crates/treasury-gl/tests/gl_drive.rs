@@ -4,7 +4,7 @@
 
 use treasury_core::{ActorId, AssetAmount, AssetId, ContentHash, TenantId};
 use treasury_gaap::{JournalEntry, JournalLine, Side, StatementLine};
-use treasury_gl::{post_batch, FixtureFault, FixtureGl, GlAdapter, DriveOutcome};
+use treasury_gl::{post_batch, DriveOutcome, FixtureFault, FixtureGl, GlAdapter};
 use treasury_posting::{PostingBatch, PostingProtocol};
 
 fn usd(minor: i128) -> AssetAmount {
@@ -93,7 +93,11 @@ fn dropped_entry_on_readback_fails_verification() {
     let mut gl = FixtureGl::new();
     gl.inject(FixtureFault::DropOneEntryOnReadback);
     let outcome = post_batch(&mut protocol, &mut gl, batch(), alice(), bob());
-    let Ok(DriveOutcome::VerificationFailed { missing, unexpected }) = outcome else {
+    let Ok(DriveOutcome::VerificationFailed {
+        missing,
+        unexpected,
+    }) = outcome
+    else {
         unreachable!("a dropped GL entry must fail verification; got {outcome:?}");
     };
     assert_eq!(missing.len(), 1);
@@ -106,7 +110,11 @@ fn extra_entry_on_readback_fails_verification() {
     let mut gl = FixtureGl::new();
     gl.inject(FixtureFault::ExtraEntryOnReadback(ContentHash([0xAB; 32])));
     let outcome = post_batch(&mut protocol, &mut gl, batch(), alice(), bob());
-    let Ok(DriveOutcome::VerificationFailed { missing, unexpected }) = outcome else {
+    let Ok(DriveOutcome::VerificationFailed {
+        missing,
+        unexpected,
+    }) = outcome
+    else {
         unreachable!("a stranger GL entry must fail verification; got {outcome:?}");
     };
     assert!(missing.is_empty());

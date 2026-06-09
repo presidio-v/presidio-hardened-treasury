@@ -29,4 +29,4 @@ pub mod fixture;
 
 pub use adapter::{GlAdapter, GlError, GlReadback, SubmitOutcome};
 pub use drive::{post_batch, DriveError, DriveOutcome};
-pub use fixture::{FixtureGl, FixtureFault};
+pub use fixture::{FixtureFault, FixtureGl};

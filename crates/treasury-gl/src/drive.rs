@@ -51,7 +51,10 @@ pub fn post_batch(
 
     // Submit through the adapter under the idempotency key (= batch id).
     match adapter.submit(&batch, id)? {
-        SubmitOutcome::Acknowledged { gl_ref, raw_response } => {
+        SubmitOutcome::Acknowledged {
+            gl_ref,
+            raw_response,
+        } => {
             let response_evidence = sha256(&raw_response);
             protocol.confirm_posted(&id, gl_ref, response_evidence)?;
         }
