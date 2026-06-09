@@ -62,7 +62,11 @@ within 72 hours.
   never auto-reconciled. The independence axis sits where silent bugs live
   (the indexer for Bitcoin, the whole execution client for Ethereum), and a
   reproducibility gate rejects any source whose re-query does not reproduce
-  its history hash.
+  its history hash. Only an *agreed* reconciliation maps into the evidence
+  chain: the indexer-output → L1-observation mapping books a single
+  golden-vectored event committing to the two-source-agreed history hash,
+  while a divergence books nothing — keeping the residual single point
+  across both sources minimal and audited (ADR-0004 action item 5).
 - Disclosure packs (`treasury-disclosure`) are content-addressed and carry
   an evidence-reproduction manifest: the sorted hash closure of everything
   a number depends on. Citing a pack hash cites the entire close; auditing
