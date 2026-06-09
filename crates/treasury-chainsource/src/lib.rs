@@ -31,5 +31,5 @@ pub mod source;
 
 pub use finality::{FinalityPolicy, FinalityRule};
 pub use history::{AddressHistory, Chain, ChainMovement, Direction, HistoryError};
-pub use reconcile::{reconcile, reproducibility_gate, Reconciliation, ReproError};
+pub use reconcile::{reconcile, reproducibility_gate, Reconciliation, ReconcileError, ReproError};
 pub use source::{ChainSource, FixtureSource, SourceError};
