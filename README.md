@@ -17,7 +17,7 @@ that produced v2 are in [`docs/`](docs/)).
 | `treasury-ledger` | The core: claim-layered (observations → derived facts → judgments → policy outputs), bitemporal, append-only, hash-chained event ledger; durable file backend, replay-verified on open |
 | `treasury-policy` | Policy-as-code: content-addressed, approval-signed policy artifacts; per-tenant activation timelines; the `(lots, price-snapshot, policy)` valuation key |
 | `treasury-close` | Checkpoint lineage: closed periods as immutable DAG nodes; supersession requires a reason code + materiality memo; as-filed vs as-corrected as pointers |
-| `treasury-anchor` | External anchoring: content-addressed anchor receipts in a coverage-monotonic log; prefix verification detects post-anchor tampering without trusting the operator |
+| `treasury-anchor` | External anchoring: content-addressed receipts in a coverage-monotonic log; prefix verification detects post-anchor tampering without trusting the operator; Merkle aggregation + Bitcoin submission-lifecycle pipeline (ADR-0002) with inclusion proofs, depth gating, and overdue-liveness |
 | `treasury-ingest` | Read-only ingestion boundary: content-addressed egress allowlists (deny by default, no regex), fail-closed venue key-scope validation |
 | `treasury-reconcile` | Internal-transfer reconciliation: deterministic tiered matcher (no numeric confidence — discrete corroboration classes), materiality-gated auto-netting, dual-control confirmation queue, close blockers |
 | `treasury-scope` | ASU 2023-08 scope gate: six-criteria assessment under dual control; unassessed or out-of-scope assets hard-block before valuation |

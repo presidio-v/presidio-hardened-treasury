@@ -24,8 +24,12 @@
 
 #![forbid(unsafe_code)]
 
+pub mod aggregation;
 pub mod log;
+pub mod pipeline;
 pub mod receipt;
 
+pub use aggregation::{aggregate, verify_inclusion, Aggregation, InclusionProof};
 pub use log::{AnchorError, AnchorLog};
+pub use pipeline::{AnchorPipeline, AnchorTarget, PipelineError, PipelineState};
 pub use receipt::{AnchorMethod, AnchorReceipt};
