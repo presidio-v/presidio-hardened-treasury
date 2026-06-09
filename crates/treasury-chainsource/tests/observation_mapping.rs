@@ -41,10 +41,10 @@ fn btc_depth_6() -> FinalityPolicy {
 
 #[test]
 fn agreed_reconciliation_books_an_l1_observation_into_the_ledger() {
-    let a = FixtureSource::new(Chain::Bitcoin, "core+electrs")
-        .with_history(history(vec![movement()]));
-    let b = FixtureSource::new(Chain::Bitcoin, "core+fulcrum")
-        .with_history(history(vec![movement()]));
+    let a =
+        FixtureSource::new(Chain::Bitcoin, "core+electrs").with_history(history(vec![movement()]));
+    let b =
+        FixtureSource::new(Chain::Bitcoin, "core+fulcrum").with_history(history(vec![movement()]));
     let Ok(reconciliation) = reconcile(&a, &b, &btc_depth_6(), "bc1q-acme", 100) else {
         unreachable!("reconcile must succeed");
     };
@@ -69,8 +69,8 @@ fn agreed_reconciliation_books_an_l1_observation_into_the_ledger() {
 
 #[test]
 fn a_divergence_books_nothing() {
-    let a = FixtureSource::new(Chain::Bitcoin, "core+electrs")
-        .with_history(history(vec![movement()]));
+    let a =
+        FixtureSource::new(Chain::Bitcoin, "core+electrs").with_history(history(vec![movement()]));
     // Fulcrum is missing the settled movement — a real indexing bug.
     let b = FixtureSource::new(Chain::Bitcoin, "core+fulcrum").with_history(history(vec![]));
     let Ok(reconciliation) = reconcile(&a, &b, &btc_depth_6(), "bc1q-acme", 100) else {
