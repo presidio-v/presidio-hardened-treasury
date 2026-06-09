@@ -61,6 +61,7 @@ registry sources in CI.
 - **Requirements baseline:** [`PRESIDIO-REQ.md`](PRESIDIO-REQ.md) — the
   requirements view of the active spec, with delivery status per phase.
 - **Active spec (source of truth):** [`docs/treasury-suite-spec-v2.md`](docs/treasury-suite-spec-v2.md).
+- **Architecture Decision Records:** [`docs/adr/`](docs/adr/) — significant, hard-to-reverse decisions resolving the spec's §9 open questions.
 - Developed under the **presidio-hardened SDLC** (security posture is a design
   constraint, not a backlog). Family SDLC documentation:
   <https://github.com/presidio-v/presidio-hardened-docs>.

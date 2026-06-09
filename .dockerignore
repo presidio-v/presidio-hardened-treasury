@@ -1,0 +1,16 @@
+target/
+.git/
+docs/
+*.md
+Dockerfile
+.dockerignore
+.gitignore
+target/
+Cargo.lock  # optional, but to force rebuild? no, keep for deps? Wait, include to speed? But for clean test, copy all source.
+# Better minimal:
+target/
+.git/
+docs/adversarial*
+docs/spec-v1*
+docs/threat-model.md
+docs/treasury-suite-spec-v1.md
