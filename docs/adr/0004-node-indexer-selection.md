@@ -1,6 +1,6 @@
 # ADR-0004: Per-chain node and indexer selection (BTC, ETH)
 
-**Status:** Proposed
+**Status:** Accepted
 **Date:** 2026-06-07
 **Deciders:** CTO, security lead, infra/SRE lead
 **Resolves:** the per-chain concretisation of [ADR-0001](0001-chain-indexing-build-vs-buy.md) — which node clients and indexers run as the two independent in-house sources, and how the §3.3 two-source requirement is met chain-by-chain

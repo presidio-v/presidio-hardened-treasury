@@ -1,6 +1,6 @@
 # ADR-0003: GL adapter priority order — NetSuite vs QuickBooks vs SAP
 
-**Status:** Proposed
+**Status:** Accepted
 **Date:** 2026-06-07
 **Deciders:** CTO, design-partner success lead, first design-partner's controller (consulted)
 **Resolves:** spec v2 §9 open decision ("GL adapter priority order (NetSuite vs QuickBooks vs SAP) — driven by design-partner stack") · sequences the REQ-25 vendor I/O shims

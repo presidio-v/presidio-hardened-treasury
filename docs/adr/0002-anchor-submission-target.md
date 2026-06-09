@@ -1,6 +1,6 @@
 # ADR-0002: Anchor submission target — public chain vs RFC 3161 TSA
 
-**Status:** Proposed
+**Status:** Accepted
 **Date:** 2026-06-07
 **Deciders:** CTO, security lead, first design-partner's audit firm (consulted)
 **Resolves:** the concrete external-anchoring target for REQ-8 / §3.3 (the `AnchorMethod` choice already modeled in `treasury-anchor`)
