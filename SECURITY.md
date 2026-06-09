@@ -52,6 +52,10 @@ within 72 hours.
   is a state machine with no guessing transitions — a lost acknowledgment
   resolves exclusively through read-back evidence, and retries reuse the
   same content-derived idempotency key.
+  The GL adapter contract (`treasury-gl`, ADR-0003) makes read-back a
+  mandatory trait method, so an adapter that can post but cannot verify
+  what it posted cannot exist — the "verification-complete or not shipped"
+  rule is enforced by the type system, not by review.
 - Disclosure packs (`treasury-disclosure`) are content-addressed and carry
   an evidence-reproduction manifest: the sorted hash closure of everything
   a number depends on. Citing a pack hash cites the entire close; auditing
