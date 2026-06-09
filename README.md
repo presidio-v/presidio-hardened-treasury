@@ -29,6 +29,7 @@ that produced v2 are in [`docs/`](docs/)).
 | `treasury-chainsource` | Per-chain node+indexer abstraction (ADR-0004): chain-agnostic content-addressed address history; finality-gated two-source reconciliation (the §3.3 completeness control, divergence blocks close); reproducibility gate; **agreed-reconciliation → L1-observation mapping** (golden-vectored, ADR-0004 action item 5); fixture source for tests |
 | `treasury-disclosure` | The disclosure pack: roll-forwards that structurally cannot fail to roll, two-way valuation tie-out, content-addressed packs, evidence-reproduction manifest — the product |
 | `treasury-e2e` | The golden close: every stage of the pipeline in one quarter, asserting whole-close determinism (identical pack hash on rerun) |
+| `treasury-conformance` | Reusable contract suites the live I/O shims must pass: one parameterized `verify_*_contract` per seam (chain source, anchor submitter, GL adapter), run against the fixtures today and against real endpoints when they land — the same assertions, no live service required to define them |
 
 ## Structural guarantees (Phase 0)
 

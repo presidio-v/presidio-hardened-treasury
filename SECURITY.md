@@ -79,6 +79,14 @@ within 72 hours.
 - Whole-close determinism is tested end to end (`treasury-e2e`): the
   complete pipeline — ingestion through disclosure pack — runs twice and
   must produce identical artifact hashes.
+- Every live I/O shim is held to a written contract before it is trusted
+  (`treasury-conformance`): one parameterized suite per seam — chain
+  node+indexer, chain-wallet anchor submitter, GL adapter — asserts the
+  invariants the pure core assumes (a non-deterministic indexer, a wallet
+  reporting an unproven confirmation, a GL double-posting a retried key
+  all fail the suite). The same assertions run against the in-memory
+  fixtures today and against a real endpoint the day it is wired, so a
+  shim cannot enter the evidence path without first passing the contract.
 - Fail-closed defaults throughout: unassessed assets block valuation,
   missing prices block valuation, missing materiality thresholds queue
   everything, empty venue scope reports reject, unbalanced journal entries

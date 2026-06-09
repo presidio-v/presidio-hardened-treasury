@@ -1,0 +1,24 @@
+[package]
+name = "treasury-conformance"
+description = "Reusable contract (conformance) suites the live I/O shims must pass: one parameterized test body per seam (chain source, anchor submitter, GL adapter), run against the fixtures today and against real endpoints when they land"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+
+[dependencies]
+treasury-core = { workspace = true }
+treasury-evidence = { workspace = true }
+treasury-anchor = { workspace = true }
+treasury-chainsource = { workspace = true }
+treasury-gl = { workspace = true }
+treasury-posting = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+treasury-gaap = { workspace = true }
+
+[lints]
+workspace = true
