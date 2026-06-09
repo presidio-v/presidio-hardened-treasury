@@ -75,6 +75,8 @@ hung step fails fast instead of sitting for hours.
   <https://github.com/presidio-v/presidio-hardened-docs>.
 - See also [`SECURITY.md`](SECURITY.md) for the hardening baseline and
   vulnerability reporting.
+- **Auditor evidence guide:** [`docs/auditor-evidence-guide.md`](docs/auditor-evidence-guide.md)
+  — how an external auditor reconstructs and verifies a close from hashed inputs.
 
 ## Versioning
 
