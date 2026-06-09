@@ -56,6 +56,12 @@ Toolchain is pinned in `rust-toolchain.toml`. All first-party crates are
 `#![forbid(unsafe_code)]`; `cargo-deny` gates licenses, advisories, and
 registry sources in CI.
 
+Run `cargo fmt --all` before pushing: CI's `cargo fmt --all --check` is the
+only formatting gate (there is no auto-formatting bot — a bot commit pushed
+with the default token does not re-trigger required checks and leaves a PR
+stuck "waiting for status"). Every CI job carries a `timeout-minutes` so a
+hung step fails fast instead of sitting for hours.
+
 ## Requirements & SDLC
 
 - **Requirements baseline:** [`PRESIDIO-REQ.md`](PRESIDIO-REQ.md) — the
