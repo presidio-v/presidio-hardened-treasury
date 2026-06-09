@@ -67,6 +67,9 @@ hung step fails fast instead of sitting for hours.
 
 ## Requirements & SDLC
 
+- **Architecture overview:** [`ARCHITECTURE.md`](ARCHITECTURE.md) — the
+  claim-layer model, crate layering, the I/O seam/conformance boundary, and
+  how the pieces compose into a reproducible close.
 - **Requirements baseline:** [`PRESIDIO-REQ.md`](PRESIDIO-REQ.md) — the
   requirements view of the active spec, with delivery status per phase.
 - **Active spec (source of truth):** [`docs/treasury-suite-spec-v2.md`](docs/treasury-suite-spec-v2.md).

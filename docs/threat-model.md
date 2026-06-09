@@ -1,6 +1,6 @@
 # Threat Model — presidio-hardened-treasury
 
-**Status:** Phase 0 deliverable (REQ-34, spec v2 §3.8) · v0.3.0
+**Status:** Phase 0 deliverable (REQ-34, spec v2 §3.8) · authored v0.3.0, last reviewed v0.20.0
 **Method:** per-asset STRIDE, with explicit trust-boundary enumeration. The
 operator (us) is **inside** the threat model — controls that assume an honest
 operator are listed as residual risk, not as mitigations.
@@ -45,8 +45,9 @@ The assets are therefore informational and reputational:
 
 | Threat | Scenario | Control (structural) | Residual |
 |--------|----------|----------------------|----------|
-| Spoofing | Compromised venue endpoint serves forged history | Dual-source completeness checks (≥2 chain nodes / independent indexer, §3.3) | Single-source venues (exchange internal ledgers) — surfaced as lower-corroboration tier in reconciliation (§5 Tier 2) |
-| Tampering | Provider silently revises served history | Scheduled re-fetch + diff; revisions land as new L1 observations, trigger checkpoint supersession workflow | Detection latency = re-fetch cadence |
+| Spoofing | Compromised chain endpoint serves forged history | Two independent sources per chain must hash-match (`treasury-chainsource`, ADR-0004): BTC = Core + electrs/Fulcrum, ETH = reth + Erigon; a divergence names both sources and **blocks close**, never auto-reconciled. The independence axis sits where silent bugs live — at the indexer for Bitcoin, the whole execution client for Ethereum | Single-source venues (exchange internal ledgers) — surfaced as a lower-corroboration tier in reconciliation (§5 Tier 2) |
+| Tampering / silent omission | An indexer drops or revises settled movements (forgery *or* an ordinary indexing bug) | Settled history is content-addressed and compared by hash under a per-chain `FinalityPolicy` that excludes reorg churn; only a two-source-**agreed** history maps into an L1 observation (`book::draft_history_observation`); a divergence books nothing. Provider revisions land as new observations and trigger the checkpoint supersession workflow | Detection latency = re-fetch cadence; a bug *correlated across both* independent implementations (shared upstream) — bounded by choosing implementations that share no indexing code (ADR-0004) |
+| Reproducibility | A source returns different history for the same query (nondeterminism), so "reproduce byte-for-byte" silently breaks | The reproducibility gate re-queries each source and rejects any whose settled-history hash is not byte-identical; before any live shim is trusted it must pass the `treasury-conformance` chain-source contract (identity, reproducibility, settled-history stability as the tip advances, two-source agreement) — the same assertions the fixtures pass today | Live-only failure modes (reorg-time races, process-restart nondeterminism) covered by the `--ignored` integration job against a real node, not the in-memory fixture |
 | DoS / depth-bombs | Hostile JSON (floats, 1000-deep nesting) poisons hashing | Canonicalization rejects floats and caps depth (`treasury-evidence::canon`); rejected input never enters the ledger | — |
 | Elevation | "Read-only" key actually permits trading (venue scope bug) | **Egress allowlist** (`treasury-ingest`): non-matching requests cannot leave the network regardless of key capability; scope gate fails closed, incl. empty scope reports | Justified-POST entries are the audit-review hotspot; each carries a written justification in the hashed artifact |
 
@@ -79,7 +80,7 @@ The assets are therefore informational and reputational:
 |--------|----------|---------|----------|
 | Insider tampering | Operator rewrites history, re-hashes the chain | **External anchoring** (`treasury-anchor`): RFC 6962 heads committed outside our trust boundary; `verify_against` detects any anchored-prefix rewrite; coverage-monotonic log prevents quiet head shrinkage | Window between anchors; cadence is a disclosed audit parameter |
 | Insider exfiltration | Operator reads A1/A2 | Per-tenant encryption keys; dual-control prod data access; tenant-visible support-access transparency log (Phase 2, REQ-33) | Phase 0/1: hosting-provider trust documented in design-partner contracts |
-| Supply chain | Malicious dependency exfiltrates or corrupts | `cargo-deny` (registry pinning, advisories, license gate); `Cargo.lock` committed; minimal dependency surface (5 first-party crates, no I/O deps in the domain core); `#![forbid(unsafe_code)]` workspace-wide | Build-infrastructure compromise → reproducible builds + SLSA provenance (Phase 2, REQ-33) |
+| Supply chain | Malicious dependency exfiltrates or corrupts | `cargo-deny` (registry pinning, advisories, license gate); `Cargo.lock` committed; minimal third-party surface (the domain crates pull only serde/serde_json/sha2/hex/thiserror — no networking or I/O libraries in the accounting core; live integrations sit behind traits as out-of-core shims); `#![forbid(unsafe_code)]` workspace-wide | Build-infrastructure compromise → reproducible builds + SLSA provenance (Phase 2, REQ-33) |
 | xpub theft | A2 from process memory or storage | xpubs never persisted; enclave derivation with per-session attestation (REQ-11, Phase 1; vendor open §9) | Until the enclave lands, design partners onboard with **per-address watch lists, not xpubs** — A2 never exists in the system in Phase 0 |
 
 ### B6 — Tenant isolation
