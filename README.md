@@ -79,6 +79,16 @@ hung step fails fast instead of sitting for hours.
 - **Auditor evidence guide:** [`docs/auditor-evidence-guide.md`](docs/auditor-evidence-guide.md)
   — how an external auditor reconstructs and verifies a close from hashed inputs.
 
+## Working with us
+
+The system is complete and verified end to end against deterministic fixtures: the full close runs twice and produces an identical disclosure-pack hash, every hash envelope is cross-checked against an independent implementation, and each live integration point already has a written conformance contract (`treasury-conformance`) a real endpoint must pass. What remains is wiring those seams to production infrastructure — and that is deliberately done with a partner's stack, not simulated in isolation.
+
+We are now selecting a small number of initial design partners for that step. We are specifically looking to work with institutional treasury operators and crypto-native funds carrying digital assets on their balance sheet; regulated financial institutions with crypto exposure and a real audit obligation; the external auditors and accounting firms who will sign the resulting close; the GL vendors whose systems receive the journal entries (NetSuite, SAP, QuickBooks); and the Bitcoin and Ethereum node and indexer infrastructure providers (Core, electrs, Fulcrum, reth, Erigon) who serve the on-chain evidence. Each maps to a defined adapter contract already in the codebase, so engagement is concrete from day one rather than open-ended.
+
+The use cases we want to validate with partners are equally specific: the first live quarterly close run end to end against real holdings and a real GL; an external auditor reconstructing and signing off on the evidence chain from a disclosure-pack hash alone, using the auditor evidence guide; and a multi-entity arrangement where independent operators reconcile against a shared, anchored evidence base. Partners bring the production stack, the holdings, and the audit relationship; we bring an audit-grade close architecture whose integrity properties are enforced by construction and already documented for the people who will scrutinise them.
+
+If your organisation fits one of these and you have a concrete close or audit you want to run against it, reach out to **vladimir@presidio-group.eu**.
+
 ## Versioning
 
 [Semantic Versioning](https://semver.org/). The authoritative version is the
