@@ -28,8 +28,12 @@ pub mod aggregation;
 pub mod log;
 pub mod pipeline;
 pub mod receipt;
+pub mod submitter;
 
 pub use aggregation::{aggregate, verify_inclusion, Aggregation, InclusionProof};
 pub use log::{AnchorError, AnchorLog};
 pub use pipeline::{AnchorPipeline, AnchorTarget, PipelineError, PipelineState};
 pub use receipt::{AnchorMethod, AnchorReceipt};
+pub use submitter::{
+    Broadcast, ChainAnchorSubmitter, Confirmation, FixtureChainSubmitter, SubmitterError,
+};
