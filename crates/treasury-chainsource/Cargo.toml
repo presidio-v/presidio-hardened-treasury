@@ -1,0 +1,19 @@
+[package]
+name = "treasury-chainsource"
+description = "Per-chain node+indexer abstraction (ADR-0004): normalized address history, finality-gated two-source reconciliation (the §3.3 completeness control), and the reproducibility gate"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+
+[dependencies]
+treasury-core = { workspace = true }
+treasury-evidence = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+
+[lints]
+workspace = true

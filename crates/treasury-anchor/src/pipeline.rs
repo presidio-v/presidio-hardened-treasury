@@ -230,6 +230,10 @@ pub enum PipelineError {
 }
 
 impl PipelineError {
+    // By-value is load-bearing: used as a `map_err(PipelineError::receipt)`
+    // callback, which is `FnOnce(CanonError) -> Self`; the variant holds a
+    // `String`, so the error is converted via `to_string`, not moved.
+    #[allow(clippy::needless_pass_by_value)]
     fn receipt(e: treasury_evidence::CanonError) -> Self {
         Self::Receipt(e.to_string())
     }

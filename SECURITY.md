@@ -56,6 +56,13 @@ within 72 hours.
   mandatory trait method, so an adapter that can post but cannot verify
   what it posted cannot exist — the "verification-complete or not shipped"
   rule is enforced by the type system, not by review.
+- Chain ingestion uses two independent in-house sources per chain
+  (`treasury-chainsource`, ADR-0004): their settled histories must hash-match
+  or the address blocks close — a divergence is surfaced for human resolution,
+  never auto-reconciled. The independence axis sits where silent bugs live
+  (the indexer for Bitcoin, the whole execution client for Ethereum), and a
+  reproducibility gate rejects any source whose re-query does not reproduce
+  its history hash.
 - Disclosure packs (`treasury-disclosure`) are content-addressed and carry
   an evidence-reproduction manifest: the sorted hash closure of everything
   a number depends on. Citing a pack hash cites the entire close; auditing

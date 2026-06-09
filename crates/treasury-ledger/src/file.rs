@@ -157,6 +157,10 @@ pub enum FileLedgerError {
 }
 
 impl FileLedgerError {
+    // By-value is load-bearing: used as a `map_err(FileLedgerError::io)`
+    // callback, which is `FnOnce(io::Error) -> Self`; the variant holds a
+    // `String`, so the error is converted via `to_string`, not moved.
+    #[allow(clippy::needless_pass_by_value)]
     fn io(e: std::io::Error) -> Self {
         Self::Io(e.to_string())
     }
