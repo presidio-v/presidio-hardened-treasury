@@ -24,7 +24,7 @@
 
 use crate::ContractViolation;
 use treasury_anchor::{
-    AnchorPipeline, AnchorReceipt, AnchorTarget, ChainAnchorSubmitter, PipelineState,
+    AnchorPipeline, AnchorPolicy, AnchorReceipt, AnchorTarget, ChainAnchorSubmitter, PipelineState,
 };
 use treasury_core::TimestampNs;
 
@@ -96,7 +96,7 @@ pub fn verify_anchor_submitter_contract<S: ChainAnchorSubmitter>(
     // Invariant 4: finalization is faithful.
     let proof = submitter.calendar_proof(&tx_ref).map_err(underlying)?;
     let receipts = pipeline
-        .finalize(required_depth, proof, anchored_at)
+        .finalize(&AnchorPolicy::new(required_depth), proof, anchored_at)
         .map_err(underlying)?;
     verify_receipt_coverage(target_count, &receipts)?;
     Ok(receipts)

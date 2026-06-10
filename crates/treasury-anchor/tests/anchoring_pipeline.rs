@@ -4,8 +4,8 @@
 //! no-guessing-transition discipline.
 
 use treasury_anchor::{
-    aggregate, verify_inclusion, AnchorLog, AnchorPipeline, AnchorTarget, PipelineError,
-    PipelineState,
+    aggregate, verify_inclusion, AnchorLog, AnchorPipeline, AnchorPolicy, AnchorTarget,
+    PipelineError, PipelineState,
 };
 use treasury_core::{ContentHash, TimestampNs};
 use treasury_evidence::{sha256, EvidenceStore, InMemoryEvidenceStore};
@@ -53,7 +53,7 @@ fn full_lifecycle_aggregates_submits_confirms_finalizes() {
 
     // Require depth 6; finalize emits one receipt per target.
     let proof_evidence = sha256(b"calendar-independent-proof");
-    let Ok(receipts) = pipeline.finalize(6, proof_evidence, ts(2_000)) else {
+    let Ok(receipts) = pipeline.finalize(&AnchorPolicy::new(6), proof_evidence, ts(2_000)) else {
         unreachable!("finalize at sufficient depth");
     };
     assert_eq!(receipts.len(), 3);
@@ -76,7 +76,7 @@ fn depth_below_threshold_refuses_to_finalize() {
         unreachable!("confirm"); // depth 3
     };
     assert_eq!(
-        pipeline.finalize(6, sha256(b"p"), ts(1)),
+        pipeline.finalize(&AnchorPolicy::new(6), sha256(b"p"), ts(1)),
         Err(PipelineError::InsufficientDepth {
             depth: 3,
             required: 6,
@@ -91,7 +91,7 @@ fn guessing_is_not_a_transition() {
     };
     // Cannot finalize before confirmation.
     assert_eq!(
-        pipeline.finalize(1, sha256(b"p"), ts(1)),
+        pipeline.finalize(&AnchorPolicy::new(1), sha256(b"p"), ts(1)),
         Err(PipelineError::InvalidTransition)
     );
     // Cannot confirm before submit.
@@ -161,7 +161,7 @@ fn receipts_append_to_log_in_coverage_order() {
     let Ok(()) = pipeline.confirmed(11, 16) else {
         unreachable!("confirm"); // depth 6
     };
-    let Ok(receipts) = pipeline.finalize(6, sha256(b"proof"), ts(100)) else {
+    let Ok(receipts) = pipeline.finalize(&AnchorPolicy::new(6), sha256(b"proof"), ts(100)) else {
         unreachable!("finalize");
     };
 

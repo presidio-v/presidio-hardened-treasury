@@ -6,7 +6,7 @@ architecture** is [`docs/treasury-suite-spec-v2.md`](docs/treasury-suite-spec-v2
 (active spec); this file is the requirements view of that spec, with delivery
 status per phase. Requirement IDs cite spec sections (`§n`).
 
-- **Active version:** 0.20.0 (workspace `[workspace.package].version`)
+- **Active version:** 0.21.0 (workspace `[workspace.package].version`)
 - **Phase:** 0 — Foundations (no UI)
 - **Accounting surface:** GAAP + IFRS architecturally day one; IFRS *delivery* Phase 3
 - **Audit posture:** Phase 1 = management's evidence-preparation tool (AS 1105);

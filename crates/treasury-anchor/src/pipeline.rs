@@ -13,6 +13,7 @@
 //! reference — ready to append to an [`crate::AnchorLog`].
 
 use crate::aggregation::{aggregate, Aggregation};
+use crate::policy::AnchorPolicy;
 use crate::receipt::{AnchorMethod, AnchorReceipt};
 use treasury_core::{ContentHash, TimestampNs};
 
@@ -144,17 +145,18 @@ impl AnchorPipeline {
         Ok(())
     }
 
-    /// Finalize: require `depth >= required_depth` and record the
-    /// calendar-independent proof. Produces one receipt per target,
-    /// sharing the transaction reference, ready for the anchor log.
+    /// Finalize: require `depth >= policy.required_depth` and record the
+    /// calendar-independent proof. Produces one receipt per target, sharing
+    /// the transaction reference, each committing to `policy`'s hash so the
+    /// confirmation threshold is in the audit trail. Ready for the log.
     ///
     /// # Errors
     /// [`PipelineError::InvalidTransition`] unless `Confirmed`;
     /// [`PipelineError::InsufficientDepth`] when the threshold is unmet;
-    /// [`PipelineError::Receipt`] if a receipt fails to hash.
+    /// [`PipelineError::Receipt`] if the policy or a receipt fails to hash.
     pub fn finalize(
         &mut self,
-        required_depth: u64,
+        policy: &AnchorPolicy,
         proof_evidence: ContentHash,
         anchored_at: TimestampNs,
     ) -> Result<Vec<AnchorReceipt>, PipelineError> {
@@ -162,12 +164,13 @@ impl AnchorPipeline {
             PipelineState::Confirmed { tx_ref, depth, .. } => (tx_ref.clone(), *depth),
             _ => return Err(PipelineError::InvalidTransition),
         };
-        if depth < required_depth {
+        if depth < policy.required_depth {
             return Err(PipelineError::InsufficientDepth {
                 depth,
-                required: required_depth,
+                required: policy.required_depth,
             });
         }
+        let confirmation_policy = policy.policy_hash().map_err(PipelineError::receipt)?;
         let mut receipts = Vec::with_capacity(self.targets.len());
         for target in &self.targets {
             let receipt = AnchorReceipt {
@@ -178,6 +181,7 @@ impl AnchorPipeline {
                     tx_ref: tx_ref.clone(),
                 },
                 anchored_at,
+                confirmation_policy,
             };
             // Surface a hashing failure rather than emitting a bad receipt.
             receipt.receipt_hash().map_err(PipelineError::receipt)?;
