@@ -55,8 +55,10 @@ proptest! {
     fn cross_asset_arithmetic_is_rejected(x in any::<i128>(), y in any::<i128>()) {
         let a = AssetAmount::new(AssetId::new("BTC"), x);
         let b = AssetAmount::new(AssetId::new("ETH"), y);
-        prop_assert!(matches!(a.checked_add(&b), Err(AmountError::AssetMismatch { .. })));
-        prop_assert!(matches!(a.checked_sub(&b), Err(AmountError::AssetMismatch { .. })));
+        let add_mismatch = matches!(a.checked_add(&b), Err(AmountError::AssetMismatch { .. }));
+        let sub_mismatch = matches!(a.checked_sub(&b), Err(AmountError::AssetMismatch { .. }));
+        prop_assert!(add_mismatch);
+        prop_assert!(sub_mismatch);
     }
 
     /// The canonical wire form round-trips: `deserialize(serialize(x)) == x`.

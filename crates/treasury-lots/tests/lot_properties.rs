@@ -66,7 +66,8 @@ proptest! {
             ContentHash([2; 32]),
             usd(0),
         );
-        prop_assert!(matches!(outcome, Err(LotError::InsufficientQuantity { .. })));
+        let is_insufficient = matches!(outcome, Err(LotError::InsufficientQuantity { .. }));
+        prop_assert!(is_insufficient);
     }
 
     /// Relieving zero is rejected — a disposal must move something.
