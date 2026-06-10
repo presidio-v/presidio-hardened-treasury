@@ -18,6 +18,12 @@ Phase-0 build ran as a continuous sequence, not dated releases.
 ## [Unreleased]
 
 ### Added
+- ADR-0005 (authentication and approval identity binding), ADR-0006
+  (enclave/HSM vendor for xpub derivation), ADR-0007 (multi-tenant serving layer
+  and side-channel posture), and ADR-0008 (IFRS measurement model) added as
+  Proposed ADRs under `docs/adr/`. **Why it matters:** the open decisions that
+  gate live infrastructure now have named, reviewable decision records rather
+  than living only in threat-model prose.
 - Property-based tests (`proptest`, dev-only) over the integer invariants the
   whole system rests on: basis conservation under partial lot relief
   (`treasury-lots`), checked-arithmetic-never-panics and canonical-wire
