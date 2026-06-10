@@ -26,11 +26,27 @@ Phase-0 build ran as a continuous sequence, not dated releases.
   "no rounding leak, no overflow panic, reproduces byte-for-byte" guarantees are
   now checked across thousands of generated cases, not just hand-picked examples.
 
+## [0.21.0] — Anchor confirmation depth as a content-addressed artifact
+
+### Added
+- `treasury-anchor::AnchorPolicy`: the anchor confirmation-depth threshold is now
+  a content-addressed artifact (ADR-0002 action item 6). `AnchorPipeline::finalize`
+  takes an `&AnchorPolicy` instead of a bare depth, and stamps the policy hash into
+  every receipt. **Why it matters:** changing the "how many confirmations before
+  anchored" threshold now changes the receipt hash, so the threshold an auditor
+  relies on is in the audit trail rather than a call-site constant.
+
 ### Changed
 - ADR action items (ADR-0001…0004) now carry honest status markers — shipped,
   domain-done-awaiting-live-infra, needs-ADR, or not-started — so the decision
   records reflect what is actually built versus what waits on a design partner's
   infrastructure. Added this changelog.
+
+### Breaking
+- The anchor receipt envelope gained a `confirmation_policy` field; its schema tag
+  is bumped to `treasury-anchor/receipt/v2` and receipt hashes change accordingly
+  (new golden vectors shipped). Anchor receipts written under v1 do not re-hash to
+  the same value — expected pre-1.0 while the evidence format stabilises.
 
 ## [0.20.0] — Conformance harness for the live I/O seams
 
