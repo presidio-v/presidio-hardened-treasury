@@ -17,6 +17,15 @@ Phase-0 build ran as a continuous sequence, not dated releases.
 
 ## [Unreleased]
 
+### Added
+- Property-based tests (`proptest`, dev-only) over the integer invariants the
+  whole system rests on: basis conservation under partial lot relief
+  (`treasury-lots`), checked-arithmetic-never-panics and canonical-wire
+  round-trips for money (`treasury-core`), and value-preserving canonicalization
+  for arbitrary float-free JSON (`treasury-evidence`). **Why it matters:** the
+  "no rounding leak, no overflow panic, reproduces byte-for-byte" guarantees are
+  now checked across thousands of generated cases, not just hand-picked examples.
+
 ## [0.21.0] — Anchor confirmation depth as a content-addressed artifact
 
 ### Added
