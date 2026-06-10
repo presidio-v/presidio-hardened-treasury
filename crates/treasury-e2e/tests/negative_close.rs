@@ -198,5 +198,11 @@ fn an_unbalanced_entry_is_unconstructible() {
         },
     ];
     let result = JournalEntry::new("manual", lines, ContentHash([3; 32]));
-    assert!(matches!(result, Err(EntryError::Unbalanced { debits: 100, credits: 50 })));
+    assert!(matches!(
+        result,
+        Err(EntryError::Unbalanced {
+            debits: 100,
+            credits: 50
+        })
+    ));
 }
