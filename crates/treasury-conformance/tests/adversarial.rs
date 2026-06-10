@@ -150,7 +150,10 @@ fn a_non_deterministic_source_fails_reproducibility() {
         flip: Cell::new(true),
     };
     let result = chain_source::verify_reproducible(&source, &btc_policy(), "bc1q-acme", 100);
-    assert!(matches!(result, Err(ContractViolation::NotReproducible { .. })));
+    assert!(matches!(
+        result,
+        Err(ContractViolation::NotReproducible { .. })
+    ));
 }
 
 #[test]
@@ -217,7 +220,10 @@ fn a_rewinding_tip_is_caught() {
         4,
         TimestampNs::from_nanos(1),
     );
-    assert!(matches!(result, Err(ContractViolation::HeightWentBackwards { .. })));
+    assert!(matches!(
+        result,
+        Err(ContractViolation::HeightWentBackwards { .. })
+    ));
 }
 
 #[test]
@@ -230,7 +236,10 @@ fn a_never_confirming_broadcast_fails_liveness() {
         8,
         TimestampNs::from_nanos(1),
     );
-    assert!(matches!(result, Err(ContractViolation::AnchorNeverConfirmed { .. })));
+    assert!(matches!(
+        result,
+        Err(ContractViolation::AnchorNeverConfirmed { .. })
+    ));
 }
 
 #[test]
@@ -238,7 +247,13 @@ fn a_short_receipt_set_is_caught() {
     // The pipeline upholds one-receipt-per-target by construction, so this
     // guard is exercised directly: two targets expected, none produced.
     let result = anchor_submitter::verify_receipt_coverage(2, &[]);
-    assert_eq!(result, Err(ContractViolation::ReceiptCountMismatch { expected: 2, found: 0 }));
+    assert_eq!(
+        result,
+        Err(ContractViolation::ReceiptCountMismatch {
+            expected: 2,
+            found: 0
+        })
+    );
 }
 
 // --- gl adapter adversaries ---------------------------------------------
@@ -334,12 +349,18 @@ fn batch() -> PostingBatch {
 fn a_readback_that_disagrees_is_caught() {
     let mut gl = MismatchGl;
     let result = gl_adapter::verify_readback_fidelity(&mut gl, &batch());
-    assert!(matches!(result, Err(ContractViolation::ReadbackMismatch { .. })));
+    assert!(matches!(
+        result,
+        Err(ContractViolation::ReadbackMismatch { .. })
+    ));
 }
 
 #[test]
 fn a_non_idempotent_submit_is_caught() {
     let mut gl = NonIdempotentGl { posted: false };
     let result = gl_adapter::verify_idempotent_submit(&mut gl, &batch());
-    assert!(matches!(result, Err(ContractViolation::NotIdempotent { .. })));
+    assert!(matches!(
+        result,
+        Err(ContractViolation::NotIdempotent { .. })
+    ));
 }
