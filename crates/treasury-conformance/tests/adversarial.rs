@@ -60,7 +60,7 @@ impl ChainSource for FlakySource {
         Chain::Bitcoin
     }
 
-    fn source_id(&self) -> &str {
+    fn source_id(&self) -> &'static str {
         "flaky"
     }
 
@@ -90,7 +90,7 @@ impl ChainSource for RewriteSource {
         Chain::Bitcoin
     }
 
-    fn source_id(&self) -> &str {
+    fn source_id(&self) -> &'static str {
         "rewriter"
     }
 
@@ -117,7 +117,7 @@ impl ChainSource for DownSource {
         Chain::Bitcoin
     }
 
-    fn source_id(&self) -> &str {
+    fn source_id(&self) -> &'static str {
         "down"
     }
 

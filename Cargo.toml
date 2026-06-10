@@ -22,7 +22,7 @@ members = [
 ]
 
 [workspace.package]
-version = "0.20.0"
+version = "0.21.0"
 edition = "2021"
 rust-version = "1.85"
 license = "MIT"
@@ -30,27 +30,30 @@ repository = "https://github.com/presidio-v/presidio-hardened-treasury"
 authors = ["PRESIDIO Group <vladimir@presidio-group.eu>"]
 
 [workspace.dependencies]
-treasury-core = { path = "crates/treasury-core", version = "0.20.0" }
-treasury-evidence = { path = "crates/treasury-evidence", version = "0.20.0" }
-treasury-ledger = { path = "crates/treasury-ledger", version = "0.20.0" }
-treasury-policy = { path = "crates/treasury-policy", version = "0.20.0" }
-treasury-lots = { path = "crates/treasury-lots", version = "0.20.0" }
-treasury-gaap = { path = "crates/treasury-gaap", version = "0.20.0" }
-treasury-fairvalue = { path = "crates/treasury-fairvalue", version = "0.20.0" }
-treasury-close = { path = "crates/treasury-close", version = "0.20.0" }
-treasury-anchor = { path = "crates/treasury-anchor", version = "0.20.0" }
-treasury-reconcile = { path = "crates/treasury-reconcile", version = "0.20.0" }
-treasury-scope = { path = "crates/treasury-scope", version = "0.20.0" }
-treasury-posting = { path = "crates/treasury-posting", version = "0.20.0" }
-treasury-gl = { path = "crates/treasury-gl", version = "0.20.0" }
-treasury-chainsource = { path = "crates/treasury-chainsource", version = "0.20.0" }
-treasury-disclosure = { path = "crates/treasury-disclosure", version = "0.20.0" }
-treasury-conformance = { path = "crates/treasury-conformance", version = "0.20.0" }
+treasury-core = { path = "crates/treasury-core", version = "0.21.0" }
+treasury-evidence = { path = "crates/treasury-evidence", version = "0.21.0" }
+treasury-ledger = { path = "crates/treasury-ledger", version = "0.21.0" }
+treasury-policy = { path = "crates/treasury-policy", version = "0.21.0" }
+treasury-lots = { path = "crates/treasury-lots", version = "0.21.0" }
+treasury-gaap = { path = "crates/treasury-gaap", version = "0.21.0" }
+treasury-fairvalue = { path = "crates/treasury-fairvalue", version = "0.21.0" }
+treasury-close = { path = "crates/treasury-close", version = "0.21.0" }
+treasury-anchor = { path = "crates/treasury-anchor", version = "0.21.0" }
+treasury-reconcile = { path = "crates/treasury-reconcile", version = "0.21.0" }
+treasury-scope = { path = "crates/treasury-scope", version = "0.21.0" }
+treasury-posting = { path = "crates/treasury-posting", version = "0.21.0" }
+treasury-gl = { path = "crates/treasury-gl", version = "0.21.0" }
+treasury-chainsource = { path = "crates/treasury-chainsource", version = "0.21.0" }
+treasury-disclosure = { path = "crates/treasury-disclosure", version = "0.21.0" }
+treasury-conformance = { path = "crates/treasury-conformance", version = "0.21.0" }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 sha2 = "0.11"
 hex = "0.4"
 thiserror = "2.0"
+# Dev-only: property-based testing. Minimal features to keep the dependency
+# (and license) surface small; never a non-dev dependency of any crate.
+proptest = { version = "1", default-features = false, features = ["std"] }
 
 [workspace.lints.rust]
 unsafe_code = "forbid"

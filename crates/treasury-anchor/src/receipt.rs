@@ -6,7 +6,7 @@ use treasury_core::{ContentHash, TimestampNs};
 use treasury_evidence::{canonical_bytes, sha256, CanonError};
 
 /// Schema tag committed into every receipt hash; bump on envelope change.
-pub const RECEIPT_SCHEMA: &str = "treasury-anchor/receipt/v1";
+pub const RECEIPT_SCHEMA: &str = "treasury-anchor/receipt/v2";
 
 /// Where the tree head was committed, outside our trust boundary.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -41,6 +41,10 @@ pub struct AnchorReceipt {
     pub method: AnchorMethod,
     /// When the anchor was made (knowledge time).
     pub anchored_at: TimestampNs,
+    /// Content hash of the [`crate::AnchorPolicy`] whose confirmation-depth
+    /// threshold gated this anchor — so the threshold used is itself in the
+    /// audit trail, not a call-site constant.
+    pub confirmation_policy: ContentHash,
 }
 
 impl AnchorReceipt {
@@ -57,6 +61,7 @@ impl AnchorReceipt {
             "entry_count": self.entry_count,
             "method": self.method.clone(),
             "anchored_at": self.anchored_at,
+            "confirmation_policy": self.confirmation_policy.to_hex(),
         });
         let bytes = canonical_bytes(&envelope)?;
         Ok(sha256(&bytes))
@@ -76,18 +81,24 @@ mod tests {
                 tx_ref: "f00d".to_owned(),
             },
             anchored_at: TimestampNs::from_nanos(1_000),
+            confirmation_policy: ContentHash([2; 32]),
         }
     }
 
     #[test]
-    fn hash_commits_to_head_and_count() {
+    fn hash_commits_to_head_count_and_policy() {
         let a = receipt();
         let mut b = receipt();
         b.entry_count = 43;
         let mut c = receipt();
         c.tree_head = ContentHash([2; 32]);
+        let mut d = receipt();
+        d.confirmation_policy = ContentHash([9; 32]);
         assert_ne!(a.receipt_hash(), b.receipt_hash());
         assert_ne!(a.receipt_hash(), c.receipt_hash());
+        // The confirmation-depth threshold is in the audit trail: change
+        // the policy, change the receipt.
+        assert_ne!(a.receipt_hash(), d.receipt_hash());
     }
 
     /// Golden vector — independently recomputed in Python from the
@@ -97,7 +108,7 @@ mod tests {
         let hash = receipt().receipt_hash().map(|h| h.to_hex());
         assert_eq!(
             hash.as_deref(),
-            Ok("edcf7ea0f53adb36032793cd29167a40647a444a8c8e764e26825ca3f21219d5")
+            Ok("5dbd2632810803c6a9b4f0b827a87f59b834e387f1e06cbc9a48e1b8b14c7528")
         );
     }
 }
