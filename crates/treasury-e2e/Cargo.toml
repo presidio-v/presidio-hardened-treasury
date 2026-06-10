@@ -25,6 +25,7 @@ treasury-fairvalue = { workspace = true }
 treasury-gaap = { workspace = true }
 treasury-posting = { workspace = true }
 treasury-disclosure = { workspace = true }
+treasury-chainsource = { workspace = true }
 serde_json = { workspace = true }
 
 [lints]
