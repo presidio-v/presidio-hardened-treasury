@@ -98,11 +98,28 @@ pub fn verify_anchor_submitter_contract<S: ChainAnchorSubmitter>(
     let receipts = pipeline
         .finalize(required_depth, proof, anchored_at)
         .map_err(underlying)?;
-    if receipts.len() != target_count {
+    verify_receipt_coverage(target_count, &receipts)?;
+    Ok(receipts)
+}
+
+/// The finalization invariant: exactly one receipt per anchored target.
+///
+/// The pipeline upholds this by construction (it emits one receipt per
+/// target), so a healthy run can never violate it — the guard is exposed
+/// as its own function so the invariant is directly testable and a faulty
+/// finalizer that dropped or duplicated a receipt would be caught.
+///
+/// # Errors
+/// [`ContractViolation::ReceiptCountMismatch`] when the counts differ.
+pub fn verify_receipt_coverage(
+    expected: usize,
+    receipts: &[AnchorReceipt],
+) -> Result<(), ContractViolation> {
+    if receipts.len() != expected {
         return Err(ContractViolation::ReceiptCountMismatch {
-            expected: target_count,
+            expected,
             found: receipts.len(),
         });
     }
-    Ok(receipts)
+    Ok(())
 }
