@@ -104,13 +104,15 @@ The residual common factor is honest and the same on both chains: both sources s
 
 ## Action Items
 
-1. [ ] Stand up BTC Source A (Core + electrs) and Source B (second Core + Fulcrum); wire both into the §3.3 history-divergence check.
-2. [ ] Stand up ETH Source A (reth) and Source B (Erigon + Otterscan/`ots_`); wire both history paths into the same check.
-3. [ ] Implement the **reproducibility gate** as each source's acceptance test: re-index a fixed block range twice → identical observation hashes (ADR-0001 action item 2).
-4. [ ] Author the per-chain **finality/confirmation-depth policy** as a content-addressed artifact (G-5, §3.5): BTC confirmation depth; ETH consensus-layer finality.
-5. [ ] Keep the indexer-output → L1-observation mapping minimal and golden-vectored (REQ-7), since it is the residual single point across both sources.
-6. [ ] Define divergence-rate monitoring + alerting per chain so a chronically diverging source pair is surfaced as a defect.
-7. [ ] Version-pin all four clients and both indexers; record the pins as part of the source's provenance.
+_Status as of v0.20.0 (main): `[x]` shipped · `[ ] *(domain done — awaiting live infra)*` pure-domain half built and tested, live integration pending · `[ ] *(needs ADR before coding)*` blocked on a decision · `[ ]` not started._
+
+1. [ ] *(domain done — awaiting live infra)* Stand up BTC Source A (Core + electrs) and Source B (second Core + Fulcrum); wire both into the §3.3 history-divergence check. *(the `ChainSource` trait, `reconcile` divergence check, and `FixtureSource` are built and conformance-tested; the live Core/electrs/Fulcrum nodes are the remaining I/O.)*
+2. [ ] *(domain done — awaiting live infra)* Stand up ETH Source A (reth) and Source B (Erigon + Otterscan/`ots_`); wire both history paths into the same check. *(same seam; the live reth + Erigon nodes are pending.)*
+3. [x] Implement the **reproducibility gate** as each source's acceptance test: re-index a fixed block range twice → identical observation hashes (ADR-0001 action item 2). *(done — `treasury-chainsource::reproducibility_gate`, golden-vectored and asserted by the conformance suite.)*
+4. [x] Author the per-chain **finality/confirmation-depth policy** as a content-addressed artifact (G-5, §3.5): BTC confirmation depth; ETH consensus-layer finality. *(done — `FinalityPolicy` (`ConfirmationDepth` / `ExternalFinalized`) with `policy_hash()`, golden-vectored.)*
+5. [x] Keep the indexer-output → L1-observation mapping minimal and golden-vectored (REQ-7), since it is the residual single point across both sources. *(done — `book::draft_history_observation`, only an agreed reconciliation books, golden-vectored — v0.19.0.)*
+6. [ ] *(domain done — awaiting live infra)* Define divergence-rate monitoring + alerting per chain so a chronically diverging source pair is surfaced as a defect. *(divergence detection is built — `Reconciliation::Diverged` names both sources and blocks close; the rate metric + alerting loop is live ops.)*
+7. [ ] *(domain done — awaiting live infra)* Version-pin all four clients and both indexers; record the pins as part of the source's provenance. *(the provenance mechanism exists — each observation records its `SourceId`; pinning real client/indexer versions needs the live deployments.)*
 
 -----
 
