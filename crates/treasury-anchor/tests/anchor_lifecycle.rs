@@ -22,6 +22,7 @@ fn receipt_for<S: EvidenceStore>(store: &S, at: i64, token: u8) -> AnchorReceipt
         entry_count: store.len() as u64,
         method: tsa(token),
         anchored_at: ts(at),
+        confirmation_policy: ContentHash([6; 32]),
     }
 }
 
@@ -67,6 +68,7 @@ fn receipt_beyond_store_is_detected() {
         entry_count: 5,
         method: tsa(1),
         anchored_at: ts(100),
+        confirmation_policy: ContentHash([6; 32]),
     });
     assert!(matches!(
         log.verify_against(&store),

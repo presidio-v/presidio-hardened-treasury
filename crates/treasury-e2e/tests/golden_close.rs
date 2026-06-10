@@ -3,7 +3,7 @@
 
 use serde_json::json;
 use std::collections::BTreeMap;
-use treasury_anchor::{AnchorLog, AnchorMethod, AnchorReceipt};
+use treasury_anchor::{AnchorLog, AnchorMethod, AnchorPolicy, AnchorReceipt};
 use treasury_close::{state_root, CheckpointDag, CheckpointDraft, PeriodId};
 use treasury_core::{
     ActorId, AssetAmount, AssetId, ContentHash, SourceId, TenantId, TimestampNs, VenueId,
@@ -359,6 +359,7 @@ fn run_close() -> CloseArtifacts {
             token_hash: ContentHash([0xA1; 32]),
         },
         anchored_at: ts(1_100),
+        confirmation_policy: ok!(AnchorPolicy::new(6).policy_hash()),
     };
     let receipt_hash = ok!(receipt.receipt_hash());
     let mut anchor_log = AnchorLog::new();
