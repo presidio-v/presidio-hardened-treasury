@@ -15,7 +15,9 @@ use treasury_core::{ActorId, AssetAmount, AssetId, ContentHash, TenantId, Timest
 use treasury_fairvalue::{value_book, FvError, PriceSnapshot};
 use treasury_gaap::{EntryError, JournalEntry, JournalLine, Side, StatementLine};
 use treasury_lots::LotBook;
-use treasury_scope::{CriteriaAssessment, CriterionStatus, GateDecision, ScopeAssessment, ScopeGate};
+use treasury_scope::{
+    CriteriaAssessment, CriterionStatus, GateDecision, ScopeAssessment, ScopeGate,
+};
 
 fn tenant() -> TenantId {
     TenantId::new("acme")
