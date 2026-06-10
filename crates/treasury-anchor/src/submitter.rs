@@ -169,6 +169,7 @@ impl ChainAnchorSubmitter for FixtureChainSubmitter {
 mod tests {
     use super::*;
     use crate::pipeline::{AnchorPipeline, AnchorTarget, PipelineState};
+    use crate::policy::AnchorPolicy;
     use treasury_core::TimestampNs;
 
     fn target(byte: u8, entry_count: u64) -> AnchorTarget {
@@ -218,8 +219,11 @@ mod tests {
         let Ok(proof) = submitter.calendar_proof(&broadcast.tx_ref) else {
             unreachable!("proof available after confirmation");
         };
-        let Ok(receipts) = pipeline.finalize(required_depth, proof, TimestampNs::from_nanos(1))
-        else {
+        let Ok(receipts) = pipeline.finalize(
+            &AnchorPolicy::new(required_depth),
+            proof,
+            TimestampNs::from_nanos(1),
+        ) else {
             unreachable!("depth threshold met");
         };
         assert_eq!(receipts.len(), 2);
