@@ -104,12 +104,14 @@ That said, legal admissibility is a real, separable need some auditors/jurisdict
 
 ## Action Items
 
-1. [ ] Implement the anchoring pipeline as the I/O layer driving `treasury-anchor`: Merkle-aggregate sealed tree heads, submit one Bitcoin transaction per aggregation period, and **upgrade receipts to calendar-independent proofs** post-confirmation.
-2. [ ] Add **confirmation-liveness monitoring**: an alert when a submitted anchor has not confirmed within N blocks, so a never-confirmed anchor cannot become a silent coverage gap.
-3. [ ] Submit and verify via the self-hosted Bitcoin node (ADR-0001); treat public OTS calendars as optional redundancy only.
-4. [ ] Represent the "anchoring-pending" window honestly in the disclosure/evidence-reproduction UX.
-5. [ ] Specify the optional RFC 3161 path: when a tenant elects it, obtain a TSA token over the same tree head and record a second receipt; document the per-tenant election (mirrors the ADR-0001 optional-tertiary pattern).
-6. [ ] Capture the confirmation-depth used for "anchored" as part of, or alongside, the per-chain finality policy (G-5, §3.5) so the anchoring threshold is itself a documented artifact.
+_Status as of v0.20.0 (main): `[x]` shipped · `[ ] *(domain done — awaiting live infra)*` pure-domain half built and tested, live integration pending · `[ ] *(needs ADR before coding)*` blocked on a decision · `[ ]` not started._
+
+1. [ ] *(domain done — awaiting live infra)* Implement the anchoring pipeline as the I/O layer driving `treasury-anchor`: Merkle-aggregate sealed tree heads, submit one Bitcoin transaction per aggregation period, and **upgrade receipts to calendar-independent proofs** post-confirmation. *(`AnchorPipeline` does the aggregation, the submission state machine, and the post-confirmation proof upgrade — v0.16.0; the live Bitcoin wallet behind the `ChainAnchorSubmitter` seam is the remaining I/O.)*
+2. [ ] *(domain done — awaiting live infra)* Add **confirmation-liveness monitoring**: an alert when a submitted anchor has not confirmed within N blocks, so a never-confirmed anchor cannot become a silent coverage gap. *(`AnchorPipeline::is_overdue` computes the overdue condition; the alerting loop that polls it is live ops.)*
+3. [ ] *(domain done — awaiting live infra)* Submit and verify via the self-hosted Bitcoin node (ADR-0001); treat public OTS calendars as optional redundancy only. *(the `ChainAnchorSubmitter` seam + its `treasury-conformance` contract define what the node integration must satisfy; the node itself is pending.)*
+4. [ ] *(domain done — awaiting live infra)* Represent the "anchoring-pending" window honestly in the disclosure/evidence-reproduction UX. *(the window is modeled by `PipelineState::Submitted` + `is_overdue` and a pack carries an optional anchor receipt; the auditor-facing presentation is Phase 1.)*
+5. [ ] *(needs ADR before coding)* Specify the optional RFC 3161 path: when a tenant elects it, obtain a TSA token over the same tree head and record a second receipt; document the per-tenant election (mirrors the ADR-0001 optional-tertiary pattern). *(the receipt type exists — `AnchorMethod::Rfc3161Tsa` — but the qualified-TSA vendor and per-tenant election are an open decision.)*
+6. [ ] Capture the confirmation-depth used for "anchored" as part of, or alongside, the per-chain finality policy (G-5, §3.5) so the anchoring threshold is itself a documented artifact. *(not started — depth is still a bare `AnchorPipeline::finalize` argument, not yet folded into the content-addressed `FinalityPolicy`; pure-Rust, ready to build.)*
 
 -----
 

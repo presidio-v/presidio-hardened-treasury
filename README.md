@@ -101,7 +101,7 @@ Pre-1.0 (`0.x`): minor versions may carry breaking changes while the ledger and
 evidence formats stabilize through Phase 0–1; releases are gated by audit reality,
 not feature count (roadmap: spec v2 §7). Event-identity hashing and canonical-JSON
 rules are a compatibility surface — any change to them is breaking and ships with
-new golden vectors.
+new golden vectors. Per-version history is in [`CHANGELOG.md`](CHANGELOG.md).
 
 ## License
 

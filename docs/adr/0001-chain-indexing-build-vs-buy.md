@@ -108,10 +108,12 @@ The cost argument cuts toward B/C at the wedge: "at scale, self-hosting is signi
 
 ## Action Items
 
+_Status as of v0.20.0 (main): `[x]` shipped · `[ ] *(domain done — awaiting live infra)*` pure-domain half built and tested, live integration pending · `[ ] *(needs ADR before coding)*` blocked on a decision · `[ ]` not started._
+
 1. [ ] Confirm the Phase-1 chain set with design partners (unblocks client selection) — §9.
-2. [ ] Follow-on ADR-0002: per-chain node client + deterministic indexer selection, with the reproducibility test (re-index a fixed block range twice → identical observation hashes) as the acceptance gate.
-3. [ ] Specify the in-house second-source corroboration as the concrete §3.3 completeness control (which two implementations, what diff cadence, how a divergence surfaces — ties into the existing re-fetch + diff workflow).
-4. [ ] Write the per-chain finality/confirmation-depth policy as a content-addressed artifact (G-5, §3.5).
+2. [x] Follow-on ADR-0002: per-chain node client + deterministic indexer selection, with the reproducibility test (re-index a fixed block range twice → identical observation hashes) as the acceptance gate. *(done — landed as **ADR-0004**; `treasury-chainsource::reproducibility_gate` is the acceptance gate, golden-vectored.)*
+3. [ ] *(domain done — awaiting live infra)* Specify the in-house second-source corroboration as the concrete §3.3 completeness control (which two implementations, what diff cadence, how a divergence surfaces — ties into the existing re-fetch + diff workflow). *(`reconcile` is the completeness control — divergence is named and blocks close; the two implementations are fixed by ADR-0004; the re-fetch/diff cadence is the live scheduling loop.)*
+4. [x] Write the per-chain finality/confirmation-depth policy as a content-addressed artifact (G-5, §3.5). *(done — `treasury-chainsource::FinalityPolicy` with `policy_hash()`, golden-vectored.)*
 5. [ ] Define the optional third-party tertiary's contract: address scoping, egress-allowlist entries, rate limits, tenant consent language, and the disclosure of its privacy cost.
 6. [ ] Stand up the firewalled demo profile (public RPC, throwaway addresses) with a written guarantee it cannot reach tenant data or production ingestion.
 

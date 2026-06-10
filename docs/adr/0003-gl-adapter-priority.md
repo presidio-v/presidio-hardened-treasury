@@ -101,12 +101,14 @@ The restraint point is the real differentiator decision. It would be easy to cha
 
 ## Action Items
 
+_Status as of v0.20.0 (main): `[x]` shipped · `[ ] *(domain done — awaiting live infra)*` pure-domain half built and tested, live integration pending · `[ ] *(needs ADR before coding)*` blocked on a decision · `[ ]` not started._
+
 1. [ ] **Confirm the committed Phase-1 design partners' GLs** — this input governs the actual build order and overrides the default (§9).
-2. [ ] Per-vendor **protocol-fit spike** before building each adapter: verify the idempotency mechanism (stable external id / dedup) and the **read-back query** fidelity needed for two-way verification — NetSuite first.
-3. [ ] Build the NetSuite adapter as the default first shim: `JournalEntry` → SuiteTalk/REST with external id; read posted entries back into the protocol's `verify` step.
-4. [ ] Build QuickBooks Online second (or first, if a partner forces it), with explicit attention to making idempotency hold given its weaker native support.
+2. [ ] *(domain done — awaiting live infra)* Per-vendor **protocol-fit spike** before building each adapter: verify the idempotency mechanism (stable external id / dedup) and the **read-back query** fidelity needed for two-way verification — NetSuite first. *(the `GlAdapter` contract the spike validates against is built and conformance-tested; the spike needs live vendor sandbox access.)*
+3. [ ] *(domain done — awaiting live infra)* Build the NetSuite adapter as the default first shim: `JournalEntry` → SuiteTalk/REST with external id; read posted entries back into the protocol's `verify` step. *(trait + lifecycle orchestration + `FixtureGl` + `treasury-conformance` GL contract done — v0.17.0; the concrete NetSuite shim is live I/O.)*
+4. [ ] *(domain done — awaiting live infra)* Build QuickBooks Online second (or first, if a partner forces it), with explicit attention to making idempotency hold given its weaker native support. *(same seam; the QuickBooks shim is live I/O.)*
 5. [ ] Hold SAP until a specific partner requires it; scope it then.
-6. [ ] Encode the "verification-complete or not shipped" rule as an adapter acceptance gate: no adapter ships that can post but cannot read back.
+6. [x] Encode the "verification-complete or not shipped" rule as an adapter acceptance gate: no adapter ships that can post but cannot read back. *(done — `read_back` is a mandatory trait method, so a post-only adapter cannot implement `GlAdapter`; the `treasury-conformance` GL contract additionally fails any adapter that does not drive-verify.)*
 
 -----
 
