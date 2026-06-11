@@ -31,6 +31,14 @@ Phase-0 build ran as a continuous sequence, not dated releases.
   for arbitrary float-free JSON (`treasury-evidence`). **Why it matters:** the
   "no rounding leak, no overflow panic, reproduces byte-for-byte" guarantees are
   now checked across thousands of generated cases, not just hand-picked examples.
+- Extended the property suites to the remaining integrity-critical crates: the
+  ledger's hash chain stays verifiable under any valid append sequence, `as_of`
+  returns exactly the booked-by-T prefix, and knowledge time is strictly
+  monotonic (`treasury-ledger`); an anchored tree-head prefix is immutable under
+  later appends and the Merkle root commits to leaf order (`treasury-evidence`);
+  and a partial inter-venue transfer conserves total basis and quantity
+  (`treasury-lots`). **Why it matters:** the append-only/anchored-prefix and
+  non-realizing-transfer guarantees an auditor relies on are now property-checked.
 
 ## [0.21.0] — Anchor confirmation depth as a content-addressed artifact
 
