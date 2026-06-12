@@ -70,6 +70,9 @@ hung step fails fast instead of sitting for hours.
 - **Architecture overview:** [`ARCHITECTURE.md`](ARCHITECTURE.md) — the
   claim-layer model, crate layering, the I/O seam/conformance boundary, and
   how the pieces compose into a reproducible close.
+- **Project visualisation:** [`docs/flows.html`](docs/flows.html) — an
+  x402-style browser map of the main close flows, crates, seam contracts, and
+  fail-closed blockers; machine-readable source in [`docs/flows.json`](docs/flows.json).
 - **Requirements baseline:** [`PRESIDIO-REQ.md`](PRESIDIO-REQ.md) — the
   requirements view of the active spec, with delivery status per phase.
 - **Active spec (source of truth):** [`docs/treasury-suite-spec-v2.md`](docs/treasury-suite-spec-v2.md).

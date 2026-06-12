@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>presidio-hardened-treasury — main flows</title>
+<style>
+  :root{
+    --bg:#0e1116; --panel:#161b22; --panel-2:#1c222c; --border:#2a313c;
+    --text:#e6edf3; --muted:#8b949e; --accent:#7ee787; --accent-2:#79c0ff;
+    --warn:#f0883e; --crit:#f85149; --code:#0a0d12;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--text);font:14px/1.55 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif}
+  a{color:var(--accent-2);text-decoration:none}
+  a:hover{text-decoration:underline}
+  header{padding:28px 40px 14px;border-bottom:1px solid var(--border)}
+  header h1{margin:0 0 4px;font-size:22px;font-weight:600}
+  header .meta{color:var(--muted);font-size:13px}
+  main{display:grid;grid-template-columns:240px 1fr;gap:0;min-height:calc(100vh - 80px)}
+  nav{border-right:1px solid var(--border);padding:18px 18px 40px;position:sticky;top:0;align-self:start;height:100vh;overflow-y:auto}
+  nav h3{font-size:11px;font-weight:600;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;margin:18px 0 6px}
+  nav ul{list-style:none;padding:0;margin:0}
+  nav li a{display:block;padding:5px 8px;border-radius:4px;color:var(--text)}
+  nav li a:hover{background:var(--panel)}
+  nav li a.active{background:var(--panel-2);color:var(--accent)}
+  section.flow,section.intro{padding:28px 40px;max-width:1120px;border-bottom:1px solid var(--border)}
+  section.flow h2,.intro h2{margin:0 0 4px;font-size:18px;font-weight:600;color:var(--accent)}
+  .summary{color:var(--muted);margin-bottom:14px}
+  .entry{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:12px;color:var(--accent-2);background:var(--code);padding:6px 10px;border-radius:4px;display:inline-block;margin-bottom:14px}
+  pre.diagram{background:var(--code);color:var(--text);border:1px solid var(--border);padding:14px 16px;border-radius:6px;overflow-x:auto;font:12px/1.5 "SF Mono",Menlo,Consolas,monospace;margin:10px 0 18px}
+  ol.steps{list-style:none;counter-reset:step;padding:0;margin:0}
+  ol.steps li{position:relative;padding:10px 12px 10px 44px;border-left:2px solid var(--border);margin-left:14px;counter-increment:step}
+  ol.steps li::before{content:counter(step);position:absolute;left:-15px;top:10px;width:28px;height:28px;border-radius:50%;background:var(--panel-2);border:1px solid var(--border);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:12px}
+  ol.steps li .label{font-weight:600}
+  ol.steps li .where{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:11px;color:var(--accent-2);margin-left:8px}
+  ol.steps li .detail{display:block;color:var(--muted);margin-top:2px}
+  ul.bullets{margin:8px 0 0;padding:0;list-style:none}
+  ul.bullets li{padding:4px 0 4px 18px;position:relative;color:var(--muted)}
+  ul.bullets li::before{content:"›";position:absolute;left:0;color:var(--accent)}
+  ul.errors li::before{content:"✕";color:var(--crit)}
+  table.components,table.guards{border-collapse:collapse;width:100%;margin-top:10px;font-size:13px}
+  table.components th,table.components td,table.guards th,table.guards td{padding:8px 10px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
+  table.components th,table.guards th{color:var(--muted);font-weight:500;font-size:11px;letter-spacing:.06em;text-transform:uppercase}
+  table.components code,table.guards code{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:12px;color:var(--accent-2)}
+  table.components td,table.guards td{overflow-wrap:anywhere}
+  .pill{display:inline-block;font-size:11px;padding:2px 8px;border-radius:999px;background:var(--panel-2);color:var(--muted);margin-right:6px}
+  .modes,.items{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px;margin-top:8px}
+  .mode-card,.item-card{background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:10px 12px}
+  .mode-card .name,.item-card .name{font-weight:600;color:var(--accent)}
+  .item-card .meta{font-size:11px;color:var(--muted);margin-top:2px}
+  #error{display:none;margin:20px 40px;padding:12px 16px;background:#3b1d1d;border:1px solid var(--crit);border-radius:6px;color:#ffd7d7}
+  @media (max-width:760px){
+    header{padding:20px 18px 12px}
+    main{display:block;min-height:auto}
+    nav{position:relative;height:auto;border-right:0;border-bottom:1px solid var(--border);padding:12px 18px}
+    nav ul{display:flex;flex-wrap:wrap;gap:4px}
+    nav li a{padding:4px 7px}
+    section.flow,section.intro{padding:22px 18px;max-width:none}
+    .entry{max-width:100%;white-space:normal;word-break:break-word}
+    .modes,.items{grid-template-columns:1fr}
+    table.components,table.guards{font-size:12px}
+    table.components th,table.components td,table.guards th,table.guards td{padding:7px}
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1 id="proj-name">presidio-hardened-treasury — main flows</h1>
+  <div class="meta" id="proj-meta">loading…</div>
+</header>
+<div id="error"></div>
+<main>
+  <nav>
+    <h3>Flows</h3>
+    <ul id="nav-flows"></ul>
+    <h3>Components</h3>
+    <ul id="nav-components"><li><a href="#components">module map</a></li></ul>
+  </nav>
+  <div id="content"></div>
+</main>
+
+<script id="flows-data" type="application/json">{
+  "project": {
+    "name": "presidio-hardened-treasury",
+    "version": "0.21.0",
+    "purpose": "Audit-grade crypto treasury close for public DAT companies and institutional operators. The system turns hashed observations, policy artifacts, judgments, valuations, journal entries, checkpoints, and external anchors into a disclosure pack an auditor can reproduce byte-for-byte.",
+    "layout": {
+      "Cargo.toml": "Rust workspace manifest. The version here is the single source of truth.",
+      "crates/treasury-core/": "Domain primitives: typed IDs, integer money, bitemporal timestamps, dual control, content hashes.",
+      "crates/treasury-evidence/ + crates/treasury-ledger/": "The substrate: float-rejecting canonical evidence store and append-only claim-layered ledger.",
+      "crates/treasury-chainsource/ + crates/treasury-ingest/": "Read-only ingestion core: chain histories, finality, two-source completeness, egress allowlists, key-scope validation.",
+      "crates/treasury-reconcile/ + crates/treasury-scope/": "Close gates: internal-transfer classification, dual-control designation, ASU 2023-08 scope assessment.",
+      "crates/treasury-lots/ + crates/treasury-fairvalue/": "Measurement engine: integer lots, basis-preserving transfers, price snapshots, fair-value reports.",
+      "crates/treasury-gaap/ + crates/treasury-posting/ + crates/treasury-gl/": "Accounting output: balanced journal entries, dual-control release, idempotent GL posting, mandatory read-back.",
+      "crates/treasury-close/ + crates/treasury-anchor/ + crates/treasury-disclosure/": "Close finalization: checkpoint DAG, external anchoring, content-addressed disclosure pack and auditor manifest.",
+      "crates/treasury-conformance/ + crates/treasury-e2e/": "Verification layer: one contract suite per live I/O seam and the deterministic golden close.",
+      "docs/": "Active spec, ADRs, threat model, auditor evidence guide, adversarial reviews."
+    }
+  },
+  "components": [
+    { "id": "core", "module": "crates/treasury-core/", "role": "IDs, integer money, checked arithmetic, timestamps, actor/tenant/source/venue newtypes, dual-control queue, ContentHash." },
+    { "id": "evidence", "module": "crates/treasury-evidence/", "role": "Canonical JSON with float/depth rejection, SHA-256 addressing, RFC 6962 Merkle tree heads, file-backed evidence store." },
+    { "id": "ledger", "module": "crates/treasury-ledger/", "role": "Bitemporal append-only event ledger with per-tenant hash chains, claim-layer provenance, supersession, durable replay verification." },
+    { "id": "policy", "module": "crates/treasury-policy/", "role": "Content-addressed approval-signed policy artifacts, activation timelines, valuation key over lots, price snapshot, and policy hash." },
+    { "id": "chainsource", "module": "crates/treasury-chainsource/", "role": "Pure-domain chain source abstraction, finality policies, reproducibility gate, two-source history reconciliation, L1 observation drafting." },
+    { "id": "ingest", "module": "crates/treasury-ingest/", "role": "Read-only egress allowlist and venue key-scope validator. Deny by default; unknown or trading scopes fail closed." },
+    { "id": "reconcile", "module": "crates/treasury-reconcile/", "role": "Tiered internal-transfer matcher, close blockers, auto-net L2 booking, dual-control confirmation queue, non-purchase designation." },
+    { "id": "scope", "module": "crates/treasury-scope/", "role": "ASU 2023-08 six-criterion scope gate. Confirmed in-scope assets proceed; unassessed, undetermined, or out-of-scope assets block." },
+    { "id": "lots", "module": "crates/treasury-lots/", "role": "Integer lot book, fee decomposition, specific/FIFO relief, basis-preserving internal transfers, lots_hash input to valuation." },
+    { "id": "fairvalue", "module": "crates/treasury-fairvalue/", "role": "Integer-exact valuation as a pure function of lots, price snapshot, and principal-market policy hash. Missing prices fail closed." },
+    { "id": "gaap", "module": "crates/treasury-gaap/", "role": "GAAP L4 module. Balanced journal entries are constructed by type; ASU 2023-08 fair-value marks route to net income." },
+    { "id": "posting", "module": "crates/treasury-posting/", "role": "Vendor-neutral posting protocol with content-derived idempotency key, dual-control release, Unknown state, and read-back verification." },
+    { "id": "gl", "module": "crates/treasury-gl/", "role": "GL adapter contract and fixture GL. Read-back is a required trait method, so a post-only adapter cannot exist." },
+    { "id": "close", "module": "crates/treasury-close/", "role": "Closed-period checkpoint DAG. Supersession is append-only and requires reason plus materiality memo." },
+    { "id": "anchor", "module": "crates/treasury-anchor/", "role": "Coverage-monotonic anchor log, Merkle aggregation, submission lifecycle, depth gating, overdue-liveness." },
+    { "id": "disclosure", "module": "crates/treasury-disclosure/", "role": "Roll-forward rows that must roll, two-way valuation tie-out, content-addressed disclosure pack, evidence manifest." },
+    { "id": "conformance", "module": "crates/treasury-conformance/", "role": "Reusable contract suites for ChainSource, ChainAnchorSubmitter, and GlAdapter; fixtures pass today, live shims must pass before trust." },
+    { "id": "e2e", "module": "crates/treasury-e2e/", "role": "Golden close across every stage. Runs the quarter twice and asserts identical artifact hashes." }
+  ],
+  "flows": [
+    {
+      "id": "golden-close",
+      "name": "Quarterly Close Pipeline",
+      "summary": "The end-to-end path exercised by treasury-e2e: fixture-backed observations enter the ledger, the close gates classify and measure them, GL output is verified, the period is sealed, and the disclosure pack commits to every referenced hash.",
+      "entry": "crates/treasury-e2e/tests/golden_close.rs:run_close",
+      "diagram": [
+        "raw evidence + fixtures",
+        "        |",
+        "        v",
+        "EvidenceStore -> L1 Ledger observations -> Reconciliation -> Scope gate",
+        "        |                                      |              |",
+        "        |                                      v              v",
+        "        |                                L2 auto-net     L3 judgments",
+        "        v",
+        "Lots + PriceSnapshot + Policy -> Valuation -> GAAP entries -> Posting protocol -> Fixture GL read-back",
+        "        |                         |              |",
+        "        v                         v              v",
+        "Checkpoint DAG --------------> Anchor receipt -> Disclosure pack -> Auditor manifest"
+      ],
+      "steps": [
+        { "n": 1, "label": "Register policies", "where": "treasury-policy", "detail": "Principal-market and designation policies are content-addressed and activated on the tenant timeline." },
+        { "n": 2, "label": "Book L1 observations", "where": "treasury-ledger + treasury-evidence", "detail": "Purchase, withdrawal, deposit, and staking reward payloads are evidence-hashed before entering the append-only ledger." },
+        { "n": 3, "label": "Reconcile internal transfer", "where": "treasury-reconcile", "detail": "Withdrawal/deposit pair auto-nets as a tier-0 internal transfer and books an L2 derived fact." },
+        { "n": 4, "label": "Resolve human judgments", "where": "treasury-reconcile + treasury-scope", "detail": "Staking reward designation and BTC scope assessment both require distinct preparer/approver actors and book as L3 judgments." },
+        { "n": 5, "label": "Build lots and value book", "where": "treasury-lots + treasury-fairvalue", "detail": "Acquisition, internal transfer, reward lot, and price snapshot produce a deterministic valuation hash." },
+        { "n": 6, "label": "Emit accounting outputs", "where": "treasury-gaap", "detail": "Acquisition and remeasurement entries are structurally balanced and book as L4 policy outputs." },
+        { "n": 7, "label": "Post and read back", "where": "treasury-posting + treasury-gl", "detail": "The posting batch is released under dual control, submitted by idempotency key, then verified by read-back fingerprint." },
+        { "n": 8, "label": "Seal and anchor", "where": "treasury-close + treasury-anchor", "detail": "The checkpoint commits to the ledger state root; the anchor receipt commits to the evidence-store tree head." },
+        { "n": 9, "label": "Publish disclosure pack", "where": "treasury-disclosure", "detail": "Roll-forward rows must tie to valuation, and the manifest closes over checkpoint, valuation, policy, anchor, and entry hashes." },
+        { "n": 10, "label": "Assert determinism", "where": "treasury-e2e", "detail": "The full close runs twice and every final artifact hash matches byte-for-byte." }
+      ],
+      "notes": [
+        "The current golden close uses deterministic fixtures, not live blockchain or GL endpoints.",
+        "The same pure-domain assertions become live integration gates through treasury-conformance."
+      ]
+    },
+    {
+      "id": "chain-ingestion",
+      "name": "Chain Evidence Completeness",
+      "summary": "Chain ingestion deliberately stops at a pure trait seam. Two independent sources produce settled address histories; the hashes must match before an L1 observation can be booked.",
+      "entry": "crates/treasury-chainsource/src/reconcile.rs",
+      "diagram": [
+        "BTC: Core + electrs/Fulcrum      ETH: reth + Erigon",
+        "             |                              |",
+        "             v                              v",
+        "        ChainSource trait              ChainSource trait",
+        "             |                              |",
+        "             +---------- normalized AddressHistory --------+",
+        "                                                           |",
+        "FinalityPolicy -> settled prefix -> history hash comparison",
+        "                                                           |",
+        "                   match -> draft L1 observation",
+        "                divergence -> named close blocker"
+      ],
+      "steps": [
+        { "n": 1, "label": "Normalize history", "where": "AddressHistory", "detail": "Movements are chain-agnostic, integer-only, canonically ordered, and content-addressed." },
+        { "n": 2, "label": "Apply finality", "where": "FinalityPolicy", "detail": "Bitcoin uses confirmation depth; Ethereum uses an externally supplied finalized height." },
+        { "n": 3, "label": "Re-query source", "where": "reproducibility_gate", "detail": "The same source must return the same settled-history hash for the same query." },
+        { "n": 4, "label": "Compare independent sources", "where": "reconcile", "detail": "Two settled histories must hash-match. A divergence names both sources and blocks close." },
+        { "n": 5, "label": "Book agreed history", "where": "draft_history_observation", "detail": "Only an agreed reconciliation maps to an L1 ledger observation." }
+      ],
+      "errors": [
+        "WrongChain — source reports a chain other than the configured chain",
+        "NotReproducible — re-query changes the settled-history hash",
+        "Diverged — independent histories disagree; close blocks, nothing is booked",
+        "Unsettled movement — excluded from comparison until finality policy admits it"
+      ]
+    },
+    {
+      "id": "claim-ledger",
+      "name": "Claim-Layer Ledger",
+      "summary": "Every booked fact is classified by claim layer, and the layer dictates admissible provenance. Corrections supersede; they never mutate the old fact.",
+      "entry": "crates/treasury-ledger/src/event.rs + crates/treasury-ledger/src/ledger.rs",
+      "diagram": [
+        "L1 observation  -> evidence hash + source",
+        "L2 derived fact -> input event ids + code/config hash",
+        "L3 judgment     -> preparer + distinct approver + policy hash",
+        "L4 output       -> policy hash + input closure",
+        "        |",
+        "        v",
+        "append-only per-tenant hash chain + bitemporal as_of queries"
+      ],
+      "steps": [
+        { "n": 1, "label": "Draft event", "where": "EventDraft", "detail": "Tenant, layer, event time, supersession edge, provenance, and canonical payload define the proposed fact." },
+        { "n": 2, "label": "Validate provenance", "where": "Ledger::append", "detail": "The ledger rejects layer/provenance mismatches, missing approvers, cross-layer supersession, and float payloads." },
+        { "n": 3, "label": "Seal identity", "where": "SealedEvent", "detail": "The event id commits to the canonical envelope and previous per-tenant event id." },
+        { "n": 4, "label": "Query bitemporally", "where": "Ledger::as_of", "detail": "Knowledge-time queries answer what the books said at filing time versus what they say after correction." },
+        { "n": 5, "label": "Verify chain", "where": "Ledger::verify_chain", "detail": "Mutation, insertion, or deletion after append breaks the recomputed hash chain." }
+      ]
+    },
+    {
+      "id": "reconciliation",
+      "name": "Internal Transfer Reconciliation",
+      "summary": "The matcher is biased toward false negatives: an ambiguous leg blocks close instead of being mis-booked as a disposal and acquisition.",
+      "entry": "crates/treasury-reconcile/src/matcher.rs",
+      "diagram": [
+        "venue / chain legs",
+        "       |",
+        "       v",
+        "deterministic matcher",
+        "       |",
+        "       +-- Tier 0: same tx hash -----------------> auto-net L2",
+        "       +-- Tier 1: amount-fee + time + address --> auto-net below materiality, queue above",
+        "       +-- Tier 2: ambiguity or weak signal -----> dual-control queue",
+        "       +-- unmatched leg ------------------------> close blocker"
+      ],
+      "steps": [
+        { "n": 1, "label": "Sort deterministically", "where": "match_legs", "detail": "Legs are processed by event time and leg id so reordering inputs cannot change results." },
+        { "n": 2, "label": "Classify by corroboration tier", "where": "MatchProposal", "detail": "Tiers are discrete classes, not numeric confidence scores." },
+        { "n": 3, "label": "Auto-net only where defensible", "where": "draft_auto_net", "detail": "Tier-0 and below-materiality tier-1 matches can book L2 derived facts." },
+        { "n": 4, "label": "Queue material judgments", "where": "ConfirmationQueue", "detail": "Queued matches require a preparer and a distinct approver before booking." },
+        { "n": 5, "label": "Designate non-purchase inflows", "where": "DesignationQueue", "detail": "Staking rewards and similar non-purchase acquisitions book as L3 judgments only after dual control." }
+      ],
+      "errors": [
+        "Ambiguity — no auto-net; queue or block close",
+        "Mixed tenants — rejected before matching",
+        "Missing materiality threshold — fail closed to queue",
+        "Preparer self-confirmation — rejected by dual control",
+        "Unmatched leg — blocks period close until classified"
+      ]
+    },
+    {
+      "id": "valuation-posting",
+      "name": "Valuation to GL Posting",
+      "summary": "Measurement and posting stay deterministic: valuation is keyed by lots, price snapshot, and policy hash; GL release and verification are state-machine transitions.",
+      "entry": "crates/treasury-fairvalue/src/valuation.rs + crates/treasury-posting/src/protocol.rs",
+      "diagram": [
+        "LotBook.lots_hash + PriceSnapshot.hash + Policy.hash",
+        "             |",
+        "             v",
+        "        Valuation report",
+        "             |",
+        "             v",
+        "GAAP entries (balanced by construction)",
+        "             |",
+        "             v",
+        "PostingBatch hash == idempotency key",
+        "             |",
+        "             v",
+        "dual-control release -> submit -> Unknown/Posted -> read-back verify"
+      ],
+      "steps": [
+        { "n": 1, "label": "Measure positions", "where": "value_book", "detail": "All arithmetic is integer minor units and checked i128; prices are rational integer pairs." },
+        { "n": 2, "label": "Fail on missing price", "where": "PriceSnapshot", "detail": "No engine default or stale fallback can silently value an asset." },
+        { "n": 3, "label": "Build balanced entries", "where": "JournalEntry::new", "detail": "Debits and credits must balance in one currency or the value is unconstructible." },
+        { "n": 4, "label": "Register batch", "where": "PostingBatch", "detail": "The batch hash commits to tenant, target GL, period, and entry hashes; it is the retry idempotency key." },
+        { "n": 5, "label": "Release under dual control", "where": "PostingProtocol::release", "detail": "Posting cannot begin until an approver distinct from the preparer releases the batch." },
+        { "n": 6, "label": "Verify read-back", "where": "PostingProtocol::verify", "detail": "The GL read-back fingerprint must equal the batch fingerprint both directions; mismatches name missing and unexpected entries." }
+      ],
+      "errors": [
+        "MissingPrice — valuation refuses to produce a report",
+        "CurrencyMismatch — basis and snapshot currencies differ",
+        "UnbalancedEntry — journal entry cannot be constructed",
+        "ReleaseRequiresDualControl — posting cannot start",
+        "ReadbackMismatch — posted GL entries do not match the batch"
+      ]
+    },
+    {
+      "id": "evidence-anchoring",
+      "name": "Evidence, Anchoring, and Auditor Reproduction",
+      "summary": "Hash chaining alone is not enough because the operator is inside the threat model. The evidence tree head is anchored outside the trust boundary, and the disclosure pack tells an auditor exactly what to fetch and recompute.",
+      "entry": "crates/treasury-evidence/ + crates/treasury-anchor/ + crates/treasury-disclosure/",
+      "diagram": [
+        "evidence blobs -> canonical bytes -> SHA-256 content addresses",
+        "      |",
+        "      v",
+        "RFC 6962 tree head -> Merkle aggregation -> ChainAnchorSubmitter",
+        "      |                                     |",
+        "      v                                     v",
+        "AnchorLog verifies prefix coverage       confirmed receipt",
+        "      |                                     |",
+        "      +-------------- DisclosurePack manifest --------------+",
+        "                                     |",
+        "                                     v",
+        "                         auditor: fetch, recompute, compare"
+      ],
+      "steps": [
+        { "n": 1, "label": "Canonicalize inputs", "where": "treasury-evidence::canon", "detail": "JSON payloads are sorted, compact, depth-capped, and reject floats." },
+        { "n": 2, "label": "Store by hash", "where": "EvidenceStore::put", "detail": "Durable stores verify every blob against its recorded hash on open." },
+        { "n": 3, "label": "Commit tree head", "where": "merkle_root", "detail": "The evidence store's RFC 6962 head summarizes the append-only evidence prefix." },
+        { "n": 4, "label": "Aggregate and submit", "where": "AnchorPipeline", "detail": "Multiple heads can be aggregated into one anchor target while preserving per-head inclusion proofs." },
+        { "n": 5, "label": "Gate on confirmations", "where": "AnchorPolicy", "detail": "Anchored status requires sufficient depth; submitted-but-unconfirmed anchors can become overdue instead of silent gaps." },
+        { "n": 6, "label": "Reproduce from pack hash", "where": "DisclosurePack::manifest", "detail": "The manifest is the sorted closure of every artifact hash required to reproduce the close." }
+      ],
+      "errors": [
+        "FloatRejected — non-deterministic numeric input cannot become evidence",
+        "CoverageRegression — anchor entry count cannot move backward",
+        "DepthBelowThreshold — receipt is not final enough to trust",
+        "OverdueAnchor — submission liveness gap is visible",
+        "TieBreak — disclosure rows do not tie to valuation"
+      ]
+    },
+    {
+      "id": "io-conformance",
+      "name": "Live I/O Conformance Boundary",
+      "summary": "Production integrations are deliberately outside the pure-domain crates. Before any real endpoint is trusted, it must pass the same conformance contract that fixtures pass today.",
+      "entry": "crates/treasury-conformance/src/lib.rs",
+      "steps": [
+        { "n": 1, "label": "Implement trait shim", "where": "ChainSource | GlAdapter | ChainAnchorSubmitter", "detail": "The live client lives out-of-core and reports normalized domain values into the pure system." },
+        { "n": 2, "label": "Run fixture contract", "where": "treasury-conformance/tests/conformance_self_test.rs", "detail": "Fixture self-tests prove the harness and in-memory implementations satisfy the seam invariants." },
+        { "n": 3, "label": "Run live endpoint contract", "where": "shim integration test", "detail": "A real endpoint must satisfy identity, reproducibility, liveness, idempotency, and read-back obligations before it enters the evidence path." },
+        { "n": 4, "label": "Keep residual honest", "where": "module docs", "detail": "Live-only failure modes are documented per seam, not claimed away by fixture tests." }
+      ],
+      "modes": [
+        { "name": "ChainSource", "detail": "Verifies non-empty source identity, correct chain, byte-for-byte reproducibility, settled-prefix stability, and two-source agreement." },
+        { "name": "ChainAnchorSubmitter", "detail": "Verifies idempotent submission, receipt completeness, confirmation liveness, and failure surfacing." },
+        { "name": "GlAdapter", "detail": "Verifies submit/read-back behavior, retry safety after lost acknowledgments, and mismatch detection." }
+      ],
+      "notes": [
+        "Fixture tests need no live service and can run with Docker networking disabled.",
+        "Future live blockchain integration jobs should use regtest or public testnet fixtures until a production partner explicitly provides real holdings and audit scope.",
+        "The pure close remains deterministic even when concrete I/O shims change."
+      ]
+    },
+    {
+      "id": "close-blockers",
+      "name": "Fail-Closed Close Blockers",
+      "summary": "The negative close tests document what the system refuses to guess about. In every case the safer behavior is to block close or reject construction.",
+      "entry": "crates/treasury-e2e/tests/negative_close.rs",
+      "guards": [
+        { "id": "B1", "condition": "Independent chain histories diverge", "blocks": "No L1 observation is booked; completeness gate blocks close.", "evidence": "treasury-chainsource + treasury-conformance" },
+        { "id": "B2", "condition": "Source changes settled history on re-query", "blocks": "Reproducibility gate rejects the source before booking.", "evidence": "reproducibility_gate" },
+        { "id": "B3", "condition": "Asset is unassessed, undetermined, or out of ASU 2023-08 scope", "blocks": "Valuation does not run for that asset.", "evidence": "treasury-scope" },
+        { "id": "B4", "condition": "Price snapshot lacks a held asset", "blocks": "Fair-value report is not emitted.", "evidence": "treasury-fairvalue" },
+        { "id": "B5", "condition": "Journal entry would not balance", "blocks": "Entry cannot be constructed.", "evidence": "treasury-gaap" },
+        { "id": "B6", "condition": "GL read-back differs from posted batch", "blocks": "Posting remains unverified and names the mismatch.", "evidence": "treasury-posting + treasury-gl" },
+        { "id": "B7", "condition": "Anchor submits but does not confirm in budget", "blocks": "Overdue state is visible; coverage gap is not silent.", "evidence": "treasury-anchor" }
+      ]
+    }
+  ]
+}</script>
+<script>
+(async function(){
+  const errEl = document.getElementById('error');
+  function showError(msg){ errEl.style.display='block'; errEl.textContent = msg; }
+
+  let data;
+  try {
+    const res = await fetch('flows.json', {cache:'no-store'});
+    if (!res.ok) throw new Error('http '+res.status);
+    data = await res.json();
+  } catch (e) {
+    try {
+      data = JSON.parse(document.getElementById('flows-data').textContent);
+    } catch (e2) {
+      showError('Could not load flows.json, and the inline fallback JSON could not be parsed.');
+      return;
+    }
+  }
+
+  document.getElementById('proj-name').textContent = data.project.name + ' — main flows';
+  document.getElementById('proj-meta').innerHTML =
+    '<span class="pill">v' + data.project.version + '</span>' + escapeHtml(data.project.purpose);
+
+  const navFlows = document.getElementById('nav-flows');
+  data.flows.forEach(f => {
+    const li = document.createElement('li');
+    li.innerHTML = '<a href="#'+f.id+'">'+escapeHtml(f.name)+'</a>';
+    navFlows.appendChild(li);
+  });
+
+  const root = document.getElementById('content');
+  root.insertAdjacentHTML('beforeend',
+    '<section class="intro" id="layout"><h2>Repository layout</h2>'+
+    '<p class="summary">Where each flow lives in the tree.</p>'+
+    '<table class="components"><tbody>'+
+      Object.entries(data.project.layout).map(([k,v]) =>
+        '<tr><td><code>'+escapeHtml(k)+'</code></td><td>'+escapeHtml(v)+'</td></tr>'
+      ).join('') +
+    '</tbody></table></section>'
+  );
+
+  root.insertAdjacentHTML('beforeend',
+    '<section class="intro" id="components"><h2>Component map</h2>'+
+    '<p class="summary">Crates referenced by the flows below.</p>'+
+    '<table class="components"><thead><tr><th>ID</th><th>Module</th><th>Role</th></tr></thead><tbody>'+
+      data.components.map(c =>
+        '<tr><td><strong>'+escapeHtml(c.id)+'</strong></td>'+
+        '<td><code>'+escapeHtml(c.module)+'</code></td>'+
+        '<td>'+escapeHtml(c.role)+'</td></tr>'
+      ).join('') +
+    '</tbody></table></section>'
+  );
+
+  data.flows.forEach(f => {
+    let html = '<section class="flow" id="'+f.id+'">';
+    html += '<h2>'+escapeHtml(f.name)+'</h2>';
+    if (f.summary) html += '<div class="summary">'+escapeHtml(f.summary)+'</div>';
+    if (f.entry) html += '<div class="entry">'+escapeHtml(f.entry)+'</div>';
+
+    if (f.diagram) {
+      html += '<pre class="diagram">'+f.diagram.map(escapeHtml).join('\n')+'</pre>';
+    }
+    if (f.steps) {
+      html += '<ol class="steps">';
+      f.steps.forEach(s => {
+        html += '<li><span class="label">'+escapeHtml(s.label)+'</span>'+
+                (s.where ? '<span class="where">'+escapeHtml(s.where)+'</span>' : '')+
+                (s.detail ? '<span class="detail">'+escapeHtml(s.detail)+'</span>' : '')+
+                '</li>';
+      });
+      html += '</ol>';
+    }
+    if (f.errors) {
+      html += '<h3 style="font-size:13px;margin:16px 0 4px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">Failure states</h3>';
+      html += '<ul class="bullets errors">'+f.errors.map(e =>
+        '<li>'+escapeHtml(e)+'</li>'
+      ).join('')+'</ul>';
+    }
+    if (f.events) {
+      html += '<h3 style="font-size:13px;margin:16px 0 4px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">Events</h3>';
+      html += '<ul class="bullets">'+f.events.map(e =>
+        '<li>'+escapeHtml(e)+'</li>'
+      ).join('')+'</ul>';
+    }
+    if (f.modes) {
+      html += '<div class="modes">'+f.modes.map(m =>
+        '<div class="mode-card"><div class="name">'+escapeHtml(m.name)+'</div>'+
+        '<div class="detail" style="color:var(--muted);font-size:13px;margin-top:4px">'+escapeHtml(m.detail)+'</div></div>'
+      ).join('')+'</div>';
+    }
+    if (f.items) {
+      html += '<div class="items">'+f.items.map(it =>
+        '<div class="item-card"><div class="name">'+escapeHtml(it.name)+'</div>'+
+        '<div class="meta"><code>'+escapeHtml(it.module)+'</code> · '+escapeHtml(it.framework||'')+'</div>'+
+        '<div class="detail" style="color:var(--muted);font-size:13px;margin-top:4px">'+escapeHtml(it.wraps||'')+'</div></div>'
+      ).join('')+'</div>';
+    }
+    if (f.guards) {
+      html += '<table class="guards"><thead><tr><th>ID</th><th>Condition</th><th>Blocks</th><th>Evidence</th></tr></thead><tbody>'+
+        f.guards.map(g =>
+          '<tr><td>'+escapeHtml(g.id)+'</td>'+
+          '<td>'+escapeHtml(g.condition)+'</td>'+
+          '<td>'+escapeHtml(g.blocks)+'</td>'+
+          '<td><code>'+escapeHtml(g.evidence)+'</code></td></tr>'
+        ).join('') +
+      '</tbody></table>';
+    }
+    if (f.notes) {
+      html += '<h3 style="font-size:13px;margin:16px 0 4px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">Notes</h3>';
+      html += '<ul class="bullets">'+f.notes.map(n =>
+        '<li>'+escapeHtml(n)+'</li>'
+      ).join('')+'</ul>';
+    }
+    html += '</section>';
+    root.insertAdjacentHTML('beforeend', html);
+  });
+
+  const links = Array.from(document.querySelectorAll('nav a'));
+  const targets = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(en => {
+      if (en.isIntersecting) {
+        links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#'+en.target.id));
+      }
+    });
+  }, {rootMargin:'-30% 0px -65% 0px'});
+  targets.forEach(t => obs.observe(t));
+
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+})();
+</script>
+</body>
+</html>
