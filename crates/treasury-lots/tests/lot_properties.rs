@@ -84,4 +84,33 @@ proptest! {
         );
         prop_assert!(matches!(outcome, Err(LotError::NonPositiveQuantity(0))));
     }
+
+    /// A partial transfer between venues conserves total basis and total
+    /// quantity — it moves value, it neither realizes nor loses any.
+    #[test]
+    fn transfer_conserves_total_basis_and_quantity(
+        (qty, move_qty) in (2_i128..100_000).prop_flat_map(|q| (Just(q), 1_i128..q)),
+        basis in 0_i128..1_000_000_000_000,
+    ) {
+        let mut book = book_with(qty, basis);
+        let Ok(_) = book.transfer(
+            &AssetId::new("BTC"),
+            &VenueId::new("v"),
+            &VenueId::new("cold"),
+            move_qty,
+            ContentHash([3; 32]),
+        ) else {
+            unreachable!("a partial transfer of less than held must succeed");
+        };
+        let total_basis = book
+            .open_lots()
+            .iter()
+            .fold(0_i128, |acc, lot| acc.saturating_add(lot.cost_basis.atoms()));
+        let total_qty = book
+            .open_lots()
+            .iter()
+            .fold(0_i128, |acc, lot| acc.saturating_add(lot.atoms));
+        prop_assert_eq!(total_basis, basis);
+        prop_assert_eq!(total_qty, qty);
+    }
 }
