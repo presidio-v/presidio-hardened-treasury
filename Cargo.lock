@@ -3,6 +3,18 @@
 version = 4
 
 [[package]]
+name = "autocfg"
+version = "1.5.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f2032f911046de80f0a198e0901378627c33f59ea0ac00e363d481118bd70a53"
+
+[[package]]
+name = "bitflags"
+version = "2.13.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b588b76d00fde79687d7646a9b5bdf3cc0f655e0bbd080335a95d7e96f3587da"
+
+[[package]]
 name = "block-buffer"
 version = "0.12.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -53,6 +65,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "getrandom"
+version = "0.3.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "899def5c37c4fd7b2664648c28120ecec138e4d395b459e5ca34f9cce2dd77fd"
+dependencies = [
+ "cfg-if",
+ "libc",
+ "r-efi",
+ "wasip2",
+]
+
+[[package]]
 name = "hex"
 version = "0.4.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -86,12 +110,45 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6b947ae49db0d222b1dbc6b113ce7248a3fc3a6ca21b696717bfc000ba4484d8"
 
 [[package]]
+name = "num-traits"
+version = "0.2.19"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "071dfc062690e90b734c0b2273ce72ad0ffa95f0c74596bc250dcfd960262841"
+dependencies = [
+ "autocfg",
+]
+
+[[package]]
+name = "ppv-lite86"
+version = "0.2.21"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "85eae3c4ed2f50dcfe72643da4befc30deadb458a9b590d720cde2f2b1e97da9"
+dependencies = [
+ "zerocopy",
+]
+
+[[package]]
 name = "proc-macro2"
 version = "1.0.106"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8fd00f0bb2e90d81d1044c2b32617f68fcb9fa3bb7640c23e9c748e53fb30934"
 dependencies = [
  "unicode-ident",
+]
+
+[[package]]
+name = "proptest"
+version = "1.11.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4b45fcc2344c680f5025fe57779faef368840d0bd1f42f216291f0dc4ace4744"
+dependencies = [
+ "bitflags",
+ "num-traits",
+ "rand",
+ "rand_chacha",
+ "rand_xorshift",
+ "regex-syntax",
+ "unarray",
 ]
 
 [[package]]
@@ -104,10 +161,60 @@ dependencies = [
 ]
 
 [[package]]
-name = "serde"
-version = "1.0.228"
+name = "r-efi"
+version = "5.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9a8e94ea7f378bd32cbbd37198a4a91436180c5bb472411e48b5ec2e2124ae9e"
+checksum = "69cdb34c158ceb288df11e18b4bd39de994f6657d83847bdffdbd7f346754b0f"
+
+[[package]]
+name = "rand"
+version = "0.9.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b9ef1d0d795eb7d84685bca4f72f3649f064e6641543d3a8c415898726a57b41"
+dependencies = [
+ "rand_chacha",
+ "rand_core",
+]
+
+[[package]]
+name = "rand_chacha"
+version = "0.9.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d3022b5f1df60f26e1ffddd6c66e8aa15de382ae63b3a0c1bfc0e4d3e3f325cb"
+dependencies = [
+ "ppv-lite86",
+ "rand_core",
+]
+
+[[package]]
+name = "rand_core"
+version = "0.9.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "76afc826de14238e6e8c374ddcc1fa19e374fd8dd986b0d2af0d02377261d83c"
+dependencies = [
+ "getrandom",
+]
+
+[[package]]
+name = "rand_xorshift"
+version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "513962919efc330f829edb2535844d1b912b0fbe2ca165d613e4e8788bb05a5a"
+dependencies = [
+ "rand_core",
+]
+
+[[package]]
+name = "regex-syntax"
+version = "0.8.11"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d6f6ff9a378485b298a5286656da665ba74413d36db0979633275d2e708145d4"
+
+[[package]]
+name = "serde"
+version = "1.0.229"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4148590afebada386688f18773da617792bf2ef03ffc1e4cbd2b1d45b023e0ba"
 dependencies = [
  "serde_core",
  "serde_derive",
@@ -115,22 +222,22 @@ dependencies = [
 
 [[package]]
 name = "serde_core"
-version = "1.0.228"
+version = "1.0.229"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "41d385c7d4ca58e59fc732af25c3983b67ac852c1a25000afe1175de458b67ad"
+checksum = "67dca2c9c51e58a4791a4b1ed58308b39c64224d349a935ab5039aa360942a48"
 dependencies = [
  "serde_derive",
 ]
 
 [[package]]
 name = "serde_derive"
-version = "1.0.228"
+version = "1.0.229"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d540f220d3187173da220f885ab66608367b6574e925011a9353e4badda91d79"
+checksum = "e7a5d71263a5a7d47b41f6b3f06ba276f10cc18b0931f1799f710578e2309348"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn",
+ "syn 3.0.0",
 ]
 
 [[package]]
@@ -169,6 +276,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "syn"
+version = "3.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f2fac314a64dc9a36e61a9eb4261a5e9bbfbc922b27e518af97bc32b926cf967"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "unicode-ident",
+]
+
+[[package]]
 name = "thiserror"
 version = "2.0.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -185,32 +303,12 @@ checksum = "ebc4ee7f67670e9b64d05fa4253e753e016c6c95ff35b89b7941d6b856dec1d5"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn",
+ "syn 2.0.117",
 ]
 
 [[package]]
-name = "treasury-core"
-version = "0.1.0"
-dependencies = [
- "hex",
- "serde",
- "serde_json",
- "thiserror",
-]
-
-[[package]]
-name = "treasury-evidence"
-version = "0.1.0"
-dependencies = [
- "serde_json",
- "sha2",
- "thiserror",
- "treasury-core",
-]
-
-[[package]]
-name = "treasury-ledger"
-version = "0.1.0"
+name = "treasury-anchor"
+version = "0.21.0"
 dependencies = [
  "serde",
  "serde_json",
@@ -220,16 +318,272 @@ dependencies = [
 ]
 
 [[package]]
+name = "treasury-chainsource"
+version = "0.21.0"
+dependencies = [
+ "serde",
+ "serde_json",
+ "thiserror",
+ "treasury-core",
+ "treasury-evidence",
+ "treasury-ledger",
+]
+
+[[package]]
+name = "treasury-close"
+version = "0.21.0"
+dependencies = [
+ "serde",
+ "serde_json",
+ "thiserror",
+ "treasury-core",
+ "treasury-evidence",
+ "treasury-ledger",
+]
+
+[[package]]
+name = "treasury-conformance"
+version = "0.21.0"
+dependencies = [
+ "thiserror",
+ "treasury-anchor",
+ "treasury-chainsource",
+ "treasury-core",
+ "treasury-evidence",
+ "treasury-gaap",
+ "treasury-gl",
+ "treasury-posting",
+]
+
+[[package]]
+name = "treasury-core"
+version = "0.21.0"
+dependencies = [
+ "hex",
+ "proptest",
+ "serde",
+ "serde_json",
+ "thiserror",
+]
+
+[[package]]
+name = "treasury-disclosure"
+version = "0.21.0"
+dependencies = [
+ "serde",
+ "serde_json",
+ "thiserror",
+ "treasury-core",
+ "treasury-evidence",
+ "treasury-fairvalue",
+ "treasury-lots",
+]
+
+[[package]]
+name = "treasury-e2e"
+version = "0.21.0"
+dependencies = [
+ "serde_json",
+ "treasury-anchor",
+ "treasury-chainsource",
+ "treasury-close",
+ "treasury-core",
+ "treasury-disclosure",
+ "treasury-evidence",
+ "treasury-fairvalue",
+ "treasury-gaap",
+ "treasury-ledger",
+ "treasury-lots",
+ "treasury-policy",
+ "treasury-posting",
+ "treasury-reconcile",
+ "treasury-scope",
+]
+
+[[package]]
+name = "treasury-evidence"
+version = "0.21.0"
+dependencies = [
+ "hex",
+ "proptest",
+ "serde_json",
+ "sha2",
+ "thiserror",
+ "treasury-core",
+]
+
+[[package]]
+name = "treasury-fairvalue"
+version = "0.21.0"
+dependencies = [
+ "serde",
+ "serde_json",
+ "thiserror",
+ "treasury-core",
+ "treasury-evidence",
+ "treasury-lots",
+ "treasury-policy",
+]
+
+[[package]]
+name = "treasury-gaap"
+version = "0.21.0"
+dependencies = [
+ "serde",
+ "serde_json",
+ "thiserror",
+ "treasury-core",
+ "treasury-evidence",
+ "treasury-ledger",
+]
+
+[[package]]
+name = "treasury-gl"
+version = "0.21.0"
+dependencies = [
+ "serde",
+ "serde_json",
+ "thiserror",
+ "treasury-core",
+ "treasury-evidence",
+ "treasury-gaap",
+ "treasury-posting",
+]
+
+[[package]]
+name = "treasury-ingest"
+version = "0.21.0"
+dependencies = [
+ "serde",
+ "serde_json",
+ "thiserror",
+ "treasury-core",
+ "treasury-evidence",
+]
+
+[[package]]
+name = "treasury-ledger"
+version = "0.21.0"
+dependencies = [
+ "proptest",
+ "serde",
+ "serde_json",
+ "thiserror",
+ "treasury-core",
+ "treasury-evidence",
+]
+
+[[package]]
+name = "treasury-lots"
+version = "0.21.0"
+dependencies = [
+ "proptest",
+ "serde",
+ "serde_json",
+ "thiserror",
+ "treasury-core",
+ "treasury-evidence",
+]
+
+[[package]]
+name = "treasury-policy"
+version = "0.21.0"
+dependencies = [
+ "serde",
+ "serde_json",
+ "thiserror",
+ "treasury-core",
+ "treasury-evidence",
+]
+
+[[package]]
+name = "treasury-posting"
+version = "0.21.0"
+dependencies = [
+ "serde",
+ "serde_json",
+ "thiserror",
+ "treasury-core",
+ "treasury-evidence",
+ "treasury-gaap",
+]
+
+[[package]]
+name = "treasury-reconcile"
+version = "0.21.0"
+dependencies = [
+ "serde",
+ "serde_json",
+ "thiserror",
+ "treasury-core",
+ "treasury-evidence",
+ "treasury-ledger",
+]
+
+[[package]]
+name = "treasury-scope"
+version = "0.21.0"
+dependencies = [
+ "serde",
+ "serde_json",
+ "thiserror",
+ "treasury-core",
+ "treasury-evidence",
+ "treasury-ledger",
+]
+
+[[package]]
 name = "typenum"
 version = "1.20.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b6f5e870be6c3b371b77fe0ee0bafb859fa4964b4404c27de1d380043c4dda20"
 
 [[package]]
+name = "unarray"
+version = "0.1.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "eaea85b334db583fe3274d12b4cd1880032beab409c0d774be044d4480ab9a94"
+
+[[package]]
 name = "unicode-ident"
 version = "1.0.24"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e6e4313cd5fcd3dad5cafa179702e2b244f760991f45397d14d4ebf38247da75"
+
+[[package]]
+name = "wasip2"
+version = "1.0.4+wasi-0.2.12"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b67efb37e106e55ce722a510d6b5f9c17f083e5fc79afc2badeb12cc313d9487"
+dependencies = [
+ "wit-bindgen",
+]
+
+[[package]]
+name = "wit-bindgen"
+version = "0.57.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1ebf944e87a7c253233ad6766e082e3cd714b5d03812acc24c318f549614536e"
+
+[[package]]
+name = "zerocopy"
+version = "0.8.54"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b7cbbc0a705a0fd05cc3676525980d2bf5a9bc4adac6d6475209a7887cf59d19"
+dependencies = [
+ "zerocopy-derive",
+]
+
+[[package]]
+name = "zerocopy-derive"
+version = "0.8.54"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e2e817b7b52d0c7358d3246da9d69935ebb18116b2b102b4230dac079b4862f5"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.117",
+]
 
 [[package]]
 name = "zmij"
