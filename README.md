@@ -78,8 +78,11 @@ hung step fails fast instead of sitting for hours.
 - **Active spec (source of truth):** [`docs/treasury-suite-spec-v2.md`](docs/treasury-suite-spec-v2.md).
 - **Architecture Decision Records:** [`docs/adr/`](docs/adr/) — significant, hard-to-reverse decisions resolving the spec's §9 open questions.
 - Developed under the **presidio-hardened SDLC** (security posture is a design
-  constraint, not a backlog). Family SDLC documentation:
-  <https://github.com/presidio-v/presidio-hardened-docs>.
+  constraint, not a backlog), on its **open-source baseline**
+  ([report](https://github.com/presidio-v/presidio-hardened-docs/blob/main/sdlc/sdlc-report.md) ·
+  [PDF](https://github.com/presidio-v/presidio-hardened-docs/blob/main/sdlc/sdlc-report.pdf)). The controls measured for this
+  repository, and its open gaps, are its row in the
+  [applicability matrix](https://github.com/presidio-v/presidio-hardened-docs/blob/main/sdlc/applicability.md).
 - See also [`SECURITY.md`](SECURITY.md) for the hardening baseline and
   vulnerability reporting.
 - **Auditor evidence guide:** [`docs/auditor-evidence-guide.md`](docs/auditor-evidence-guide.md)
