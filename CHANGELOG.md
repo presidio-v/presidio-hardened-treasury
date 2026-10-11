@@ -18,6 +18,14 @@ Phase-0 build ran as a continuous sequence, not dated releases.
 ## [Unreleased]
 
 ### Added
+- `ARCHITECTURE.md` gained "The research frame: a proof-carrying close": the
+  disclosure pack named as a proof-carrying transaction of the quarterly close,
+  per the Computational Jurisprudence research program (Stantchev, arXiv 2026),
+  with the two deliberate narrowings stated (evidence signed and visible, not
+  zero-knowledge; external audit as the dispute layer — no bonded optimistic
+  tier). **Why it matters:** positions the close architecture inside a citable
+  research frame without changing any code or any claim about what the system
+  does.
 - ADR-0005 (authentication and approval identity binding), ADR-0006
   (enclave/HSM vendor for xpub derivation), ADR-0007 (multi-tenant serving layer
   and side-channel posture), and ADR-0008 (IFRS measurement model) added as
