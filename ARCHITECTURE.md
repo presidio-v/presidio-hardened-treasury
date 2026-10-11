@@ -199,6 +199,23 @@ adapters, the Bitcoin anchor wallet, and the enclave-based xpub derivation
 its conformance contract before it is trusted. The presentation layer (the
 auditor-facing reproduction UX) is likewise Phase 1.
 
+## The research frame: a proof-carrying close
+
+The disclosure pack is a proof-carrying transaction whose action is the
+quarterly close. The pattern is the one named in the Computational Jurisprudence
+research program (Stantchev, arXiv 2026): the producer of an artifact bears the
+cost of constructing evidence, the consumer verifies at fixed cost, and the
+evidence is portable — an auditor reconstructs the close from the pack hash
+alone (the [auditor evidence guide](docs/auditor-evidence-guide.md)), against
+the anchor rather than against us, once the live anchor wallet ships in Phase 1
+(until then the anchoring pipeline runs against fixtures). Two deliberate
+narrowings keep the claim honest. Evidence here is signed and visible, not
+zero-knowledge; a quarterly close carries no privacy-versus-accountability
+tension to reconcile. And there is no bonded optimistic tier, because the
+external audit is the dispute layer and no economic counterparty exists to
+slash. Pre-hoc authorization-with-evidence across trust domains is the program;
+the close is its accounting instantiation.
+
 ## Further reading
 
 - [`docs/treasury-suite-spec-v2.md`](docs/treasury-suite-spec-v2.md) — the active spec (source of truth).
