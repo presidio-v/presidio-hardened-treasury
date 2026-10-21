@@ -24,7 +24,7 @@ members = [
 [workspace.package]
 version = "0.21.0"
 edition = "2021"
-rust-version = "1.85"
+rust-version = "1.88"
 license = "MIT"
 repository = "https://github.com/presidio-v/presidio-hardened-treasury"
 authors = ["PRESIDIO Group <vladimir@presidio-group.eu>"]

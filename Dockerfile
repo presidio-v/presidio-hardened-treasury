@@ -1,6 +1,6 @@
 # Multi-stage for clean test image, but single for simplicity + full env.
 # Use the exact pinned Rust version from rust-toolchain.toml
-FROM rust:1.85.0-slim
+FROM rust:1.88.0-slim
 
 # Install build essentials (for any native deps, though this workspace is mostly pure Rust)
 RUN apt-get update && apt-get install -y --no-install-recommends \
