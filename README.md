@@ -96,7 +96,7 @@ We are now selecting a small number of initial design partners for that step. We
 
 The use cases we want to validate with partners are equally specific: the first live quarterly close run end to end against real holdings and a real GL; an external auditor reconstructing and signing off on the evidence chain from a disclosure-pack hash alone, using the auditor evidence guide; and a multi-entity arrangement where independent operators reconcile against a shared, anchored evidence base. Partners bring the production stack, the holdings, and the audit relationship; we bring an audit-grade close architecture whose integrity properties are enforced by construction and already documented for the people who will scrutinise them.
 
-If your organisation fits one of these and you have a concrete close or audit you want to run against it, reach out to **vladimir@presidio-group.eu**.
+If your organisation fits one of these and you have a concrete close or audit you want to run against it, reach out to **office@presidio-group.eu**.
 
 ## Versioning
 
