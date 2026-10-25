@@ -16,8 +16,8 @@ Preconditions before submitting silver (each is a separate human gate):
 - passing badge earned;
 - `ceoofcyber` added as a write collaborator and code owner, and required
   code-owner review enabled on `main` (two-person gate);
-- a first signed release tag (`v0.22.0`) pushed, so `signed_releases` and
-  `version_tags_signed` can move from Unmet to Met.
+- a first signed release tag pushed — done: `v0.22.0`, shown as Verified on
+  GitHub.
 
 `REPO` = `https://github.com/presidio-v/presidio-hardened-treasury`.
 
@@ -108,8 +108,8 @@ Preconditions before submitting silver (each is a separate human gate):
 | `crypto_tls12` | **N/A** | No network communication. |
 | `crypto_certificate_verification` | **N/A** | No TLS client. |
 | `crypto_verification_private` | **N/A** | No network communication. |
-| `signed_releases` | **Unmet** | No release has been cut yet. Becomes Met with the first SSH-signed tag (`v0.22.0`), verifiable with `allowed_signers` as documented at `REPO/blob/main/SECURITY.md#verifying-releases-and-obtaining-public-signing-keys`. |
-| `version_tags_signed` | **Unmet** | As above: Met once release tags exist; each will be SSH-signed with the org key and shown as Verified on GitHub. |
+| `signed_releases` | **Met** | Releases are SSH-signed git tags; the first is `v0.22.0` (`REPO/releases/tag/v0.22.0`), Verified on GitHub and verifiable offline with `allowed_signers` as documented at `REPO/blob/main/SECURITY.md#verifying-releases-and-obtaining-public-signing-keys`. The project ships source only; there are no separate binary artifacts to sign. |
+| `version_tags_signed` | **Met** | Every release tag is SSH-signed with the org release key (`v0.22.0` onward; earlier versions were never tagged). `git tag -v v0.22.0` with `allowed_signers` checks it. |
 | `sites_password_security` | **N/A** | The project runs no site that stores passwords. |
 
 ## Analysis & monitoring
