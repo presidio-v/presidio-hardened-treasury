@@ -37,7 +37,7 @@ omitted rather than fabricated — the Phase-0 build ran as a continuous sequenc
   for the canonicalizer (`fuzz/`, 60 s per pull request), CodeQL for Rust and
   Actions, and a weekly OpenSSF Scorecard run; the Dockerfile base image is
   pinned by digest and tracked by Dependabot. `SECURITY.md` now lists the
-  supported line (0.21.x), the `security@` contact, reporter credit and how to
+  supported line (0.22.x), the `security@` contact, reporter credit and how to
   verify signed release tags. **Why it matters:** the repository now carries
   the same verifiable supply-chain and governance evidence as the other
   flagships, and the claims in it are limited to what the code and CI enforce.

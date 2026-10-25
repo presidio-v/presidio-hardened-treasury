@@ -74,7 +74,7 @@ Shorthand below: `REPO` = `https://github.com/presidio-v/presidio-hardened-treas
 |---|---|---|
 | `version_unique` | **Met** | A single workspace version (`[workspace.package].version` in `Cargo.toml`) identifies each version; `CHANGELOG.md` records one entry per version. |
 | `version_semver` | **Met** | URL: `REPO/blob/main/SEMVER.md` — Semantic Versioning with the documented pre-1.0 profile. |
-| `version_tags` | **Unmet** | Versions are not yet git-tagged (stated in `CHANGELOG.md`). Becomes Met with the first signed release tag (`v0.22.0`). SUGGESTED, not a blocker. |
+| `version_tags` | **Met** | Releases are tagged `vX.Y.Z`, starting with the SSH-signed `v0.22.0` (`REPO/releases/tag/v0.22.0`); versions up to 0.21.0 predate tagging, as `CHANGELOG.md` states. |
 
 ## Change control — release notes
 
