@@ -2,6 +2,7 @@
 
 [![CI](https://github.com/presidio-v/presidio-hardened-treasury/actions/workflows/ci.yml/badge.svg)](https://github.com/presidio-v/presidio-hardened-treasury/actions/workflows/ci.yml)
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/presidio-v/presidio-hardened-treasury/badge)](https://scorecard.dev/viewer/?uri=github.com/presidio-v/presidio-hardened-treasury)
+[![OpenSSF Best Practices](https://www.bestpractices.dev/projects/15897/badge)](https://www.bestpractices.dev/projects/15897)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 Audit-grade treasury close for crypto-first organizations. Flagship of the

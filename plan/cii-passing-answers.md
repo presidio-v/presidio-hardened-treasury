@@ -20,7 +20,7 @@ answers are submitted.
    and no code path consumes it.
 3. **Merge the hardening PR first** — `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`,
    `SECURITY.md`, `CHANGELOG.md`, `SEMVER.md`, `ASSURANCE.md` must be on `main`.
-4. Record the badge id in `hardening.toml` (`[badge] bestpractices_id`).
+4. Project id: **15897** (`hardening.toml` `[badge] bestpractices_id`). `.bestpractices.json` in the repo root seeds every answer below as a proposal.
 
 Shorthand below: `REPO` = `https://github.com/presidio-v/presidio-hardened-treasury`.
 
