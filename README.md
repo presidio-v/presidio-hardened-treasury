@@ -1,5 +1,9 @@
 # presidio-hardened-treasury
 
+[![CI](https://github.com/presidio-v/presidio-hardened-treasury/actions/workflows/ci.yml/badge.svg)](https://github.com/presidio-v/presidio-hardened-treasury/actions/workflows/ci.yml)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/presidio-v/presidio-hardened-treasury/badge)](https://scorecard.dev/viewer/?uri=github.com/presidio-v/presidio-hardened-treasury)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 Audit-grade treasury close for crypto-first organizations. Flagship of the
 [presidio-hardened](https://github.com/presidio-v) family.
 
@@ -84,7 +88,12 @@ hung step fails fast instead of sitting for hours.
   repository, and its open gaps, are its row in the
   [applicability matrix](https://github.com/presidio-v/presidio-hardened-docs/blob/main/sdlc/applicability.md).
 - See also [`SECURITY.md`](SECURITY.md) for the hardening baseline and
-  vulnerability reporting.
+  vulnerability reporting, and [`ASSURANCE.md`](ASSURANCE.md) for the
+  assurance case (threat model, trust boundaries, secure-design argument).
+- **Governance and contributing:** [`GOVERNANCE.md`](GOVERNANCE.md) (roles,
+  decisions, continuity), [`CONTRIBUTING.md`](CONTRIBUTING.md) (review gate,
+  test policy, DCO), [`SEMVER.md`](SEMVER.md) (public API and stability
+  guarantees), [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md).
 - **Auditor evidence guide:** [`docs/auditor-evidence-guide.md`](docs/auditor-evidence-guide.md)
   — how an external auditor reconstructs and verifies a close from hashed inputs.
 
@@ -97,6 +106,24 @@ We are now selecting a small number of initial design partners for that step. We
 The use cases we want to validate with partners are equally specific: the first live quarterly close run end to end against real holdings and a real GL; an external auditor reconstructing and signing off on the evidence chain from a disclosure-pack hash alone, using the auditor evidence guide; and a multi-entity arrangement where independent operators reconcile against a shared, anchored evidence base. Partners bring the production stack, the holdings, and the audit relationship; we bring an audit-grade close architecture whose integrity properties are enforced by construction and already documented for the people who will scrutinise them.
 
 If your organisation fits one of these and you have a concrete close or audit you want to run against it, reach out to **office@presidio-group.eu**.
+
+## Roadmap (next 12 months)
+
+Only work that is planned or in flight is listed; sequencing follows spec v2 §7
+and depends on design-partner engagement.
+
+- **Now / in flight** — design-partner selection; deciding the Proposed ADRs
+  that gate live infrastructure (ADR-0005 approval identity binding, ADR-0006
+  enclave/HSM vendor, ADR-0007 multi-tenant serving, ADR-0008 IFRS measurement).
+- **Next** — Phase 1 live I/O against a partner's stack, each shim held to its
+  `treasury-conformance` contract: the chain node+indexer shims
+  (electrs/Fulcrum, reth/Erigon) and the read-only egress proxy process, the
+  first GL adapter (NetSuite, then QuickBooks and SAP), and the Bitcoin anchor
+  wallet. First live quarterly close end to end.
+- **Later (under evaluation)** — enclave-based xpub derivation (REQ-11), the
+  auditor-facing evidence-reproduction UX, and the Phase 2 items: signed
+  reproducible builds with SLSA-style provenance (REQ-33) and the SOC 2 Type I
+  gate for relied-upon service-organization use.
 
 ## Versioning
 

@@ -18,6 +18,19 @@ Phase-0 build ran as a continuous sequence, not dated releases.
 ## [Unreleased]
 
 ### Added
+- OpenSSF hardening to the flagship baseline (Scorecard, Best Practices
+  silver): `GOVERNANCE.md`, `CONTRIBUTING.md` (two-person review, test and
+  coverage policy, DCO), `CODE_OF_CONDUCT.md`, `ASSURANCE.md` (assurance case
+  built on `docs/threat-model.md`), `SEMVER.md`, `allowed_signers`,
+  `.github/CODEOWNERS`, and a trust-boundaries section in `ARCHITECTURE.md`.
+  CI gains a 90% line-coverage gate (`cargo llvm-cov`), a cargo-fuzz harness
+  for the canonicalizer (`fuzz/`, 60 s per pull request), CodeQL for Rust and
+  Actions, and a weekly OpenSSF Scorecard run; the Dockerfile base image is
+  pinned by digest and tracked by Dependabot. `SECURITY.md` now lists the
+  supported line (0.21.x), the `security@` contact, reporter credit and how to
+  verify signed release tags. **Why it matters:** the repository now carries
+  the same verifiable supply-chain and governance evidence as the other
+  flagships, and the claims in it are limited to what the code and CI enforce.
 - `ARCHITECTURE.md` gained "The research frame: a proof-carrying close": the
   disclosure pack named as a proof-carrying transaction of the quarterly close,
   per the Computational Jurisprudence research program (Stantchev, arXiv 2026),

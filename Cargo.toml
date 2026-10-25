@@ -20,6 +20,7 @@ members = [
     "crates/treasury-e2e",
     "crates/treasury-conformance",
 ]
+exclude = ["fuzz"]
 
 [workspace.package]
 version = "0.21.0"

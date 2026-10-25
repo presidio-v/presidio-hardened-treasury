@@ -1,0 +1,24 @@
+# hardening.toml — presidio-hardened-repo manifest for presidio-hardened-treasury.
+# Render input and re-run record for the OpenSSF hardening templates.
+# Rust workspace: language = "none" renders the language-agnostic core only;
+# the Rust CI (clippy, cargo-deny, coverage, fuzz) is maintained by hand.
+
+[project]
+name = "presidio-hardened-treasury"
+org = "presidio-v"
+description = "Security extensions for agentic payment treasury management: evidence-bound ledger, policy, reconciliation and period close."
+package = "treasury-core"       # workspace entry crate; templates use it for install/pin text
+language = "none"
+tier = "silver"
+
+[people]
+maintainer = "vstantch"
+reviewer = "ceoofcyber"
+security_contact = "security@presidio-group.eu"
+
+[legal]
+copyright_holder = "PRESIDIO Group"
+license = "MIT"
+
+[badge]
+bestpractices_id = 0          # set after registration at bestpractices.dev

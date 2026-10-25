@@ -166,6 +166,22 @@ shim enters the evidence path without first passing its contract. This is the
 boundary between "complete and verified" (everything above the seams) and the
 remaining live-I/O work (everything below them).
 
+## Trust boundaries
+
+The seams above are where data crosses a trust boundary. The threat model
+([`docs/threat-model.md`](docs/threat-model.md) §2) names seven, and the
+[assurance case](ASSURANCE.md#2-trust-boundaries) argues each control:
+
+| # | Boundary | Where it sits in the code |
+|---|----------|---------------------------|
+| B1 | Venue APIs / chain nodes → ingestion | `treasury-ingest` (allowlist, scope gate), `treasury-chainsource` (two-source agreement); live shims are Phase 1 |
+| B2 | Ingestion → ledger (L1) | `treasury-evidence::canon` and L1 provenance checks at append time |
+| B3 | Human → ledger (L3) | `treasury-core::dual_control`; approver identity in the hashed envelope |
+| B4 | Ledger → client GL | `treasury-posting` + `treasury-gl`, the only outbound write |
+| B5 | Operator / supply chain → everything | External anchoring, `cargo-deny`, `forbid(unsafe_code)`, two-person review |
+| B6 | Tenant ↔ tenant | Tenant-keyed streams, checkpoints, policy timelines and anchor logs |
+| B7 | Us → external anchor | `treasury-anchor` receipts, verified against the chain |
+
 ## External anchoring: the trust exit
 
 Because the operator is in the threat model, internal hash chaining is not enough

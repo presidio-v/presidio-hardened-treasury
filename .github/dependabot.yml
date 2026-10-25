@@ -14,3 +14,12 @@ updates:
       github-actions:
         patterns:
           - "*"
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    ignore:
+      # The image tag follows rust-toolchain.toml; only digest and patch bumps here.
+      - dependency-name: "rust"
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
