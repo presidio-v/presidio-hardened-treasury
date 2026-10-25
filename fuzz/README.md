@@ -12,7 +12,7 @@ Run locally:
 ```sh
 cargo install cargo-fuzz
 cd fuzz
-cargo +nightly fuzz run canonical_json -- -max_total_time=60
+cargo +nightly fuzz run canonical_json -- -max_total_time=60   # Linux CI adds --target x86_64-unknown-linux-gnu
 ```
 
 CI runs each target for 60 seconds on every pull request (`fuzz` job in
