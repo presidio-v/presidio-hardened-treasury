@@ -5,21 +5,41 @@ design constraint, not a feature backlog.
 
 ## Supported versions
 
-Pre-1.0: only the latest `0.x` release line receives security fixes. The project
-is in Phase 0 (foundations); ledger and evidence formats are not yet stable.
+Pre-1.0: only the latest `0.x` line receives security fixes, and fixes land on
+`main`. The project is in Phase 0 (foundations); ledger and evidence formats are
+not yet stable.
 
 | Version | Supported |
 |---------|-----------|
-| 0.1.x   | ✓ (current) |
-| < 0.1   | ✗ |
+| 0.22.x (`main`) | ✓ (current) |
+| < 0.22  | ✗ |
 
 ## Reporting a vulnerability
 
 Preferred: open a private **GitHub Security Advisory** in this repository
-(**Security** tab → **Report a vulnerability**). Alternatively, email
-**vladimir@presidio-group.eu** with reproduction details. Please do not open
-public issues for suspected vulnerabilities. You will receive an acknowledgment
-within 72 hours.
+([**Security** tab → **Report a vulnerability**](https://github.com/presidio-v/presidio-hardened-treasury/security/advisories/new)).
+Alternatively, email **security@presidio-group.eu** with reproduction details.
+Please do not open public issues for suspected vulnerabilities.
+
+Include a description, steps to reproduce, the potential impact, and a
+suggested fix if you have one.
+
+**Response process.** You will receive an acknowledgment within 72 hours. We aim
+to release a fix within 30 days of a confirmed vulnerability and will keep you
+updated until the issue is resolved or dismissed with a rationale.
+
+**Credit.** We credit reporters of valid vulnerabilities by name in the
+published GitHub Security Advisory and in the `CHANGELOG.md` entry for the fix,
+unless the reporter asks to remain anonymous.
+
+## Threat model and assurance case
+
+The threat model is [`docs/threat-model.md`](docs/threat-model.md): assets,
+seven trust boundaries, STRIDE per boundary, explicit non-goals and standing
+review triggers, with the operator in scope. The consolidated assurance case
+(threat model, trust boundaries, secure-design argument, and how common
+implementation weaknesses are countered) is [`ASSURANCE.md`](ASSURANCE.md). The
+controls are listed below.
 
 ## Hardening baseline
 
@@ -91,3 +111,34 @@ within 72 hours.
   missing prices block valuation, missing materiality thresholds queue
   everything, empty venue scope reports reject, unbalanced journal entries
   are unconstructible, overdrawn lots are typed errors that mutate nothing.
+
+## Automated checks
+
+Every pull request runs `rustfmt`, `clippy` with the deny-list above, the full
+test suite, a 90% line-coverage gate, `cargo-deny`, CodeQL (Rust) and a short
+cargo-fuzz run of the canonicalizer. OpenSSF Scorecard runs weekly. GitHub
+secret scanning with push protection and Dependabot security updates are
+enabled. Changes to `main` need an approving review from a code owner other
+than the author.
+
+## Verifying Releases and Obtaining Public Signing Keys
+
+The workspace is distributed as source from this repository; nothing is
+published to a package registry. Releases are **SSH-signed git tags** made with
+the `presidio-v` organisation's release signing key. That key is registered as a
+**signing key** on the maintainer's GitHub account, so each release tag shows as
+**Verified** on GitHub and via the API:
+
+```bash
+gh api repos/presidio-v/presidio-hardened-treasury/git/tags/<sha> --jq .verification.verified
+```
+
+The public key is published in the repository's
+[`allowed_signers`](allowed_signers) file. To verify a tag locally:
+
+```bash
+git -c gpg.ssh.allowedSignersFile=allowed_signers verify-tag <tag>
+```
+
+Build provenance attestations and SBOMs are not produced yet; they are part of
+REQ-33 (signed reproducible builds, SLSA-style provenance, Phase 2).

@@ -1,6 +1,8 @@
 # Multi-stage for clean test image, but single for simplicity + full env.
 # Use the exact pinned Rust version from rust-toolchain.toml
-FROM rust:1.88.0-slim
+# Pinned by digest (Scorecard Pinned-Dependencies); Dependabot bumps the digest.
+# Keep the tag in step with rust-toolchain.toml.
+FROM rust:1.88.0-slim@sha256:38bc5a86d998772d4aec2348656ed21438d20fcdce2795b56ca434cf21430d89
 
 # Install build essentials (for any native deps, though this workspace is mostly pure Rust)
 RUN apt-get update && apt-get install -y --no-install-recommends \

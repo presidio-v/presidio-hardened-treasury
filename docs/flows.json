@@ -1,7 +1,7 @@
 {
   "project": {
     "name": "presidio-hardened-treasury",
-    "version": "0.21.0",
+    "version": "0.22.0",
     "purpose": "Audit-grade crypto treasury close for public DAT companies and institutional operators. The system turns hashed observations, policy artifacts, judgments, valuations, journal entries, checkpoints, and external anchors into a disclosure pack an auditor can reproduce byte-for-byte.",
     "layout": {
       "Cargo.toml": "Rust workspace manifest. The version here is the single source of truth.",

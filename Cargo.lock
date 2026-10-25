@@ -293,7 +293,7 @@ dependencies = [
 
 [[package]]
 name = "treasury-anchor"
-version = "0.21.0"
+version = "0.22.0"
 dependencies = [
  "serde",
  "serde_json",
@@ -304,7 +304,7 @@ dependencies = [
 
 [[package]]
 name = "treasury-chainsource"
-version = "0.21.0"
+version = "0.22.0"
 dependencies = [
  "serde",
  "serde_json",
@@ -316,7 +316,7 @@ dependencies = [
 
 [[package]]
 name = "treasury-close"
-version = "0.21.0"
+version = "0.22.0"
 dependencies = [
  "serde",
  "serde_json",
@@ -328,7 +328,7 @@ dependencies = [
 
 [[package]]
 name = "treasury-conformance"
-version = "0.21.0"
+version = "0.22.0"
 dependencies = [
  "thiserror",
  "treasury-anchor",
@@ -342,7 +342,7 @@ dependencies = [
 
 [[package]]
 name = "treasury-core"
-version = "0.21.0"
+version = "0.22.0"
 dependencies = [
  "hex",
  "proptest",
@@ -353,7 +353,7 @@ dependencies = [
 
 [[package]]
 name = "treasury-disclosure"
-version = "0.21.0"
+version = "0.22.0"
 dependencies = [
  "serde",
  "serde_json",
@@ -366,7 +366,7 @@ dependencies = [
 
 [[package]]
 name = "treasury-e2e"
-version = "0.21.0"
+version = "0.22.0"
 dependencies = [
  "serde_json",
  "treasury-anchor",
@@ -387,7 +387,7 @@ dependencies = [
 
 [[package]]
 name = "treasury-evidence"
-version = "0.21.0"
+version = "0.22.0"
 dependencies = [
  "hex",
  "proptest",
@@ -399,7 +399,7 @@ dependencies = [
 
 [[package]]
 name = "treasury-fairvalue"
-version = "0.21.0"
+version = "0.22.0"
 dependencies = [
  "serde",
  "serde_json",
@@ -412,7 +412,7 @@ dependencies = [
 
 [[package]]
 name = "treasury-gaap"
-version = "0.21.0"
+version = "0.22.0"
 dependencies = [
  "serde",
  "serde_json",
@@ -424,7 +424,7 @@ dependencies = [
 
 [[package]]
 name = "treasury-gl"
-version = "0.21.0"
+version = "0.22.0"
 dependencies = [
  "serde",
  "serde_json",
@@ -437,7 +437,7 @@ dependencies = [
 
 [[package]]
 name = "treasury-ingest"
-version = "0.21.0"
+version = "0.22.0"
 dependencies = [
  "serde",
  "serde_json",
@@ -448,7 +448,7 @@ dependencies = [
 
 [[package]]
 name = "treasury-ledger"
-version = "0.21.0"
+version = "0.22.0"
 dependencies = [
  "proptest",
  "serde",
@@ -460,7 +460,7 @@ dependencies = [
 
 [[package]]
 name = "treasury-lots"
-version = "0.21.0"
+version = "0.22.0"
 dependencies = [
  "proptest",
  "serde",
@@ -472,7 +472,7 @@ dependencies = [
 
 [[package]]
 name = "treasury-policy"
-version = "0.21.0"
+version = "0.22.0"
 dependencies = [
  "serde",
  "serde_json",
@@ -483,7 +483,7 @@ dependencies = [
 
 [[package]]
 name = "treasury-posting"
-version = "0.21.0"
+version = "0.22.0"
 dependencies = [
  "serde",
  "serde_json",
@@ -495,7 +495,7 @@ dependencies = [
 
 [[package]]
 name = "treasury-reconcile"
-version = "0.21.0"
+version = "0.22.0"
 dependencies = [
  "serde",
  "serde_json",
@@ -507,7 +507,7 @@ dependencies = [
 
 [[package]]
 name = "treasury-scope"
-version = "0.21.0"
+version = "0.22.0"
 dependencies = [
  "serde",
  "serde_json",

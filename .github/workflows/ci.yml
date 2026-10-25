@@ -40,6 +40,41 @@ jobs:
       - name: docs
         run: cargo doc --workspace --no-deps
 
+  coverage:
+    name: coverage (line floor 90%)
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
+        with:
+          toolchain: 1.88.0
+          components: llvm-tools-preview
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
+      - uses: taiki-e/install-action@ab6895351a88b908e96a4697860d4ffea5e57dbe # v2.87.27
+        with:
+          tool: cargo-llvm-cov
+      - name: tests with coverage gate
+        run: cargo llvm-cov --workspace --all-features --fail-under-lines 90 --summary-only
+
+  fuzz:
+    name: fuzz (cargo-fuzz smoke, 60s per target)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
+        with:
+          toolchain: nightly
+      - uses: taiki-e/install-action@ab6895351a88b908e96a4697860d4ffea5e57dbe # v2.87.27
+        with:
+          tool: cargo-fuzz
+      - name: canonical_json
+        working-directory: fuzz
+        # The prebuilt cargo-fuzz is a musl binary and would default to the
+        # musl target, which the toolchain does not ship; name the host target.
+        run: cargo +nightly fuzz run --target x86_64-unknown-linux-gnu canonical_json -- -max_total_time=60
+
   deny:
     name: cargo-deny (licenses, advisories, sources)
     runs-on: ubuntu-latest
