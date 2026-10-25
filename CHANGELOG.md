@@ -18,6 +18,14 @@ omitted rather than fabricated — the Phase-0 build ran as a continuous sequenc
 
 ## [Unreleased]
 
+### Added
+- Releases carry a signed source archive: the `v0.22.0` release now has
+  `presidio-hardened-treasury-0.22.0.tar.gz` (`git archive` of the signed tag),
+  its SSH signature and `SHA256SUMS`. `allowed_signers` permits the release key
+  for the `file` namespace as well as `git`, and `SECURITY.md` shows how to
+  verify an archive. **Why it matters:** a downloaded source archive can be
+  checked against the same key as the tags, without cloning the repository.
+
 ## [0.22.0] — 2026-10-25 — First signed release; flagship hardening
 
 ### Changed

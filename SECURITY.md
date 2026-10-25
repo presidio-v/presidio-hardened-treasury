@@ -140,5 +140,20 @@ The public key is published in the repository's
 git -c gpg.ssh.allowedSignersFile=allowed_signers verify-tag <tag>
 ```
 
+Each GitHub release also carries a source archive made with `git archive` from
+the signed tag (`presidio-hardened-treasury-<version>.tar.gz`), an SSH signature
+over it (`.tar.gz.sig`, namespace `file`, same key) and `SHA256SUMS`. To verify a
+downloaded archive:
+
+```bash
+ssh-keygen -Y verify -f allowed_signers -I vladimir@presidio-group.eu \
+  -n file -s presidio-hardened-treasury-<version>.tar.gz.sig \
+  < presidio-hardened-treasury-<version>.tar.gz
+shasum -a 256 -c SHA256SUMS
+```
+
+The archive is the tagged tree and nothing else; building from a verified tag
+checkout is equivalent.
+
 Build provenance attestations and SBOMs are not produced yet; they are part of
 REQ-33 (signed reproducible builds, SLSA-style provenance, Phase 2).
