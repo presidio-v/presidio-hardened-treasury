@@ -16,7 +16,7 @@ Preconditions before submitting silver (each is a separate human gate):
 - passing badge earned;
 - `ceoofcyber` added as a write collaborator and code owner, and required
   code-owner review enabled on `main` (two-person gate);
-- a first signed release tag (`v0.21.0`) pushed, so `signed_releases` and
+- a first signed release tag (`v0.22.0`) pushed, so `signed_releases` and
   `version_tags_signed` can move from Unmet to Met.
 
 `REPO` = `https://github.com/presidio-v/presidio-hardened-treasury`.
@@ -77,7 +77,7 @@ Preconditions before submitting silver (each is a separate human gate):
 | `warnings_strict` | **Met** | clippy `-D clippy::all` plus workspace denies on `unwrap_used`, `expect_used`, `panic`, `indexing_slicing`, `arithmetic_side_effects`, `float_arithmetic`; `unsafe_code` forbidden; `clippy::pedantic` as warnings. CI fails on any denied finding. |
 | `coding_standards` | **Met** | `REPO/blob/main/CONTRIBUTING.md#style` — rustfmt and clippy, configured in `Cargo.toml` `[workspace.lints]` and `rust-toolchain.toml`. |
 | `coding_standards_enforced` | **Met** | `cargo fmt --all --check` and clippy run in CI on every PR and are required checks. |
-| `installation_common` | **Met** | Consumed as a Cargo git dependency, e.g. `treasury-core = { git = "https://github.com/presidio-v/presidio-hardened-treasury", tag = "v0.21.0" }`; built with `cargo build`. |
+| `installation_common` | **Met** | Consumed as a Cargo git dependency, e.g. `treasury-core = { git = "https://github.com/presidio-v/presidio-hardened-treasury", tag = "v0.22.0" }`; built with `cargo build`. |
 | `installation_development_quick` | **Met** | `REPO/blob/main/CONTRIBUTING.md#local-verification` — clone and run the four cargo commands; `rustup` installs the pinned toolchain automatically. |
 | `build_repeatable` (SHOULD) | **Met** | `Cargo.lock` is committed, the toolchain is pinned (`rust-toolchain.toml`, 1.88.0), crates come only from crates.io (`cargo-deny` sources check), Actions are SHA-pinned and the Docker base image is digest-pinned, so a rebuild resolves the same sources. Bit-for-bit reproducible builds are not claimed (REQ-33, Phase 2). |
 | `build_standard_variables` | **Met** | Built with plain `cargo`; there are no `build.rs` scripts and no hard-coded compiler or linker flags, so `RUSTFLAGS`, `CC` and `CARGO_*` variables pass through unchanged. |
@@ -108,7 +108,7 @@ Preconditions before submitting silver (each is a separate human gate):
 | `crypto_tls12` | **N/A** | No network communication. |
 | `crypto_certificate_verification` | **N/A** | No TLS client. |
 | `crypto_verification_private` | **N/A** | No network communication. |
-| `signed_releases` | **Unmet** | No release has been cut yet. Becomes Met with the first SSH-signed tag (`v0.21.0`), verifiable with `allowed_signers` as documented at `REPO/blob/main/SECURITY.md#verifying-releases-and-obtaining-public-signing-keys`. |
+| `signed_releases` | **Unmet** | No release has been cut yet. Becomes Met with the first SSH-signed tag (`v0.22.0`), verifiable with `allowed_signers` as documented at `REPO/blob/main/SECURITY.md#verifying-releases-and-obtaining-public-signing-keys`. |
 | `version_tags_signed` | **Unmet** | As above: Met once release tags exist; each will be SSH-signed with the org key and shown as Verified on GitHub. |
 | `sites_password_security` | **N/A** | The project runs no site that stores passwords. |
 

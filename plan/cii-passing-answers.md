@@ -57,7 +57,7 @@ Shorthand below: `REPO` = `https://github.com/presidio-v/presidio-hardened-treas
 | `sites_https` | **Met** | The project site is the GitHub repository (HTTPS). The project runs no other hosted site or service. |
 | `discussion` | **Met** | GitHub Issues: `REPO/issues` — searchable, URL-addressable, open, no proprietary client. |
 | `english` | **Met** | All docs and issue handling in English. |
-| `maintained` | **Met** | Workspace version 0.21.0; commits on `main` through October 2026 (README and research-frame updates, Dependabot merges), CI and Dependabot active. |
+| `maintained` | **Met** | Release v0.22.0 (October 2026); commits on `main` through October 2026 (README and research-frame updates, Dependabot merges), CI and Dependabot active. |
 
 ## Change control — repository
 
@@ -74,7 +74,7 @@ Shorthand below: `REPO` = `https://github.com/presidio-v/presidio-hardened-treas
 |---|---|---|
 | `version_unique` | **Met** | A single workspace version (`[workspace.package].version` in `Cargo.toml`) identifies each version; `CHANGELOG.md` records one entry per version. |
 | `version_semver` | **Met** | URL: `REPO/blob/main/SEMVER.md` — Semantic Versioning with the documented pre-1.0 profile. |
-| `version_tags` | **Unmet** | Versions are not yet git-tagged (stated in `CHANGELOG.md`). Becomes Met with the first signed release tag (`v0.21.0`). SUGGESTED, not a blocker. |
+| `version_tags` | **Unmet** | Versions are not yet git-tagged (stated in `CHANGELOG.md`). Becomes Met with the first signed release tag (`v0.22.0`). SUGGESTED, not a blocker. |
 
 ## Change control — release notes
 
@@ -123,7 +123,7 @@ Shorthand below: `REPO` = `https://github.com/presidio-v/presidio-hardened-treas
 | Criterion | Status | Justification / URL |
 |---|---|---|
 | `test_policy` | **Met** | URL: `REPO/blob/main/CONTRIBUTING.md#tests` — functional changes ship with tests; fixes ship with regression tests. |
-| `tests_are_added` | **Met** | Example: PR #37 (confirmation depth as a content-addressed `AnchorPolicy`, v0.21.0) shipped with `crates/treasury-anchor/tests/anchor_lifecycle.rs`, `anchoring_pipeline.rs`, the anchor-submitter conformance contract and an updated `treasury-e2e` golden close in the same change. PR #29 (agreed-reconciliation → L1 mapping) added `crates/treasury-chainsource/tests/observation_mapping.rs`. |
+| `tests_are_added` | **Met** | Example: PR #37 (confirmation depth as a content-addressed `AnchorPolicy`, v0.22.0) shipped with `crates/treasury-anchor/tests/anchor_lifecycle.rs`, `anchoring_pipeline.rs`, the anchor-submitter conformance contract and an updated `treasury-e2e` golden close in the same change. PR #29 (agreed-reconciliation → L1 mapping) added `crates/treasury-chainsource/tests/observation_mapping.rs`. |
 | `tests_documented_added` | **Met** | The policy is stated in the contribution instructions themselves (`CONTRIBUTING.md#tests`). |
 
 ## Quality — warning flags

@@ -11,8 +11,8 @@ not yet stable.
 
 | Version | Supported |
 |---------|-----------|
-| 0.21.x (`main`) | ✓ (current) |
-| < 0.21  | ✗ |
+| 0.22.x (`main`) | ✓ (current) |
+| < 0.22  | ✗ |
 
 ## Reporting a vulnerability
 

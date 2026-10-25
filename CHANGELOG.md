@@ -10,12 +10,22 @@ with the Phase-0 caveat that `0.x` minor versions may carry breaking changes to
 the ledger and evidence formats while they stabilise; event-identity hashing and
 canonical-JSON rules are a compatibility surface, and any change to them is
 breaking and ships with new golden vectors. The authoritative version is the
-workspace `[workspace.package].version` in `Cargo.toml`. Releases are not yet
-git-tagged; each version below corresponds to the merged change that set it, in
-the order it landed on `main`. Dates are omitted rather than fabricated — the
-Phase-0 build ran as a continuous sequence, not dated releases.
+workspace `[workspace.package].version` in `Cargo.toml`. From 0.22.0 on, each
+release is an SSH-signed git tag `vX.Y.Z` (verify with `allowed_signers`, see
+`SECURITY.md`). Versions up to 0.21.0 were not tagged; each corresponds to the
+merged change that set it, in the order it landed on `main`, and their dates are
+omitted rather than fabricated — the Phase-0 build ran as a continuous sequence.
 
 ## [Unreleased]
+
+## [0.22.0] — 2026-10-25 — First signed release; flagship hardening
+
+### Changed
+- MSRV raised to Rust 1.88 (`rust-version` in `Cargo.toml`, pinned toolchain
+  1.88.0 in `rust-toolchain.toml`, CI and the Dockerfile), and the workspace
+  uses the MSRV-aware resolver (`resolver = "3"`). **Why it matters:** anyone
+  building the workspace needs Rust 1.88 or later; dependency resolution no
+  longer picks crate versions that need a newer compiler.
 
 ### Added
 - OpenSSF hardening to the flagship baseline (Scorecard, Best Practices
