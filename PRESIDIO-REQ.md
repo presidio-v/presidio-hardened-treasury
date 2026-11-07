@@ -16,7 +16,7 @@ status per phase. Requirement IDs cite spec sections (`§n`).
 
 ## Mandatory architectural guarantees (§3) — enforced at append time, not by review
 
-| ID | Requirement | Spec | Status (v0.1.0 / Phase 0) |
+| ID | Requirement | Spec | Status |
 |----|-------------|------|---------------------------|
 | REQ-1 | **Claim-layered ledger** — L1 observations → L2 derived facts (code-version hash) → L3 judgments (policy hash + approver) → L4 policy outputs (pure fn of L1–L3) | §3.1 | **Implemented** (`treasury-ledger`) |
 | REQ-2 | **Bitemporal, event-sourced, append-only** — event time + knowledge time; corrections supersede, never mutate; `as_of` is a query | §3.2 | **Implemented** (`treasury-ledger`; v0.15.0 adds `FileLedger`, a durable append-only backend that is **replay-verified on open**: every record re-runs full validation and must reproduce its recorded event id, torn tails recover only explicitly) |
